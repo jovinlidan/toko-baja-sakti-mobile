@@ -1,23 +1,31 @@
 {
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
-    "baseUrl": "src",
     "experimentalDecorators": true,
     "strictPropertyInitialization": false,
     "esModuleInterop": true,
     "jsx": "react-native",
     "lib": ["es6"],
+    "baseUrl": "src",
     "moduleResolution": "node",
     "noEmit": true,
     "noImplicitAny": false,
     "paths": {
-      "@app/*": ["./*"]
+      "@api-hooks/*": ["api-hooks/*"],
+      "@assets/*": ["assets/*"],
+      "@common/*": ["common/*"],
+      "@components/*": ["components/*"],
+      "@constants/*": ["constants/*"],
+      "@hooks/*": ["hooks/*"],
+      "@models/*": ["models/*"],
+      "@modules/*": ["modules/*"],
+      "@utils/*": ["utils/*"]
     },
     "resolveJsonModule": true,
     "strict": true,
     "skipLibCheck": true,
     "target": "esnext",
-    "types": ["react", "react-native", "node"]
+    "types": ["react", "react-native", "node", "webpack-env"]
   },
   "exclude": ["node_modules", "babel.config.js", "metro.config.js"],
   "extends": "expo/tsconfig.base"

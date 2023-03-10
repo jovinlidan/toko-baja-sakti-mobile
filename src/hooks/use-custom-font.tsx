@@ -73,14 +73,14 @@ const useCustomFont = (
 
 export function useInitiateCustomFont() {
   return useFonts({
-    "Lato-Thin": require("@app/assets/fonts/Lato-Thin.ttf"),
-    "Lato-ThinItalic": require("@app/assets/fonts/Lato-ThinItalic.ttf"),
-    "Lato-Light": require("@app/assets/fonts/Lato-Light.ttf"),
-    "Lato-LightItalic": require("@app/assets/fonts/Lato-LightItalic.ttf"),
-    "Lato-Regular": require("@app/assets/fonts/Lato-Regular.ttf"),
-    "Lato-RegularItalic": require("@app/assets/fonts/Lato-Italic.ttf"),
-    "Lato-Bold": require("@app/assets/fonts/Lato-Bold.ttf"),
-    "Lato-BoldItalic": require("@app/assets/fonts/Lato-BoldItalic.ttf"),
+    "Lato-Thin": require("@assets/fonts/Lato-Thin.ttf"),
+    "Lato-ThinItalic": require("@assets/fonts/Lato-ThinItalic.ttf"),
+    "Lato-Light": require("@assets/fonts/Lato-Light.ttf"),
+    "Lato-LightItalic": require("@assets/fonts/Lato-LightItalic.ttf"),
+    "Lato-Regular": require("@assets/fonts/Lato-Regular.ttf"),
+    "Lato-RegularItalic": require("@assets/fonts/Lato-Italic.ttf"),
+    "Lato-Bold": require("@assets/fonts/Lato-Bold.ttf"),
+    "Lato-BoldItalic": require("@assets/fonts/Lato-BoldItalic.ttf"),
   });
 }
 
