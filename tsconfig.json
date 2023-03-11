@@ -5,7 +5,7 @@
     "strictPropertyInitialization": false,
     "esModuleInterop": true,
     "jsx": "react-native",
-    "lib": ["es6"],
+    "lib": ["es6", "dom", "dom.iterable"],
     "baseUrl": "src",
     "moduleResolution": "node",
     "noEmit": true,

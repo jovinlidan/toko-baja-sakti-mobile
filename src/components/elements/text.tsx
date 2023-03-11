@@ -11,15 +11,19 @@ import typographyConstant from "@constants/typography.constant";
 
 interface Props extends TextProps {
   children?: React.ReactNode;
+  variant?: keyof typeof typographyConstant;
 }
 
 const Text: React.ForwardRefRenderFunction<TextBase, Props> = (props, ref) => {
   const customFont = useCustomFont(props, styles.text);
+  const variantStyle = props.variant
+    ? typographyConstant[props.variant]
+    : undefined;
   return (
     <TextBase
       selectable
       {...customFont.props}
-      style={customFont.style}
+      style={[customFont.style, variantStyle]}
       ref={ref}
       allowFontScaling={false}
     />

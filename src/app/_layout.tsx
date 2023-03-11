@@ -5,6 +5,7 @@ import { SplashScreen, Stack } from "expo-router";
 import { useEffect } from "react";
 import { useColorScheme } from "react-native";
 import Toast from "react-native-toast-message";
+import { RecoilRoot } from "recoil";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -34,15 +35,13 @@ export default function RootLayout() {
 }
 
 function RootLayoutNav() {
-  const colorScheme = useColorScheme();
-
   return (
-    <ThemeProvider value={DefaultTheme}>
+    <RecoilRoot>
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="modal" options={{ presentation: "modal" }} />
       </Stack>
       <Toast position="top" topOffset={40} />
-    </ThemeProvider>
+    </RecoilRoot>
   );
 }

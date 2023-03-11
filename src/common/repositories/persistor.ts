@@ -1,16 +1,16 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import debounce from "lodash.debounce";
+import storage from "./storage";
+import key from "@constants/storage-key.constant";
 
-const storageKey = "REACT_QUERY_OFFLINE_CACHE";
 const debounceValue = 1000;
 
 export function createReactNativePersistor() {
   return {
     persistClient: debounce(async function (persistedClient) {
-      await AsyncStorage.setItem(storageKey, JSON.stringify(persistedClient));
+      await storage.set(key.reactQueryKey, JSON.stringify(persistedClient));
     }, debounceValue),
     restoreClient: async function restoreClient() {
-      var cacheString = await AsyncStorage.getItem(storageKey);
+      var cacheString = await storage.getString(key.reactQueryKey);
 
       if (!cacheString) {
         return;
@@ -19,7 +19,7 @@ export function createReactNativePersistor() {
       return JSON.parse(cacheString);
     },
     removeClient: async function removeClient() {
-      await AsyncStorage.removeItem(storageKey);
+      await storage.delete(key.reactQueryKey);
     },
   };
 }

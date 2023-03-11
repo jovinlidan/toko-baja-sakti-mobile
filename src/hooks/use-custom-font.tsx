@@ -9,7 +9,7 @@ interface Fonts {
 }
 
 const fonts: Fonts = {
-  fontFamily: "NotoSans",
+  fontFamily: "Lato",
   fontWeights: {
     100: "Thin",
     200: "Light",

@@ -7,12 +7,11 @@ import {
   Filter,
   Sort,
   CustomSort,
-} from "@app/api-hooks/common/common.model";
+} from "@api-hooks/common/common.model";
 import { persistQueryClient } from "react-query/persistQueryClient-experimental";
 import { createReactNativePersistor } from "./persistor";
-import Config from "@app/common/config";
+import Config from "@common/config";
 import { plainToClass } from "class-transformer";
-import i18n from "@app/locales";
 
 export type Exact<T extends { [key: string]: any }> = { [K in keyof T]: T[K] };
 
@@ -59,7 +58,7 @@ const config = {
   },
   headers: {
     Accept: "application/json",
-    "Accept-Language": i18n.language || "en",
+    "Accept-Language": "id",
   },
   hooks: {
     afterResponse: [
@@ -72,7 +71,6 @@ const config = {
           json = await res.json();
 
           const { status, statusText, headers } = res;
-          // eslint-disable-next-line no-undef
           newResponse = new Response(JSON.stringify(json), {
             status,
             statusText,

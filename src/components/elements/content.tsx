@@ -1,7 +1,7 @@
 import React, { useRef, useImperativeHandle } from "react";
 import Animated from "react-native-reanimated";
 import { StyleSheet, ScrollViewProps, ScrollView } from "react-native";
-import size from "@app/common/constants/size.constant";
+import size from "@constants/size.constant";
 
 interface Props extends ScrollViewProps {
   children: React.ReactNode;
@@ -12,7 +12,7 @@ export interface ContentHandler {
   scrollTo: typeof ScrollView.prototype.scrollTo;
 }
 
-const Content: React.RefForwardingComponent<ContentHandler, Props> = (
+const Content: React.ForwardRefRenderFunction<ContentHandler, Props> = (
   props,
   ref
 ) => {
