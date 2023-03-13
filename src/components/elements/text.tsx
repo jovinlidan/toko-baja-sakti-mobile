@@ -15,10 +15,10 @@ interface Props extends TextProps {
 }
 
 const Text: React.ForwardRefRenderFunction<TextBase, Props> = (props, ref) => {
-  const customFont = useCustomFont(props, styles.text);
   const variantStyle = props.variant
     ? typographyConstant[props.variant]
     : undefined;
+  const customFont = useCustomFont(props, { ...styles.text, ...variantStyle });
   return (
     <TextBase
       selectable

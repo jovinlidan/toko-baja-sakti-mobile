@@ -17,4 +17,6 @@ export default {
   gray7: "#BFBDBB",
 
   white: "#FFFFFF",
+
+  lightTeal: "rgba(167, 214, 214, 0.35)",
 };

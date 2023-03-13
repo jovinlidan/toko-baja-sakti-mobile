@@ -1,7 +1,7 @@
 import { useInitiateCustomFont } from "@hooks/use-custom-font";
 import { DefaultTheme, ThemeProvider } from "@react-navigation/native";
 import { useFonts } from "expo-font";
-import { SplashScreen, Stack } from "expo-router";
+import { Slot, SplashScreen, Stack } from "expo-router";
 import { useEffect } from "react";
 import { useColorScheme } from "react-native";
 import Toast from "react-native-toast-message";
@@ -14,7 +14,7 @@ export {
 
 export const unstable_settings = {
   // Ensure that reloading on `/modal` keeps a back button present.
-  initialRouteName: "(tabs)",
+  // initialRouteName: "index",
 };
 
 export default function RootLayout() {
@@ -37,10 +37,16 @@ export default function RootLayout() {
 function RootLayoutNav() {
   return (
     <RecoilRoot>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+      <Stack screenOptions={{ headerShown: false }}>
         <Stack.Screen name="modal" options={{ presentation: "modal" }} />
       </Stack>
+      {/* <Slot /> */}
+      {/* <Stack initialRouteName="modal" /> */}
+      {/* <Stack
+        initialRouteName="gakanjing"
+        screenOptions={{ headerShown: false }}
+      >
+      </Stack> */}
       <Toast position="top" topOffset={40} />
     </RecoilRoot>
   );
