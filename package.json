@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@expo/vector-icons": "^13.0.0",
+    "@hookform/resolvers": "^2.9.11",
     "@react-navigation/native": "^6.0.2",
     "class-transformer": "^0.5.1",
     "expo": "~48.0.6",
@@ -28,6 +29,7 @@
     "ky": "^0.33.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-hook-form": "^7.43.5",
     "react-native": "0.71.3",
     "react-native-dotenv": "^3.4.8",
     "react-native-gesture-handler": "^2.9.0",
@@ -38,7 +40,8 @@
     "react-native-toast-message": "^2.1.6",
     "react-native-web": "~0.18.10",
     "react-query": "^3.39.3",
-    "recoil": "^0.7.7"
+    "recoil": "^0.7.7",
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

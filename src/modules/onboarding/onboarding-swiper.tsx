@@ -7,8 +7,19 @@ import {
   Button,
 } from "@components/elements";
 import colorConstant from "@constants/color.constant";
+import {
+  LOGIN_SCREEN_NAME,
+  REGISTER_SCREEN_NAME,
+} from "@constants/route.constant";
 import sizeConstant from "@constants/size.constant";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useRouter } from "expo-router";
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import {
   Platform,
   StatusBar,
@@ -32,6 +43,7 @@ export default function OnboardingSwiper() {
   const [activeIdx, setActiveIdx] = useState<number>(0);
   const x = useSharedValue(activeIdx * -width);
   const dotY = useSharedValue(0);
+  const router = useRouter();
 
   const nextSlide = () => {
     x.value = withTiming((activeIdx + 1) * -width, {
@@ -136,6 +148,14 @@ export default function OnboardingSwiper() {
     };
   });
 
+  const onNavigateDaftar = useCallback(() => {
+    router.replace(REGISTER_SCREEN_NAME);
+  }, []);
+
+  const onNavigateMasuk = useCallback(() => {
+    router.replace(LOGIN_SCREEN_NAME);
+  }, []);
+
   return (
     <Container>
       {Platform.OS === "android" && !preLollipop && (
@@ -188,8 +208,12 @@ export default function OnboardingSwiper() {
       <View style={styles.buttonContainer}>
         {activeIdx === 3 ? (
           <>
-            <Button>Daftar</Button>
-            <Button variant="outline" textStyle={styles.buttonMasukStyle}>
+            <Button onPress={onNavigateDaftar}>Daftar</Button>
+            <Button
+              onPress={onNavigateMasuk}
+              variant="outline"
+              textStyle={styles.buttonMasukStyle}
+            >
               Masuk
             </Button>
           </>

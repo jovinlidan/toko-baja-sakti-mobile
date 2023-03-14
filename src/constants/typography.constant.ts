@@ -1,4 +1,5 @@
-import { StyleSheet, TextStyle } from "react-native";
+import { StyleSheet } from "react-native";
+import colorConstant from "./color.constant";
 
 export default StyleSheet.create({
   h1: {
@@ -60,10 +61,14 @@ export default StyleSheet.create({
     fontSize: 16,
     lineHeight: 20,
     fontWeight: "700",
+    borderBottomColor: colorConstant.gray1,
+    borderBottomWidth: 1,
   },
   linkSm: {
     fontSize: 12,
     lineHeight: 16,
     fontWeight: "700",
+    borderBottomColor: colorConstant.gray1,
+    borderBottomWidth: 1,
   },
 });
