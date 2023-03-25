@@ -1,11 +1,12 @@
 import { useInitiateCustomFont } from "@hooks/use-custom-font";
-import { DefaultTheme, ThemeProvider } from "@react-navigation/native";
-import { useFonts } from "expo-font";
-import { Slot, SplashScreen, Stack } from "expo-router";
+import OTPHistoryProvider from "@hooks/use-otp-history";
+import SelectModalProvider from "@hooks/use-select-modal";
+import { SplashScreen, Stack } from "expo-router";
 import { useEffect } from "react";
-import { useColorScheme } from "react-native";
 import Toast from "react-native-toast-message";
 import { RecoilRoot } from "recoil";
+import { setLocale } from "yup";
+import yupID from "@common/validation.yup";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -22,7 +23,9 @@ export default function RootLayout() {
 
   // Expo Router uses Error Boundaries to catch errors in the navigation tree.
   useEffect(() => {
-    if (error) throw error;
+    if (error) {
+      throw error;
+    }
   }, [error]);
 
   return (
@@ -34,20 +37,26 @@ export default function RootLayout() {
   );
 }
 
+setLocale(yupID as any);
+
 function RootLayoutNav() {
   return (
     <RecoilRoot>
-      <Stack screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="modal" options={{ presentation: "modal" }} />
-      </Stack>
-      {/* <Slot /> */}
-      {/* <Stack initialRouteName="modal" /> */}
-      {/* <Stack
-        initialRouteName="gakanjing"
-        screenOptions={{ headerShown: false }}
-      >
-      </Stack> */}
-      <Toast position="top" topOffset={40} />
+      <OTPHistoryProvider>
+        <SelectModalProvider>
+          <Stack screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="(tabs)" />
+            <Stack.Screen
+              name="select-modal"
+              options={{
+                presentation: "modal",
+                animation: "slide_from_bottom",
+              }}
+            />
+          </Stack>
+          <Toast position="top" topOffset={40} />
+        </SelectModalProvider>
+      </OTPHistoryProvider>
     </RecoilRoot>
   );
 }

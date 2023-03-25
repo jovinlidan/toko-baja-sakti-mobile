@@ -4,6 +4,7 @@ export { default as Text } from "./text";
 export { default as Button } from "./button";
 export { default as Form } from "./form";
 export { default as TextInput } from "./text-input";
+export { default as SelectInput } from "./select-input";
 export { default as ControlledForm } from "./controlled-form";
 export { default as Field } from "./field";
 export { default as InputGroup } from "./input-group";

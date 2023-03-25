@@ -1,19 +1,19 @@
 import { Container, Content, Text, View } from "@components/elements";
 import { Header } from "@components/widgets";
 import { StyleSheet } from "react-native";
-import RegisterForm from "./register-form";
+import LoginForm from "./login-form";
 
-export default function Register() {
+export default function Login() {
   return (
     <Container>
-      <Header title="Buat Akun Baru" />
+      <Header title="Masuk" />
       <Content>
         <View style={styles.titleContainer}>
           <Text variant="h4" style={styles.titleText}>
             Toko Baja Sakti
           </Text>
         </View>
-        <RegisterForm />
+        <LoginForm />
       </Content>
     </Container>
   );

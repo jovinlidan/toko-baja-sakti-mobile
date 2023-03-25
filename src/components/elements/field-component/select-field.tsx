@@ -1,15 +1,13 @@
 import * as React from "react";
 import { FieldProps } from "../field";
 import { Keyboard } from "react-native";
-import { useNavigation } from "@react-navigation/core";
-import { SelectInput } from "@app/components/elements";
-import { useField } from "formik";
-import { NavigationAnyProp } from "@app/../router";
-import { SELECT_OPTION_SCREEN_NAME } from "@app/screens/select-option-screen";
-import {
+import SelectInput, {
   SelectInputProps,
   SelectOption,
-} from "@app/components/elements/select-input";
+} from "@components/elements/select-input";
+import { useController, useFormContext } from "react-hook-form";
+import { SELECT_MODAL_SCREEN_NAME } from "@constants/route.constant";
+import { useSelectModal } from "@hooks/use-select-modal";
 
 export interface SelectFieldProps extends SelectInputProps, FieldProps {
   type: "select";
@@ -18,36 +16,44 @@ export interface SelectFieldProps extends SelectInputProps, FieldProps {
 export default function SelectField(
   props: Omit<SelectFieldProps, "value" | "onPick">
 ) {
-  const { options, name, onRetry, onChange, fetchError } = props;
-  const navigation = useNavigation<NavigationAnyProp>();
+  const { options, name, onRetry, onChange, fetchError, label } = props;
+  const { setModalOptions } = useSelectModal();
 
-  const [, meta, helpers] = useField(name);
-
-  const error = (meta.touched || "") && meta.error;
+  const { control } = useFormContext();
+  const { field, fieldState } = useController({
+    name,
+    control,
+  });
 
   const pick = React.useCallback(
     (selected?: SelectOption) => {
       Keyboard.dismiss();
-      helpers.setTouched(true);
       if (fetchError) {
         onRetry && onRetry();
       } else {
-        navigation.navigate({
-          name: SELECT_OPTION_SCREEN_NAME,
-          params: {
-            options: options,
-            value: selected ? selected.value : "",
-            onSelect: (newValue: SelectOption) => {
-              if (onChange && newValue !== meta?.value) {
-                onChange(newValue);
-              }
-            },
+        setModalOptions?.({
+          routeName: SELECT_MODAL_SCREEN_NAME,
+          options: options,
+          value: selected ? selected.value : "",
+          onSelect: (newValue: SelectOption) => {
+            if (newValue !== field?.value) {
+              field.onChange(newValue);
+            }
           },
+          modalTitle: label,
         });
       }
     },
-    [helpers, fetchError, onRetry, navigation, options, onChange, meta?.value]
+    [fetchError, onRetry, options, onChange, field.value]
   );
 
-  return <SelectInput {...props} error={error} onPick={pick} />;
+  return (
+    <SelectInput
+      {...props}
+      onChange={field.onChange}
+      value={field.value?.value}
+      error={fieldState.error?.message}
+      onPick={pick}
+    />
+  );
 }

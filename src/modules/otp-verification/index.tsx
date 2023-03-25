@@ -1,19 +1,19 @@
 import { Container, Content, Text, View } from "@components/elements";
 import { Header } from "@components/widgets";
 import { StyleSheet } from "react-native";
-import RegisterForm from "./register-form";
+import OTPVerificationForm from "./otp-verification-form";
 
-export default function Register() {
+export default function OTPVerification() {
   return (
     <Container>
-      <Header title="Buat Akun Baru" />
+      <Header back title="Buat Akun Baru" />
       <Content>
         <View style={styles.titleContainer}>
           <Text variant="h4" style={styles.titleText}>
             Toko Baja Sakti
           </Text>
         </View>
-        <RegisterForm />
+        <OTPVerificationForm />
       </Content>
     </Container>
   );

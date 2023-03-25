@@ -70,9 +70,15 @@ export default function OnboardingSwiper() {
       x.value = e.translationX + -width * activeIdx;
     })
     .onEnd((e) => {
-      if (e.translationX < -width / 2 && activeIdx < 3) {
+      if (
+        (e.translationX < -width / 3 || e.velocityX <= -1000) &&
+        activeIdx < 3
+      ) {
         nextSlide();
-      } else if (e.translationX > width / 2 && activeIdx > 0) {
+      } else if (
+        (e.translationX > width / 3 || e.velocityX >= 1000) &&
+        activeIdx > 0
+      ) {
         prevSlide();
       } else {
         reset();
@@ -142,7 +148,7 @@ export default function OnboardingSwiper() {
           translateY:
             dotY.value +
             2 * sizeConstant.contentPad -
-            (activeIdx === 3 ? 10 : -10),
+            (activeIdx === 3 ? -20 : -30),
         },
       ],
     };

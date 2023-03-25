@@ -10,18 +10,17 @@ export interface CustomTextInputProps extends FieldProps, TextInputProps {
   label?: string;
   dialCode?: string;
   required?: boolean;
-  isShowingPassword?: boolean;
   containerStyle?: StyleProp<ViewStyle>;
   leftIconContainerStyle?: StyleProp<ViewStyle>;
   onAfterChange?: (value: string) => void;
   rightIconOnPress?: () => void;
-  onPressShowPassword?: () => void;
   leftIconComponent?: (iconSize, iconColor) => React.ReactNode;
   rightIconComponent?: (iconSize, iconColor) => React.ReactNode;
   customRightIconComponent?: () => React.ReactNode;
   textInputContainerStyle?: StyleProp<ViewStyle>;
   noMarginBottom?: boolean;
   disableErrorText?: boolean;
+  disabled?: boolean;
 }
 
 export default function TextField(props: CustomTextInputProps) {
@@ -29,8 +28,6 @@ export default function TextField(props: CustomTextInputProps) {
     type,
     dialCode = "",
     name,
-    isShowingPassword,
-    onPressShowPassword,
     required,
     onAfterChange,
     rightIconOnPress,

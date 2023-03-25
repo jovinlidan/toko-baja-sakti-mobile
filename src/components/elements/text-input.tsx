@@ -23,6 +23,7 @@ interface Props extends TextInputProps {
   value?: string;
   label?: string;
   children?: any;
+  disabled?: boolean;
   ref?: React.Ref<TextInput>;
   containerStyle?: StyleProp<ViewStyle>;
   leftIconContainerStyle?: StyleProp<ViewStyle>;
@@ -60,6 +61,7 @@ function CustomTextInput(props: Props, ref: any) {
     selectionColor,
     isError = false,
     customRightIconComponent,
+    disabled,
     ...restProps
   } = props;
 
@@ -163,6 +165,7 @@ function CustomTextInput(props: Props, ref: any) {
           containerStyle,
           {
             borderColor: currentBorderColor,
+            backgroundColor: disabled ? colorConstant.gray5 : undefined,
           },
           restProps.multiline && styles.multiline,
         ]}
@@ -190,6 +193,9 @@ function CustomTextInput(props: Props, ref: any) {
           value={value}
           onFocus={_handleOnFocus}
           onBlur={_handleOnBlur}
+          editable={!disabled}
+          selectTextOnFocus={!disabled}
+          contextMenuHidden={disabled}
           placeholderTextColor={placeholderTextColor}
           ref={(ref ? ref : customRef) as any}
         />
