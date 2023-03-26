@@ -19,4 +19,6 @@ export default {
   white: "#FFFFFF",
 
   lightTeal: "rgba(167, 214, 214, 0.35)",
+
+  headerBorderBottom: "#F1F0EE",
 };

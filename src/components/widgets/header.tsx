@@ -15,6 +15,7 @@ import colorConstant from "@constants/color.constant";
 import typographyConstant from "@constants/typography.constant";
 import { AntDesign } from "@expo/vector-icons";
 import sizeConstant from "@constants/size.constant";
+import zIndexConstant from "@constants/z-index.constant";
 
 interface Props {
   title?: React.ReactNode;
@@ -70,7 +71,7 @@ export default function Header(props: Props) {
       >
         {title ? (
           typeof title === "string" ? (
-            <View style={[styles.titleContainer]}>
+            <View style={styles.titleContainer}>
               <Text
                 style={[typographyConstant.h5, { color: titleColor }]}
                 ellipsizeMode="tail"
@@ -85,7 +86,7 @@ export default function Header(props: Props) {
         ) : null}
       </View>
     );
-  }, [back, title, titleColor]);
+  }, [title, titleColor]);
 
   const onLayout = React.useCallback(
     (e: LayoutChangeEvent) => {
@@ -132,7 +133,7 @@ export default function Header(props: Props) {
         {Platform.OS === "android" &&
           !preLollipop &&
           !hideAndroidStatusBar &&
-          topSafeArea && <View style={[styles.statusBar]} />}
+          topSafeArea && <View style={styles.statusBar} />}
         {showUpperHeader && (
           <View style={styles.container}>
             {children ? (
@@ -140,7 +141,7 @@ export default function Header(props: Props) {
             ) : (
               <>
                 <View>
-                  <View onLayout={onLayout} style={[styles.left]}>
+                  <View onLayout={onLayout} style={styles.left}>
                     {renderLeft()}
                   </View>
                 </View>
@@ -151,7 +152,7 @@ export default function Header(props: Props) {
                       width,
                     }}
                   >
-                    <View onLayout={onLayout} style={[styles.right]}>
+                    <View onLayout={onLayout} style={styles.right}>
                       {renderRight()}
                     </View>
                   </View>
@@ -163,8 +164,8 @@ export default function Header(props: Props) {
         <View>{renderBottom()}</View>
       </View>
       {concave && (
-        <View style={[styles.concaveContainer]}>
-          <View style={[styles.concave]} />
+        <View style={styles.concaveContainer}>
+          <View style={styles.concave} />
         </View>
       )}
     </>
@@ -174,8 +175,8 @@ export default function Header(props: Props) {
 const styles = StyleSheet.create({
   wrapper: {
     position: "relative",
-    zIndex: 1000,
-    borderBottomColor: "#F1F0EE",
+    zIndex: zIndexConstant.headerZIndex,
+    borderBottomColor: colorConstant.headerBorderBottom,
     borderBottomWidth: 1,
     paddingHorizontal: sizeConstant.contentPad,
   },
@@ -223,9 +224,6 @@ const styles = StyleSheet.create({
   right: {
     justifyContent: "center",
     height: HEADER_HEIGHT,
-  },
-  backTitle: {
-    fontSize: 11,
   },
   notStringTitle: {
     width: "100%",

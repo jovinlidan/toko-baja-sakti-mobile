@@ -2,20 +2,12 @@ import colorConstant from "@constants/color.constant";
 import { Feather, MaterialCommunityIcons } from "@expo/vector-icons";
 import { View } from "@components/elements";
 import { Tabs } from "expo-router";
+import { StyleSheet } from "react-native";
 
 function TopBorder({ focused }) {
   if (!focused) return null;
-  return (
-    <View
-      style={{
-        position: "absolute",
-        backgroundColor: colorConstant.gray1,
-        width: "80%",
-        height: 1,
-        top: 0,
-      }}
-    />
-  );
+
+  return <View style={styles.topBorder} />;
 }
 
 export default function TabLayout() {
@@ -63,17 +55,14 @@ export default function TabLayout() {
             <>
               <TopBorder focused={focused} />
               <View
-                style={{
-                  width: 48,
-                  height: 48,
-                  backgroundColor: !focused
-                    ? colorConstant.primaryOrange1
-                    : color,
-                  borderRadius: 24,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
+                style={[
+                  {
+                    backgroundColor: !focused
+                      ? colorConstant.primaryOrange1
+                      : color,
+                  },
+                  styles.circleSearch,
+                ]}
               >
                 <Feather name="search" size={24} color="#FFFFFF" />
               </View>
@@ -106,3 +95,21 @@ export default function TabLayout() {
     </Tabs>
   );
 }
+
+const styles = StyleSheet.create({
+  topBorder: {
+    position: "absolute",
+    backgroundColor: colorConstant.gray1,
+    width: "80%",
+    height: 1,
+    top: 0,
+  },
+  circleSearch: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+});

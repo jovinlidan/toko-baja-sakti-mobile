@@ -1,5 +1,6 @@
 import storage from "@common/repositories/storage";
 import { Container, Content, Text } from "@components/elements";
+import { Header } from "@components/widgets";
 import { meState, meSelector } from "@models/auth";
 import { Button } from "react-native";
 import { StyleSheet, TextInput } from "react-native";
@@ -11,7 +12,57 @@ export default function ProductsScreen() {
 
   return (
     <Container>
+      <Header title="Products" />
       <Content>
+        <Text>Products Screen</Text>
+        <Text>Products Screen</Text>
+        <Text>Products Screen</Text>
+        <Text>Products Screen</Text>
+        <Text>Products Screen</Text>
+        <Text>Products Screen</Text>
+        <Text>Products Screen</Text>
+        <Text>Products Screen</Text>
+        <Text>Products Screen</Text>
+        <Text>Products Screen</Text>
+        <Text>Products Screen</Text>
+        <Text>Products Screen</Text>
+        <Text>Products Screen</Text>
+        <Text>Products Screen</Text>
+        <Text>Products Screen</Text>
+        <Text>Products Screen</Text>
+        <Text>Products Screen</Text>
+        <Text>Products Screen</Text>
+        <Text>Products Screen</Text>
+        <Text>Products Screen</Text>
+        <Text>Products Screen</Text>
+        <Text>Products Screen</Text>
+        <Text>Products Screen</Text>
+        <Text>Products Screen</Text>
+        <Text>Products Screen</Text>
+        <Text>Products Screen</Text>
+        <Text>Products Screen</Text>
+        <Text>Products Screen</Text>
+        <Text>Products Screen</Text>
+        <Text>Products Screen</Text>
+        <Text>Products Screen</Text>
+        <Text>Products Screen</Text>
+        <Text>Products Screen</Text>
+        <Text>Products Screen</Text>
+        <Text>Products Screen</Text>
+        <Text>Products Screen</Text>
+        <Text>Products Screen</Text>
+        <Text>Products Screen</Text>
+        <Text>Products Screen</Text>
+        <Text>Products Screen</Text>
+        <Text>Products Screen</Text>
+        <Text>Products Screen</Text>
+        <Text>Products Screen</Text>
+        <Text>Products Screen</Text>
+        <Text>Products Screen</Text>
+        <Text>Products Screen</Text>
+        <Text>Products Screen</Text>
+        <Text>Products Screen</Text>
+        <Text>Products Screen</Text>
         <Text>Products Screen</Text>
         <Text>{me}</Text>
 

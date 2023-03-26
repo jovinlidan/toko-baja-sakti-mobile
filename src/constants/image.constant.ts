@@ -5,4 +5,5 @@ export default {
   onboarding4: require("@assets/images/onboarding/onboarding-4.png"),
   placeholder: require("@assets/images/placeholder.png"),
   logo: require("@assets/images/logo.png"),
+  profile: require("@assets/images/profile.png"),
 };
