@@ -14,6 +14,9 @@ import Animated, {
 import zIndexConstant from "@constants/z-index.constant";
 import imageConstant from "@constants/image.constant";
 import typographyConstant from "@constants/typography.constant";
+import { useCallback } from "react";
+import { useRouter } from "expo-router";
+import { PROFILE_SCREEN_NAME } from "@constants/route.constant";
 
 const preLollipop = Platform.OS === "android" && Platform.Version < 21;
 
@@ -100,8 +103,37 @@ function TinySeparator(props: Props) {
   return <Animated.View style={animatedStyle} />;
 }
 
+function ProfileImage(props: Props) {
+  const { scrollValue } = props;
+  const animatedStyle = useAnimatedStyle(() => {
+    const width = interpolate(scrollValue.value, [0, 50], [39, 28], {
+      extrapolateRight: Extrapolation.CLAMP,
+    });
+    const height = interpolate(scrollValue.value, [0, 50], [39, 28], {
+      extrapolateRight: Extrapolation.CLAMP,
+    });
+    const marginTop = interpolate(scrollValue.value, [0, 50], [0, 8], {
+      extrapolateRight: Extrapolation.CLAMP,
+    });
+    return {
+      width,
+      height,
+      marginTop,
+    };
+  });
+
+  return (
+    <Animated.Image
+      resizeMode="contain"
+      source={imageConstant.profile}
+      style={[animatedStyle, styMargin(5, SeparatorTypeEnum.bottom)]}
+    />
+  );
+}
+
 export default function HomeHeader(props: Props) {
   const { scrollValue } = props;
+  const router = useRouter();
 
   const animatedOpacityCariBarang = useAnimatedStyle(() => {
     const opacity = interpolate(scrollValue.value, [0, 40], [1, 0], {
@@ -138,7 +170,7 @@ export default function HomeHeader(props: Props) {
     const backgroundColor = interpolateColor(
       scrollValue.value,
       [0, 50],
-      ["rgba(250, 194, 49, 0.75)", "transparent"]
+      [colorConstant.headerOrange, "transparent"]
     );
     return {
       backgroundColor,
@@ -162,6 +194,10 @@ export default function HomeHeader(props: Props) {
     };
   });
 
+  const onNavigateProfile = useCallback(() => {
+    router.push(PROFILE_SCREEN_NAME);
+  }, [router]);
+
   return (
     <>
       <Animated.View style={[styles.backgroudConcave, animatedConcave]} />
@@ -180,12 +216,8 @@ export default function HomeHeader(props: Props) {
           </View>
           <View style={styles.column}>
             <TinySeparator scrollValue={scrollValue} />
-            <TouchableOpacity>
-              <Image
-                resizeMode="contain"
-                source={imageConstant.profile}
-                style={[styles.profile, styMargin(5, SeparatorTypeEnum.bottom)]}
-              />
+            <TouchableOpacity onPress={onNavigateProfile}>
+              <ProfileImage scrollValue={scrollValue} />
             </TouchableOpacity>
             <ProfileText scrollValue={scrollValue} />
           </View>
@@ -239,9 +271,5 @@ const styles = StyleSheet.create({
     right: 0,
     zIndex: zIndexConstant.headerZIndex,
     alignContent: "center",
-  },
-  profile: {
-    width: 39,
-    height: 39,
   },
 });

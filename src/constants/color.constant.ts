@@ -4,6 +4,8 @@ export default {
   primaryOrange3: "#FCD898",
   primaryOrange4: "rgba(250, 177, 51, 0.25)",
 
+  headerOrange: "rgba(250, 194, 49, 0.75)",
+
   successDefault: "#22A857",
   blueDefault: "#387CFF",
   redDefault: "#DE3333",
