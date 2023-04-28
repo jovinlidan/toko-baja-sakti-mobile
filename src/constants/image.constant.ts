@@ -6,4 +6,5 @@ export default {
   placeholder: require("@assets/images/placeholder.png"),
   logo: require("@assets/images/logo.png"),
   profile: require("@assets/images/profile.png"),
+  emptyData: require("@assets/images/empty-data.png"),
 };

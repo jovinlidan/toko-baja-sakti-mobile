@@ -144,7 +144,7 @@ export default function AnimatedHeader(props: Props) {
         <View style={styles.row}>
           <View style={styles.column}>
             <SmallSeparator scrollValue={scrollValue} />
-            <Text variant="h4">Barang</Text>
+            <Text variant="h4">Favorit</Text>
           </View>
           <View style={styles.nothing} />
           <View style={styles.column}>
@@ -183,7 +183,7 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     right: 0,
-    bottom: "70%",
+    bottom: 0,
     position: "absolute",
   },
   container: {
