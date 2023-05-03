@@ -1,6 +1,6 @@
-import Toast, { ToastType } from "react-native-toast-message";
+import BaseToast, { ToastType } from "react-native-toast-message";
 
-const AlertHelper: {
+const Toast: {
   show: (
     type: ToastType,
     title: string,
@@ -12,17 +12,17 @@ const AlertHelper: {
   info: (message: string, title?: string, onPress?: () => void) => void;
 } = {
   show(type, title, message, onPress) {
-    Toast.show({ type: type, text1: message, text2: title, onPress });
+    BaseToast.show({ type: type, text1: message, text2: title, onPress });
   },
   success(message: string, title: string | undefined, onPress) {
-    Toast.show({ type: "success", text1: message, text2: title, onPress });
+    BaseToast.show({ type: "success", text1: message, text2: title, onPress });
   },
   error(message: string, title: string | undefined, onPress) {
-    Toast.show({ type: "error", text1: message, text2: title, onPress });
+    BaseToast.show({ type: "error", text1: message, text2: title, onPress });
   },
   info(message: string, title: string | undefined, onPress) {
-    Toast.show({ type: "info", text1: message, text2: title, onPress });
+    BaseToast.show({ type: "info", text1: message, text2: title, onPress });
   },
 };
 
-export default AlertHelper;
+export default Toast;

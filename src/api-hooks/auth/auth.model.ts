@@ -21,7 +21,13 @@ export class LoginInput {
 }
 
 export class RegisterInput {
-  body: {};
+  body: {
+    name: string;
+    phone: string;
+    password: string;
+    passwordConfirmation: string;
+    verificationToken: string;
+  };
 }
 
 export class ForgotPasswordInput {

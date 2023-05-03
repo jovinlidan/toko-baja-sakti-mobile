@@ -1,4 +1,4 @@
-import { Toast } from "@common/helpers";
+import Toast from "@common/helpers/toast";
 import { ReactNativeFirebase } from "@react-native-firebase/app";
 import auth, { firebase } from "@react-native-firebase/auth";
 import { useCallback, useRef } from "react";

@@ -50,7 +50,7 @@ export interface CustomMutationOptions {
   mutationKey: any[];
 }
 const config = {
-  prefixUrl: Config.baseURL + "/api/user",
+  prefixUrl: Config.apiEndpoint + "/api/user",
   timeout: 45000,
   retry: {
     limit: 2,

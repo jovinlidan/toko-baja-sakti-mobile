@@ -103,12 +103,12 @@ export default function TextField(props: CustomTextInputProps) {
           break;
       }
     },
-    [dialCode, onAfterChange, type]
+    [dialCode, field, onAfterChange, type]
   );
 
   const onBlur = React.useCallback(() => {
     field.onBlur();
-  }, [name]);
+  }, [field]);
 
   switch (type) {
     case "normal":
@@ -188,13 +188,5 @@ const styles = StyleSheet.create({
   },
   zeroMargin: {
     marginBottom: 0,
-  },
-  eyeIcon: {
-    position: "absolute",
-    top: 11,
-    right: 10,
-    zIndex: 1000,
-    paddingVertical: 4,
-    paddingHorizontal: 4,
   },
 });

@@ -1,4 +1,4 @@
-import { MutationFetchFunction } from "@common/helpers";
+import { MutationFetchFunction } from "@common/helpers/common";
 import { useMutation, UseMutationOptions } from "react-query";
 import { ApiResult, ApiError, client } from "@common/repositories";
 import {

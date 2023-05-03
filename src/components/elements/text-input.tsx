@@ -48,7 +48,6 @@ function CustomTextInput(props: Props, ref: any) {
   const {
     label,
     value,
-    type,
     onFocus,
     onBlur,
     containerStyle,
@@ -69,14 +68,18 @@ function CustomTextInput(props: Props, ref: any) {
   const customFont = useCustomFont(restProps, styles.defaultStyle);
 
   const currentColor = React.useMemo(() => {
-    if (isError) return colorConstant.redDefault;
+    if (isError) {
+      return colorConstant.redDefault;
+    }
     return colorConstant.gray1;
-  }, [containerStyle, isError, isFocused, value]);
+  }, [isError]);
 
   const currentBorderColor = React.useMemo(() => {
-    if (isError) return colorConstant.redDefault;
+    if (isError) {
+      return colorConstant.redDefault;
+    }
     return colorConstant.gray5;
-  }, [containerStyle, isError, isFocused, value]);
+  }, [isError]);
 
   const _handleOnPressView = React.useCallback(
     (onPress?: () => void) => {
@@ -147,6 +150,7 @@ function CustomTextInput(props: Props, ref: any) {
   }, [
     currentColor,
     customRightIconComponent,
+    props.type,
     rightIconComponent,
     rightIconOnPress,
     secureTextEntry,
@@ -154,7 +158,7 @@ function CustomTextInput(props: Props, ref: any) {
   return (
     <>
       {!!label && (
-        <Text variant="h5" style={[styles.defaultLabel]}>
+        <Text variant="h5" style={styles.defaultLabel}>
           {label}
         </Text>
       )}

@@ -1,4 +1,5 @@
-import { Toast } from "@common/helpers";
+import { useRegisterUser } from "@api-hooks/auth/auth.mutation";
+import Toast from "@common/helpers/toast";
 import {
   Button,
   Field,
@@ -9,13 +10,12 @@ import {
   StyleSheet,
 } from "@components/elements";
 import colorConstant from "@constants/color.constant";
-import { LOGIN_SCREEN_NAME } from "@constants/route.constant";
 import { SeparatorTypeEnum, styMargin } from "@constants/styles.constant";
 import { useOTPHistory } from "@hooks/use-otp-history";
 import useOTPVerification from "@hooks/use-otp-verification";
 import useYupValidationResolver from "@hooks/use-yup-validation-resolver";
-import { usePathname, useRouter, useSearchParams } from "expo-router";
-import { useCallback, useEffect, useMemo } from "react";
+import { useRouter, useSearchParams } from "expo-router";
+import { useCallback, useMemo } from "react";
 import { useForm } from "react-hook-form";
 
 import * as Yup from "yup";
@@ -29,6 +29,7 @@ export default function OTPVerificationForm() {
   const router = useRouter();
   const params = useSearchParams();
   const { timer } = useOTPHistory();
+  const { mutateAsync: register } = useRegisterUser();
   const { requestOTP, verifyOTP } = useOTPVerification({
     onCodeReceived: () => {},
   });
@@ -54,26 +55,20 @@ export default function OTPVerificationForm() {
     async (values: OTPVerificationFormType) => {
       try {
         const token = await verifyOTP(values.otp);
-        console.log(token);
-      } catch (e) {
-        // console.log({ e });
+        const result = await register({
+          body: {
+            ...JSON.parse(params.values as string),
+            verificationToken: token,
+          },
+        });
+        result?.message && Toast.success(result?.message);
+      } catch (e: any) {
+        Toast.success(e?.message);
+        console.log({ e });
       }
     },
-    [verifyOTP]
+    [params.values, register, verifyOTP]
   );
-
-  // useEffect(() => {
-  //   async function sendOTPExec() {
-  //     try {
-  //       await requestOTP("+62" + methods.getValues().phone);
-  //     } catch (e: any) {
-  //       Toast.error(e);
-  //     } finally {
-  //     }
-  //   }
-  //   sendOTPExec();
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
 
   return (
     <Form methods={methods}>
@@ -91,7 +86,7 @@ export default function OTPVerificationForm() {
         onPress={() => requestOTP("+62" + methods.getValues().phone)}
       >
         <Text variant="label" style={!timer ? styles.resendText : undefined}>
-          Kirim ulang OTP ({timer} s)
+          Kirim ulang OTP {timer ? `(${timer} s)` : null}
         </Text>
       </TouchableOpacity>
       <View style={styMargin(28, SeparatorTypeEnum.bottom)} />
