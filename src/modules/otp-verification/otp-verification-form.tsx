@@ -1,5 +1,6 @@
 import { useRegisterUser } from "@api-hooks/auth/auth.mutation";
 import Toast from "@common/helpers/toast";
+import { setupToken } from "@common/repositories";
 import {
   Button,
   Field,
@@ -11,6 +12,8 @@ import {
 } from "@components/elements";
 import colorConstant from "@constants/color.constant";
 import { SeparatorTypeEnum, styMargin } from "@constants/styles.constant";
+import { useCredential } from "@hooks/use-credential";
+import useMe from "@hooks/use-me";
 import { useOTPHistory } from "@hooks/use-otp-history";
 import useOTPVerification from "@hooks/use-otp-verification";
 import useYupValidationResolver from "@hooks/use-yup-validation-resolver";
@@ -26,13 +29,14 @@ type OTPVerificationFormType = {
 };
 
 export default function OTPVerificationForm() {
-  const router = useRouter();
   const params = useSearchParams();
   const { timer } = useOTPHistory();
   const { mutateAsync: register } = useRegisterUser();
   const { requestOTP, verifyOTP } = useOTPVerification({
     onCodeReceived: () => {},
   });
+  const { setCredential, credential } = useCredential();
+  const { refetch } = useMe();
 
   const YupSchema = useMemo(
     () =>
@@ -50,7 +54,6 @@ export default function OTPVerificationForm() {
       phone: JSON.parse(params.values as string)?.phone,
     },
   });
-
   const onSubmit = useCallback(
     async (values: OTPVerificationFormType) => {
       try {
@@ -61,13 +64,15 @@ export default function OTPVerificationForm() {
             verificationToken: token,
           },
         });
+        setupToken(result?.data?.accessToken);
+        setCredential(result?.data);
+        await refetch();
         result?.message && Toast.success(result?.message);
       } catch (e: any) {
         Toast.success(e?.message);
-        console.log({ e });
       }
     },
-    [params.values, register, verifyOTP]
+    [params.values, refetch, register, setCredential, verifyOTP]
   );
 
   return (
@@ -91,7 +96,12 @@ export default function OTPVerificationForm() {
       </TouchableOpacity>
       <View style={styMargin(28, SeparatorTypeEnum.bottom)} />
 
-      <Button onPress={methods.handleSubmit(onSubmit)}>Daftar</Button>
+      <Button
+        onPress={methods.handleSubmit(onSubmit)}
+        loading={methods.formState.isSubmitting}
+      >
+        Daftar
+      </Button>
     </Form>
   );
 }

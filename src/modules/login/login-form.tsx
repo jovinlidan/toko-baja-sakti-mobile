@@ -1,3 +1,7 @@
+import { useLoginUser } from "@api-hooks/auth/auth.mutation";
+import { formSetErrors } from "@common/helpers/form";
+import Toast from "@common/helpers/toast";
+import { setupToken } from "@common/repositories";
 import {
   Button,
   Field,
@@ -6,12 +10,10 @@ import {
   View,
   StyleSheet,
 } from "@components/elements";
-import {
-  LOGIN_SCREEN_NAME,
-  SELECT_MODAL_SCREEN_NAME,
-  REGISTER_SCREEN_NAME,
-} from "@constants/route.constant";
+import { REGISTER_SCREEN_NAME } from "@constants/route.constant";
 import { SeparatorTypeEnum, styMargin } from "@constants/styles.constant";
+import { useCredential } from "@hooks/use-credential";
+import useMe from "@hooks/use-me";
 import useYupValidationResolver from "@hooks/use-yup-validation-resolver";
 import { useRouter } from "expo-router";
 import { useCallback, useMemo } from "react";
@@ -22,10 +24,13 @@ import * as Yup from "yup";
 
 export default function LoginForm() {
   const router = useRouter();
+  const { mutateAsync: login } = useLoginUser();
+  const { setCredential } = useCredential();
+  const { refetch } = useMe();
   const YupSchema = useMemo(
     () =>
       Yup.object().shape({
-        phone: Yup.string().required(),
+        username: Yup.string().required(),
       }),
     []
   );
@@ -37,27 +42,48 @@ export default function LoginForm() {
     defaultValues: {},
   });
 
-  const onSubmit = useCallback(async (values) => {
-    console.log(values);
-  }, []);
+  const onSubmit = useCallback(
+    async (values) => {
+      try {
+        const result = await login({
+          body: { ...values, username: "+62" + values.username },
+        });
+        setupToken(result?.data?.accessToken);
+        setCredential(result?.data);
+        await refetch();
+        result?.message && Toast.success(result?.message);
+      } catch (e: any) {
+        if (e?.errors) {
+          formSetErrors(e?.errors, methods.setError);
+        }
+        Toast.success(e?.message);
+      }
+    },
+    [login, methods.setError, refetch, setCredential]
+  );
 
   const onNavigateRegister = useCallback(() => {
     router.push(REGISTER_SCREEN_NAME);
-  }, []);
+  }, [router]);
 
   return (
     <Form methods={methods}>
       <View style={styMargin(42, SeparatorTypeEnum.bottom)} />
       <Field
         type="phone"
-        name="phone"
+        name="username"
         label="Nomor Telepon"
         leftIconComponent={() => <Text>+62</Text>}
       />
       <Field type="password" name="password" label="Kata Sandi" />
       <View style={styMargin(28, SeparatorTypeEnum.bottom)} />
 
-      <Button onPress={methods.handleSubmit(onSubmit)}>Login In</Button>
+      <Button
+        onPress={methods.handleSubmit(onSubmit)}
+        loading={methods.formState.isSubmitting}
+      >
+        Login In
+      </Button>
 
       <View style={styMargin(28, SeparatorTypeEnum.bottom)} />
 

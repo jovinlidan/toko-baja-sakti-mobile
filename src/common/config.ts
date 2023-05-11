@@ -1,3 +1,6 @@
+//@ts-ignore
+import { API_ENDPOINT } from "@env";
+
 export default {
-  apiEndpoint: process.env.API_ENDPOINT,
+  apiEndpoint: API_ENDPOINT,
 };

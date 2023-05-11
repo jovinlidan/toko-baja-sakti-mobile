@@ -1,6 +1,14 @@
-import { Expose, Type } from "class-transformer";
+import { Expose } from "class-transformer";
 
-export class User {}
+export class User {
+  id: string;
+  name: string;
+  email: string | null;
+  phone: string;
+  type: string;
+  status: string;
+  address: string | null;
+}
 
 export class TokenResult {
   @Expose({ name: "token_type" })
@@ -17,7 +25,10 @@ export class TokenResult {
 }
 
 export class LoginInput {
-  body: {};
+  body: {
+    username: string;
+    password: string;
+  };
 }
 
 export class RegisterInput {

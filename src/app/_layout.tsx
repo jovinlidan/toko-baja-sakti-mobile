@@ -7,6 +7,10 @@ import Toast from "react-native-toast-message";
 import { RecoilRoot } from "recoil";
 import { setLocale } from "yup";
 import yupID from "@common/validation.yup";
+import CredentialPersist from "@common/helpers/credential-persist";
+import Handler from "@common/helpers/handler";
+import { QueryClientProvider } from "react-query";
+import { queryClient } from "@common/repositories";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -42,21 +46,26 @@ setLocale(yupID as any);
 function RootLayoutNav() {
   return (
     <RecoilRoot>
-      <OTPHistoryProvider>
-        <SelectModalProvider>
-          <Stack screenOptions={{ headerShown: false }}>
-            <Stack.Screen name="(tabs)" />
-            <Stack.Screen
-              name="select-modal"
-              options={{
-                presentation: "modal",
-                animation: "slide_from_bottom",
-              }}
-            />
-          </Stack>
-          <Toast position="top" topOffset={40} />
-        </SelectModalProvider>
-      </OTPHistoryProvider>
+      <QueryClientProvider client={queryClient}>
+        <CredentialPersist>
+          <Handler />
+          <OTPHistoryProvider>
+            <SelectModalProvider>
+              <Stack screenOptions={{ headerShown: false }}>
+                <Stack.Screen name="(tabs)" />
+                <Stack.Screen
+                  name="select-modal"
+                  options={{
+                    presentation: "modal",
+                    animation: "slide_from_bottom",
+                  }}
+                />
+              </Stack>
+              <Toast position="top" topOffset={40} />
+            </SelectModalProvider>
+          </OTPHistoryProvider>
+        </CredentialPersist>
+      </QueryClientProvider>
     </RecoilRoot>
   );
 }

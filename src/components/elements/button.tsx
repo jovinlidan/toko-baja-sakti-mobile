@@ -53,7 +53,7 @@ export default function Button(props: ButtonProps) {
       default:
         return undefined;
     }
-  }, [loading]);
+  }, [loading, variant]);
   return (
     <TouchableOpacity
       {...restProps}

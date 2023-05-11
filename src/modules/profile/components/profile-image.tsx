@@ -1,8 +1,11 @@
 import { Image, View, Text } from "@components/elements";
 import imageConstant from "@constants/image.constant";
 import { SeparatorTypeEnum, styMargin } from "@constants/styles.constant";
+import { meState } from "@models/auth";
 import { StyleSheet } from "react-native";
+import { useRecoilState } from "recoil";
 export default function ProfileImage() {
+  const [me] = useRecoilState(meState);
   return (
     <View style={styles.container}>
       <Image
@@ -11,7 +14,7 @@ export default function ProfileImage() {
         resizeMode="contain"
       />
       <View style={styMargin(16, SeparatorTypeEnum.bottom)} />
-      <Text variant="h4">Jovin Lidan</Text>
+      <Text variant="h4">{me?.name}</Text>
     </View>
   );
 }

@@ -1,13 +1,13 @@
 import { Redirect } from "expo-router";
 
-import Login from "@modules/login";
 function Middleware() {
-  // return
-  return <Redirect href="/register" />;
+  //! ini middleware ga guna karna middleware dihandle pada 'use-credential.tsx' !
+  return <Redirect href="/home" />;
+  // return <Redirect href="/onboarding" />;
 
-  return <Login />;
-  return <Redirect href="/onboarding" />;
-  return null;
+  // return <Login />;
+  // return <Redirect href="/onboarding" />;
+  // return null;
 }
 
 export default function IndexPage() {
