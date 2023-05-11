@@ -8,7 +8,7 @@ import { firstTimeState } from "@models/first-time";
 
 export interface CredentialStateProps {
   credential?: TokenResult;
-  setCredential: (credential, persist) => void;
+  setCredential: (credential, persist?) => void;
 }
 
 export const CredentialContext = React.createContext<CredentialStateProps>({

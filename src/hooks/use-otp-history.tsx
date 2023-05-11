@@ -39,7 +39,7 @@ export default function OTPHistoryProvider(props: OTPHistoryProviderProps) {
         return {
           valid: true,
           onStart: () => {
-            setPhone(phone);
+            setPhone(phoneProps);
             setTimer(60);
           },
         };

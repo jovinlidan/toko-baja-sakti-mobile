@@ -18,7 +18,7 @@ import { useOTPHistory } from "@hooks/use-otp-history";
 import useOTPVerification from "@hooks/use-otp-verification";
 import useYupValidationResolver from "@hooks/use-yup-validation-resolver";
 import { useRouter, useSearchParams } from "expo-router";
-import { useCallback, useMemo } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
 
 import * as Yup from "yup";
@@ -75,6 +75,15 @@ export default function OTPVerificationForm() {
     [params.values, refetch, register, setCredential, verifyOTP]
   );
 
+  const requestOTPByPhone = useCallback(() => {
+    requestOTP("+62" + methods.getValues().phone);
+  }, [methods, requestOTP]);
+
+  useEffect(() => {
+    requestOTPByPhone();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <Form methods={methods}>
       <View style={styMargin(42, SeparatorTypeEnum.bottom)} />
@@ -86,10 +95,7 @@ export default function OTPVerificationForm() {
         disabled
       />
       <Field type="normal" name="otp" label="Kode OTP" keyboardType="numeric" />
-      <TouchableOpacity
-        disabled={!!timer}
-        onPress={() => requestOTP("+62" + methods.getValues().phone)}
-      >
+      <TouchableOpacity disabled={!!timer} onPress={requestOTPByPhone}>
         <Text variant="label" style={!timer ? styles.resendText : undefined}>
           Kirim ulang OTP {timer ? `(${timer} s)` : null}
         </Text>

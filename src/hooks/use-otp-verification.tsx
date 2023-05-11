@@ -32,7 +32,6 @@ export default function useOTPVerification(options: OTPVerificationOptions) {
       try {
         const result = canStartTimer(phoneNumber);
         if (!result.valid) {
-          Toast.error("error send otp");
           return;
         }
         result.onStart?.();
