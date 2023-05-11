@@ -1,6 +1,5 @@
 import {
   Container,
-  Content,
   View,
   TouchableOpacity,
   Text,
@@ -12,14 +11,9 @@ import {
   REGISTER_SCREEN_NAME,
 } from "@constants/route.constant";
 import sizeConstant from "@constants/size.constant";
+import { firstTimeState } from "@models/first-time";
 import { useRouter } from "expo-router";
-import {
-  useCallback,
-  useEffect,
-  useLayoutEffect,
-  useRef,
-  useState,
-} from "react";
+import { useCallback, useState } from "react";
 import {
   Platform,
   StatusBar,
@@ -33,6 +27,7 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
+import { useRecoilState } from "recoil";
 import OnboardingDots from "./onboarding-dots";
 import { Slide1, Slide2, Slide3, Slide4 } from "./slides";
 
@@ -44,6 +39,7 @@ export default function OnboardingSwiper() {
   const x = useSharedValue(activeIdx * -width);
   const dotY = useSharedValue(0);
   const router = useRouter();
+  const [, setIsFirstTime] = useRecoilState(firstTimeState);
 
   const nextSlide = () => {
     x.value = withTiming((activeIdx + 1) * -width, {
@@ -156,16 +152,18 @@ export default function OnboardingSwiper() {
 
   const onNavigateDaftar = useCallback(() => {
     router.replace(REGISTER_SCREEN_NAME);
-  }, []);
+    setIsFirstTime(false);
+  }, [router, setIsFirstTime]);
 
   const onNavigateMasuk = useCallback(() => {
     router.replace(LOGIN_SCREEN_NAME);
-  }, []);
+    setIsFirstTime(false);
+  }, [router, setIsFirstTime]);
 
   return (
     <Container>
       {Platform.OS === "android" && !preLollipop && (
-        <View style={[styles.statusBar]} />
+        <View style={styles.statusBar} />
       )}
       <Animated.View style={[styles.leftCircle, leftCircleAnimatedStyle]} />
       <Animated.View style={[styles.rightCircle, rightCircleAnimatedStyle]} />

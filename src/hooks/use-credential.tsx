@@ -3,10 +3,12 @@ import * as SecureStore from "expo-secure-store";
 import * as React from "react";
 import { TokenResult } from "@api-hooks/auth/auth.model";
 import { useRouter, useSegments } from "expo-router";
+import { useRecoilState } from "recoil";
+import { firstTimeState } from "@models/first-time";
 
 export interface CredentialStateProps {
   credential?: TokenResult;
-  setCredential: React.Dispatch<React.SetStateAction<any>>;
+  setCredential: (credential, persist) => void;
 }
 
 export const CredentialContext = React.createContext<CredentialStateProps>({
@@ -25,18 +27,21 @@ export default function Credential(props: Props) {
   >(props.userCredential);
   const segments = useSegments();
   const router = useRouter();
+  const [isFirstTime] = useRecoilState(firstTimeState);
 
   const { children } = props;
 
   const value = React.useMemo<CredentialStateProps>(
     () => ({
       credential: userCredential,
-      setCredential: async (credential) => {
+      setCredential: async (credential, persist: boolean = true) => {
         if (!credential) {
           await SecureStore.deleteItemAsync("credential");
           setUserCredential(undefined);
         } else {
-          SecureStore.setItemAsync("credential", JSON.stringify(credential));
+          if (persist) {
+            SecureStore.setItemAsync("credential", JSON.stringify(credential));
+          }
           setUserCredential(credential);
         }
       },
@@ -47,7 +52,11 @@ export default function Credential(props: Props) {
   React.useEffect(() => {
     const inAuthGroup = segments[0] === "(auth)";
     if (!userCredential && !inAuthGroup) {
-      router.replace("/register");
+      if (isFirstTime) {
+        router.replace("/onboarding");
+      } else {
+        router.replace("/register");
+      }
     } else if (!!userCredential && inAuthGroup) {
       router.replace("/");
     }

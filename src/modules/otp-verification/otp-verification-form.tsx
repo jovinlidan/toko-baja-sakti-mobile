@@ -35,7 +35,7 @@ export default function OTPVerificationForm() {
   const { requestOTP, verifyOTP } = useOTPVerification({
     onCodeReceived: () => {},
   });
-  const { setCredential, credential } = useCredential();
+  const { setCredential } = useCredential();
   const { refetch } = useMe();
 
   const YupSchema = useMemo(

@@ -7,8 +7,6 @@ import {
 import { ImageComponent, Text } from "@components/elements";
 import imageConstant from "@constants/image.constant";
 import { SeparatorTypeEnum, styMargin } from "@constants/styles.constant";
-import sizeConstant from "@constants/size.constant";
-import { useRef } from "react";
 
 export function Slide1({ onLayout }: { onLayout: TextProps["onLayout"] }) {
   const { width } = useWindowDimensions();

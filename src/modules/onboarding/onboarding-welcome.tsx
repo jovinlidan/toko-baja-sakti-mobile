@@ -20,10 +20,7 @@ export default function OnboardingWelcome(props: Props) {
       <View style={styles.rightCircle} />
       <Content>
         <View style={styles.content}>
-          <ImageComponent
-            source={imageConstant.logo}
-            style={{ width: 50, height: 50, marginBottom: 28 }}
-          />
+          <ImageComponent source={imageConstant.logo} style={styles.logo} />
           <Text style={styles.titleText}>Toko Baja Sakti</Text>
           <Text style={styles.descText}>Jl. Kh Wahid Hasyim No.37, Binjai</Text>
         </View>
@@ -33,6 +30,11 @@ export default function OnboardingWelcome(props: Props) {
   );
 }
 const styles = StyleSheet.create({
+  logo: {
+    width: 50,
+    height: 50,
+    marginBottom: 28,
+  },
   leftCircle: {
     position: "absolute",
     backgroundColor: colorConstant.lightTeal,

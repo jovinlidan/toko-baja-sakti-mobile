@@ -31,6 +31,8 @@ export default function LoginForm() {
     () =>
       Yup.object().shape({
         username: Yup.string().required(),
+        password: Yup.string().min(6).required(),
+        rememberMe: Yup.boolean(),
       }),
     []
   );
@@ -49,7 +51,7 @@ export default function LoginForm() {
           body: { ...values, username: "+62" + values.username },
         });
         setupToken(result?.data?.accessToken);
-        setCredential(result?.data);
+        setCredential(result?.data, !!values.rememberMe);
         await refetch();
         result?.message && Toast.success(result?.message);
       } catch (e: any) {

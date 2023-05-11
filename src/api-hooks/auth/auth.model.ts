@@ -44,6 +44,11 @@ export class RegisterInput {
 export class ForgotPasswordInput {
   body: {};
 }
+export class CheckPhoneInput {
+  body: {
+    phone: string;
+  };
+}
 
 export class SendEmailOTPInput {
   body: {};

@@ -7,6 +7,7 @@ import {
   LoginInput,
   User,
   ForgotPasswordInput,
+  CheckPhoneInput,
 } from "./auth.model";
 import { plainToClass } from "class-transformer";
 
@@ -77,6 +78,18 @@ export function useRevokeUser(options?: UseMutationOptions<any, ApiError>) {
       url: "auth/revoke",
       method: "POST",
       body: body,
+    });
+  }, options);
+}
+
+export function useCheckPhone(
+  options?: UseMutationOptions<null, ApiError, CheckPhoneInput>
+) {
+  return useMutation<null, ApiError, CheckPhoneInput>(async function (body) {
+    return await MutationFetchFunction({
+      url: "auth/check-phone",
+      method: "POST",
+      body: body.body,
     });
   }, options);
 }

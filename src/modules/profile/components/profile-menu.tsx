@@ -12,9 +12,9 @@ export default function ProfileMenu() {
   const { reset } = useMe();
   const { setCredential } = useCredential();
 
-  const logoutUser = useCallback(() => {
-    revoke();
-    reset();
+  const logoutUser = useCallback(async () => {
+    await revoke();
+    await reset();
     setCredential(undefined);
   }, [reset, revoke, setCredential]);
   const OPTIONS: ProfileMenuItemType[] = useMemo(

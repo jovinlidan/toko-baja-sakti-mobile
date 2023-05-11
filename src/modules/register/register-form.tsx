@@ -1,3 +1,5 @@
+import { useCheckPhone } from "@api-hooks/auth/auth.mutation";
+import Toast from "@common/helpers/toast";
 import {
   Button,
   Field,
@@ -21,6 +23,7 @@ import * as Yup from "yup";
 
 export default function RegisterForm() {
   const router = useRouter();
+  const { mutateAsync: checkPhone } = useCheckPhone();
   const YupSchema = useMemo(
     () =>
       Yup.object().shape({
@@ -46,12 +49,17 @@ export default function RegisterForm() {
 
   const onSubmit = useCallback(
     async (values) => {
-      router.push({
-        pathname: OTP_VERIFICATION_SCREEN_NAME,
-        params: { values: JSON.stringify(values) },
-      });
+      try {
+        await checkPhone({ body: { phone: "+62" + values.phone } });
+        router.push({
+          pathname: OTP_VERIFICATION_SCREEN_NAME,
+          params: { values: JSON.stringify(values) },
+        });
+      } catch (e: any) {
+        e?.message && Toast.error(e?.message);
+      }
     },
-    [router]
+    [checkPhone, router]
   );
 
   const onNavigateLogin = useCallback(() => {
