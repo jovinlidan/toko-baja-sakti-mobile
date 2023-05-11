@@ -70,3 +70,13 @@ export function useForgotPasswordUser(
     options
   );
 }
+
+export function useRevokeUser(options?: UseMutationOptions<any, ApiError>) {
+  return useMutation<any, ApiError>(async function (body) {
+    return await MutationFetchFunction({
+      url: "auth/revoke",
+      method: "POST",
+      body: body,
+    });
+  }, options);
+}
