@@ -1,6 +1,5 @@
 import { useRegisterUser } from "@api-hooks/auth/auth.mutation";
 import Toast from "@common/helpers/toast";
-import { setupToken } from "@common/repositories";
 import {
   Button,
   Field,
@@ -17,7 +16,7 @@ import useMe from "@hooks/use-me";
 import { useOTPHistory } from "@hooks/use-otp-history";
 import useOTPVerification from "@hooks/use-otp-verification";
 import useYupValidationResolver from "@hooks/use-yup-validation-resolver";
-import { useRouter, useSearchParams } from "expo-router";
+import { useSearchParams } from "expo-router";
 import { useCallback, useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
 
@@ -28,20 +27,22 @@ type OTPVerificationFormType = {
   otp: string;
 };
 
-export default function OTPVerificationForm() {
+interface Props {
+  onSubmit: (values, token) => void;
+}
+
+export default function OTPVerificationForm(props: Props) {
   const params = useSearchParams();
   const { timer } = useOTPHistory();
-  const { mutateAsync: register } = useRegisterUser();
   const { requestOTP, verifyOTP } = useOTPVerification({
     onCodeReceived: () => {},
   });
-  const { setCredential } = useCredential();
-  const { refetch } = useMe();
 
   const YupSchema = useMemo(
     () =>
       Yup.object().shape({
         phone: Yup.string().required(),
+        otp: Yup.string().required(),
       }),
     []
   );
@@ -51,6 +52,7 @@ export default function OTPVerificationForm() {
     resolver,
     mode: "all",
     defaultValues: {
+      ...JSON.parse(params.values as string),
       phone: JSON.parse(params.values as string)?.phone,
     },
   });
@@ -58,21 +60,15 @@ export default function OTPVerificationForm() {
     async (values: OTPVerificationFormType) => {
       try {
         const token = await verifyOTP(values.otp);
-        const result = await register({
-          body: {
-            ...JSON.parse(params.values as string),
-            verificationToken: token,
-          },
-        });
-        setupToken(result?.data?.accessToken);
-        setCredential(result?.data);
-        await refetch();
-        result?.message && Toast.success(result?.message);
+        if (!token) {
+          throw new Error("Gagal Verifikasi OTP");
+        }
+        await props.onSubmit(values, token);
       } catch (e: any) {
-        Toast.success(e?.message);
+        Toast.error(e?.message);
       }
     },
-    [params.values, refetch, register, setCredential, verifyOTP]
+    [props, verifyOTP]
   );
 
   const requestOTPByPhone = useCallback(() => {
@@ -102,12 +98,9 @@ export default function OTPVerificationForm() {
       </TouchableOpacity>
       <View style={styMargin(28, SeparatorTypeEnum.bottom)} />
 
-      <Button
-        onPress={methods.handleSubmit(onSubmit)}
-        loading={methods.formState.isSubmitting}
-      >
+      <Field type="submit" onSubmit={onSubmit}>
         Daftar
-      </Button>
+      </Field>
     </Form>
   );
 }

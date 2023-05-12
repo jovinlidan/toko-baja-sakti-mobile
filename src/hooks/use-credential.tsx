@@ -5,6 +5,11 @@ import { TokenResult } from "@api-hooks/auth/auth.model";
 import { useRouter, useSegments } from "expo-router";
 import { useRecoilState } from "recoil";
 import { firstTimeState } from "@models/first-time";
+import {
+  HOME_SCREEN_NAME,
+  ONBOARDING_SCREEN_NAME,
+  REGISTER_SCREEN_NAME,
+} from "@constants/route.constant";
 
 export interface CredentialStateProps {
   credential?: TokenResult;
@@ -53,12 +58,12 @@ export default function Credential(props: Props) {
     const inAuthGroup = segments[0] === "(auth)";
     if (!userCredential && !inAuthGroup) {
       if (isFirstTime) {
-        router.replace("/onboarding");
+        router.replace(ONBOARDING_SCREEN_NAME);
       } else {
-        router.replace("/register");
+        router.replace(REGISTER_SCREEN_NAME);
       }
     } else if (!!userCredential && inAuthGroup) {
-      router.replace("/");
+      router.replace(HOME_SCREEN_NAME);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [segments, userCredential]);

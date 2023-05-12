@@ -14,6 +14,8 @@ const getErrorMessage = (
   switch (error.code) {
     case "auth/too-many-requests":
       return "Terlalu banyak permintaan kode OTP";
+    case "auth/invalid-phone-number":
+      return "Nomor Telepon Tidak Valid";
     default:
       return "Kode OTP Gagal dikirim";
   }

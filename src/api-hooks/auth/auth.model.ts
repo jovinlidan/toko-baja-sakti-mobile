@@ -41,8 +41,13 @@ export class RegisterInput {
   };
 }
 
-export class ForgotPasswordInput {
-  body: {};
+export class ResetPasswordInput {
+  body: {
+    phone: string;
+    password: string;
+    passwordConfirmation: string;
+    verificationToken: string;
+  };
 }
 export class CheckPhoneInput {
   body: {

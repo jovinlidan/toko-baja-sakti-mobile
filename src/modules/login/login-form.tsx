@@ -10,7 +10,10 @@ import {
   View,
   StyleSheet,
 } from "@components/elements";
-import { REGISTER_SCREEN_NAME } from "@constants/route.constant";
+import {
+  REGISTER_SCREEN_NAME,
+  RESET_PASSWORD_SCREEN_NAME,
+} from "@constants/route.constant";
 import { SeparatorTypeEnum, styMargin } from "@constants/styles.constant";
 import { useCredential } from "@hooks/use-credential";
 import useMe from "@hooks/use-me";
@@ -68,6 +71,10 @@ export default function LoginForm() {
     router.push(REGISTER_SCREEN_NAME);
   }, [router]);
 
+  const onNavigateResetPassword = useCallback(() => {
+    router.push(RESET_PASSWORD_SCREEN_NAME);
+  }, [router]);
+
   return (
     <Form methods={methods}>
       <View style={styMargin(42, SeparatorTypeEnum.bottom)} />
@@ -80,12 +87,9 @@ export default function LoginForm() {
       <Field type="password" name="password" label="Kata Sandi" />
       <View style={styMargin(28, SeparatorTypeEnum.bottom)} />
 
-      <Button
-        onPress={methods.handleSubmit(onSubmit)}
-        loading={methods.formState.isSubmitting}
-      >
-        Login In
-      </Button>
+      <Field type="submit" onSubmit={onSubmit}>
+        Masuk
+      </Field>
 
       <View style={styMargin(28, SeparatorTypeEnum.bottom)} />
 
@@ -100,6 +104,13 @@ export default function LoginForm() {
           <Text variant="linkReg">Daftar</Text>
         </TouchableOpacity>
       </View>
+      <View style={styles.alreadyHaveAccContainer}>
+        <Text variant="bodyReg">Lupa Password?</Text>
+        <View style={styMargin(8, SeparatorTypeEnum.right)} />
+        <TouchableOpacity onPress={onNavigateResetPassword}>
+          <Text variant="linkReg">Reset Password</Text>
+        </TouchableOpacity>
+      </View>
     </Form>
   );
 }
@@ -108,5 +119,6 @@ const styles = StyleSheet.create({
   alreadyHaveAccContainer: {
     flexDirection: "row",
     alignItems: "center",
+    marginBottom: 16,
   },
 });

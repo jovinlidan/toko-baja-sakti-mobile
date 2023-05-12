@@ -1,19 +1,74 @@
+import {
+  useRegisterUser,
+  useResetPasswordUser,
+} from "@api-hooks/auth/auth.mutation";
+import Toast from "@common/helpers/toast";
+import { setupToken } from "@common/repositories";
 import { Container, Content, Text, View } from "@components/elements";
 import { Header } from "@components/widgets";
+import { LOGIN_SCREEN_NAME } from "@constants/route.constant";
+import { useCredential } from "@hooks/use-credential";
+import useMe from "@hooks/use-me";
+import { useRouter, useSearchParams } from "expo-router";
+import { useCallback } from "react";
 import { StyleSheet } from "react-native";
 import OTPVerificationForm from "./otp-verification-form";
 
 export default function OTPVerification() {
+  const params = useSearchParams();
+  const { mutateAsync: register } = useRegisterUser();
+  const { mutateAsync: resetPassword } = useResetPasswordUser();
+  const { setCredential } = useCredential();
+  const { refetch } = useMe();
+  const router = useRouter();
+
+  const onRegisterSubmit = useCallback(
+    async (values, token) => {
+      const result = await register({
+        body: {
+          ...values,
+          verificationToken: token,
+        },
+      });
+      setupToken(result?.data?.accessToken);
+      setCredential(result?.data);
+      await refetch();
+      result?.message && Toast.success(result?.message);
+    },
+    [refetch, register, setCredential]
+  );
+
+  const onResetPasswordSubmit = useCallback(
+    async (values, token) => {
+      const result = await resetPassword({
+        body: {
+          ...values,
+          verificationToken: token,
+        },
+      });
+      result?.message && Toast.success(result?.message);
+      router.replace(LOGIN_SCREEN_NAME);
+    },
+    [resetPassword]
+  );
+
   return (
     <Container>
-      <Header back title="Buat Akun Baru" />
+      <Header back title="Verifikasi OTP" />
       <Content>
         <View style={styles.titleContainer}>
           <Text variant="h4" style={styles.titleText}>
             Toko Baja Sakti
           </Text>
         </View>
-        <OTPVerificationForm />
+
+        <OTPVerificationForm
+          onSubmit={
+            params.type === "register"
+              ? onRegisterSubmit
+              : onResetPasswordSubmit
+          }
+        />
       </Content>
     </Container>
   );

@@ -6,7 +6,7 @@ import {
   RegisterInput,
   LoginInput,
   User,
-  ForgotPasswordInput,
+  ResetPasswordInput,
   CheckPhoneInput,
 } from "./auth.model";
 import { plainToClass } from "class-transformer";
@@ -56,10 +56,10 @@ export function useLoginUser(
   );
 }
 
-export function useForgotPasswordUser(
-  options?: UseMutationOptions<ApiResult<User>, ApiError, ForgotPasswordInput>
+export function useResetPasswordUser(
+  options?: UseMutationOptions<ApiResult<User>, ApiError, ResetPasswordInput>
 ) {
-  return useMutation<ApiResult<User>, ApiError, ForgotPasswordInput>(
+  return useMutation<ApiResult<User>, ApiError, ResetPasswordInput>(
     async function (body) {
       return await MutationFetchFunction({
         url: "auth/reset-password",

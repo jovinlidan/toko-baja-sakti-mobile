@@ -46,14 +46,19 @@ export default function Button(props: ButtonProps) {
   };
 
   const backgroundColor = useMemo(() => {
+    if (props.disabled) {
+      return colorConstant.primaryOrange3;
+    }
     switch (variant) {
       case "primary":
-        if (loading) return colorConstant.primaryOrange3;
+        if (loading) {
+          return colorConstant.primaryOrange3;
+        }
         return colorConstant.primaryOrange1;
       default:
         return undefined;
     }
-  }, [loading, variant]);
+  }, [loading, props.disabled, variant]);
   return (
     <TouchableOpacity
       {...restProps}

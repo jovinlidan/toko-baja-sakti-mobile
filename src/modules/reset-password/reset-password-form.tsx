@@ -21,14 +21,13 @@ import { TouchableOpacity } from "react-native";
 
 import * as Yup from "yup";
 
-export default function RegisterForm() {
+export default function ResetPasswordForm() {
   const router = useRouter();
   const { mutateAsync: checkPhone } = useCheckPhone();
   const YupSchema = useMemo(
     () =>
       Yup.object().shape({
         phone: Yup.string().required(),
-        name: Yup.string().required(),
         password: Yup.string().required(),
         passwordConfirmation: Yup.string()
           .oneOf(
@@ -50,16 +49,16 @@ export default function RegisterForm() {
   const onSubmit = useCallback(
     async (values) => {
       try {
-        await checkPhone({ body: { phone: "+62" + values.phone } });
+        // await checkPhone({ body: { phone: "+62" + values.phone } });
         router.push({
           pathname: OTP_VERIFICATION_SCREEN_NAME,
-          params: { values: JSON.stringify(values), type: "register" },
+          params: { values: JSON.stringify(values), type: "reset-password" },
         });
       } catch (e: any) {
         e?.message && Toast.error(e?.message);
       }
     },
-    [checkPhone, router]
+    [router]
   );
 
   const onNavigateLogin = useCallback(() => {
@@ -69,7 +68,6 @@ export default function RegisterForm() {
   return (
     <Form methods={methods}>
       <View style={styMargin(42, SeparatorTypeEnum.bottom)} />
-      <Field type="normal" name="name" label="Nama Lengkap" />
       <Field
         type="phone"
         name="phone"
@@ -84,9 +82,10 @@ export default function RegisterForm() {
       />
       <View style={styMargin(28, SeparatorTypeEnum.bottom)} />
 
-      <Field type="submit" onSubmit={onSubmit}>
+      <Field onSubmit={onSubmit} type="submit">
         Kirim OTP
       </Field>
+
       <View style={styMargin(28, SeparatorTypeEnum.bottom)} />
       <View style={styles.alreadyHaveAccContainer}>
         <Text variant="bodyReg">Sudah Mempunyai Akun?</Text>
