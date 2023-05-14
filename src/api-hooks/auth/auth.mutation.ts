@@ -9,6 +9,7 @@ import {
   ResetPasswordInput,
   CheckPhoneInput,
   UpdateMeInput,
+  ChangePhoneNumberInput,
 } from "./auth.model";
 import { plainToClass } from "class-transformer";
 
@@ -109,4 +110,24 @@ export function useUpdateMe(
     });
   },
   options);
+}
+
+export function useChangePhoneNumber(
+  options?: UseMutationOptions<
+    ApiResult<User>,
+    ApiError,
+    ChangePhoneNumberInput
+  >
+) {
+  return useMutation<ApiResult<User>, ApiError, ChangePhoneNumberInput>(
+    async function (body) {
+      return await MutationFetchFunction({
+        url: "auth/change-phone-number",
+        method: "POST",
+        body: body.body,
+        classType: User,
+      });
+    },
+    options
+  );
 }

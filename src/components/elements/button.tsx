@@ -33,7 +33,10 @@ export default function Button(props: ButtonProps) {
           variant="h5"
           style={[
             {
-              color: variant === "primary" ? colorConstant.white : undefined,
+              color:
+                variant === "primary"
+                  ? colorConstant.white
+                  : colorConstant.primaryOrange1,
             },
             textStyle,
           ]}
@@ -79,6 +82,7 @@ export default function Button(props: ButtonProps) {
         {
           backgroundColor,
         },
+        variant === "outline" && styles.outlineStyle,
       ]}
     >
       {render()}
@@ -94,5 +98,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 100,
+  },
+
+  outlineStyle: {
+    borderWidth: 1,
+    borderColor: colorConstant.primaryOrange1,
   },
 });

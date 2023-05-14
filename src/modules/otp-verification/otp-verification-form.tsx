@@ -99,7 +99,7 @@ export default function OTPVerificationForm(props: Props) {
       <View style={styMargin(28, SeparatorTypeEnum.bottom)} />
 
       <Field type="submit" onSubmit={onSubmit}>
-        Daftar
+        Verifikasi
       </Field>
     </Form>
   );

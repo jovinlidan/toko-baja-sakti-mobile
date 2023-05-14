@@ -11,3 +11,4 @@ export const SELECT_MODAL_SCREEN_NAME = "select-modal";
 
 export const PROFILE_SCREEN_NAME = "/profile";
 export const UPDATE_PROFILE_SCREEN_NAME = "/profile/update-profile";
+export const UPDATE_PHONE_NUMBER_SCREEN_NAME = "/profile/update-phone-number";

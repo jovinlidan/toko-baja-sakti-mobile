@@ -1,4 +1,5 @@
 import {
+  useChangePhoneNumber,
   useRegisterUser,
   useResetPasswordUser,
 } from "@api-hooks/auth/auth.mutation";
@@ -6,7 +7,10 @@ import Toast from "@common/helpers/toast";
 import { setupToken } from "@common/repositories";
 import { Container, Content, Text, View } from "@components/elements";
 import { Header } from "@components/widgets";
-import { LOGIN_SCREEN_NAME } from "@constants/route.constant";
+import {
+  LOGIN_SCREEN_NAME,
+  UPDATE_PROFILE_SCREEN_NAME,
+} from "@constants/route.constant";
 import { useCredential } from "@hooks/use-credential";
 import useMe from "@hooks/use-me";
 import { useRouter, useSearchParams } from "expo-router";
@@ -18,6 +22,7 @@ export default function OTPVerification() {
   const params = useSearchParams();
   const { mutateAsync: register } = useRegisterUser();
   const { mutateAsync: resetPassword } = useResetPasswordUser();
+  const { mutateAsync: changePhoneNumber } = useChangePhoneNumber();
   const { setCredential } = useCredential();
   const { refetch } = useMe();
   const router = useRouter();
@@ -49,7 +54,40 @@ export default function OTPVerification() {
       result?.message && Toast.success(result?.message);
       router.replace(LOGIN_SCREEN_NAME);
     },
-    [resetPassword]
+    [resetPassword, router]
+  );
+  const onChangePhoneNumberSubmit = useCallback(
+    async (values, token) => {
+      const result = await changePhoneNumber({
+        body: {
+          ...values,
+          verificationToken: token,
+        },
+      });
+      await refetch();
+      result?.message && Toast.success(result?.message);
+      router.replace(UPDATE_PROFILE_SCREEN_NAME);
+    },
+    [changePhoneNumber, refetch, router]
+  );
+
+  const onSubmit = useCallback(
+    (values, token) => {
+      switch (params.type) {
+        case "register":
+          return onRegisterSubmit(values, token);
+        case "reset-password":
+          return onResetPasswordSubmit(values, token);
+        case "change-phone-number":
+          return onChangePhoneNumberSubmit(values, token);
+      }
+    },
+    [
+      onChangePhoneNumberSubmit,
+      onRegisterSubmit,
+      onResetPasswordSubmit,
+      params.type,
+    ]
   );
 
   return (
@@ -62,13 +100,7 @@ export default function OTPVerification() {
           </Text>
         </View>
 
-        <OTPVerificationForm
-          onSubmit={
-            params.type === "register"
-              ? onRegisterSubmit
-              : onResetPasswordSubmit
-          }
-        />
+        <OTPVerificationForm onSubmit={onSubmit} />
       </Content>
     </Container>
   );

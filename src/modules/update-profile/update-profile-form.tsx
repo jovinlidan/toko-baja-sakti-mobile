@@ -2,7 +2,16 @@ import { UpdateMeInputForm } from "@api-hooks/auth/auth.model";
 import { useUpdateMe } from "@api-hooks/auth/auth.mutation";
 import { useGetCities } from "@api-hooks/city/city.query";
 import Toast from "@common/helpers/toast";
-import { Field, Form, Text, View, StyleSheet } from "@components/elements";
+import {
+  Field,
+  Form,
+  Text,
+  View,
+  StyleSheet,
+  Button,
+} from "@components/elements";
+import colorConstant from "@constants/color.constant";
+import { UPDATE_PHONE_NUMBER_SCREEN_NAME } from "@constants/route.constant";
 import { SeparatorTypeEnum, styMargin } from "@constants/styles.constant";
 import useMe from "@hooks/use-me";
 import useYupValidationResolver from "@hooks/use-yup-validation-resolver";
@@ -76,6 +85,10 @@ export default function UpdateProfileForm() {
     [refetch, router, updateMe]
   );
 
+  const onNavigateUpdatePhoneNumber = useCallback(() => {
+    router.push(UPDATE_PHONE_NUMBER_SCREEN_NAME);
+  }, [router]);
+
   const CityOptions = useMemo(() => {
     return (
       cities?.data?.data?.map((city) => ({
@@ -107,6 +120,10 @@ export default function UpdateProfileForm() {
 
       <View style={styMargin(28, SeparatorTypeEnum.bottom)} />
 
+      <Button variant="outline" onPress={onNavigateUpdatePhoneNumber}>
+        Ubah No. Handphone
+      </Button>
+      <View style={styMargin(16, SeparatorTypeEnum.bottom)} />
       <Field onSubmit={onSubmit} type="submit">
         Simpan
       </Field>

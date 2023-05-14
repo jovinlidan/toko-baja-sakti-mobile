@@ -11,6 +11,7 @@ import {
   REGISTER_SCREEN_NAME,
 } from "@constants/route.constant";
 import sizeConstant from "@constants/size.constant";
+import { SeparatorTypeEnum, styMargin } from "@constants/styles.constant";
 import { firstTimeState } from "@models/first-time";
 import { useRouter } from "expo-router";
 import { useCallback, useState } from "react";
@@ -213,6 +214,7 @@ export default function OnboardingSwiper() {
         {activeIdx === 3 ? (
           <>
             <Button onPress={onNavigateDaftar}>Daftar</Button>
+            <View style={styMargin(8, SeparatorTypeEnum.bottom)} />
             <Button
               onPress={onNavigateMasuk}
               variant="outline"
@@ -261,7 +263,6 @@ const styles = StyleSheet.create({
     paddingBottom: sizeConstant.contentPad,
   },
   buttonMasukStyle: {
-    color: "rgba(0,0,0,0.5)",
     fontWeight: "600",
   },
   skipButtonContainer: {

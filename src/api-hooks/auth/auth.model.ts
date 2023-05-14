@@ -95,3 +95,12 @@ export class UpdateMeInputForm {
     cityId: string;
   };
 }
+
+export class ChangePhoneNumberInput {
+  body: ChangePhoneNumberFormInput;
+}
+export class ChangePhoneNumberFormInput {
+  verificationToken: string;
+  password: string;
+  phone: string;
+}
