@@ -34,24 +34,24 @@ export default function SelectField(
         setModalOptions?.({
           routeName: SELECT_MODAL_SCREEN_NAME,
           options: options,
-          value: selected ? selected.value : "",
+          value: selected ? selected?.value : "",
           onSelect: (newValue: SelectOption) => {
             if (newValue !== field?.value) {
-              field.onChange(newValue);
+              field.onChange(newValue.value);
             }
           },
           modalTitle: label,
         });
       }
     },
-    [fetchError, onRetry, options, onChange, field.value]
+    [fetchError, onRetry, setModalOptions, options, label, field]
   );
 
   return (
     <SelectInput
       {...props}
       onChange={field.onChange}
-      value={field.value?.value}
+      value={field.value}
       error={fieldState.error?.message}
       onPick={pick}
     />

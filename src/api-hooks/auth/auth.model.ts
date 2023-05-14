@@ -1,13 +1,36 @@
-import { Expose } from "class-transformer";
+import { City } from "@api-hooks/city/city.model";
+import { Expose, Type } from "class-transformer";
 
+export class UserAddress {
+  id: string;
+  tag?: string;
+
+  @Expose({ name: "address_detail" })
+  addressDetail: string;
+
+  @Expose({ name: "recipient_name" })
+  recipientName?: string;
+
+  @Expose({ name: "recipient_number" })
+  recipientNumber?: string;
+
+  @Expose({ name: "is_main" })
+  @Type(() => Boolean)
+  isMain: boolean;
+
+  @Type(() => City)
+  city: City;
+}
 export class User {
   id: string;
   name: string;
-  email: string | null;
+  email?: string;
   phone: string;
   type: string;
   status: string;
-  address: string | null;
+
+  @Type(() => UserAddress)
+  address?: UserAddress;
 }
 
 export class TokenResult {
@@ -57,4 +80,18 @@ export class CheckPhoneInput {
 
 export class SendEmailOTPInput {
   body: {};
+}
+
+export class UpdateMeInput {
+  body: UpdateMeInputForm;
+}
+
+export class UpdateMeInputForm {
+  name: string;
+  email: string;
+  address: {
+    id: string;
+    addressDetail: string;
+    cityId: string;
+  };
 }

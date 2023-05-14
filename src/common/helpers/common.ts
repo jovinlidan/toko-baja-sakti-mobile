@@ -55,25 +55,32 @@ export function MutationFetchFunction<T>({
   });
 }
 
-export function QueryFetchFunction(url: string, params?: any): Promise<any> {
+interface QueryFetchOptions {
+  url: string;
+  params?: any;
+}
+
+export function QueryFetchFunction({
+  url,
+  params,
+}: QueryFetchOptions): Promise<any> {
   return new Promise(async (resolve, reject) => {
     let _params = "";
-    _params = params ? qs.stringify(params) : "";
+    _params = params ? qs.stringify(decamelizeKeys(params)) : "";
 
     try {
-      return resolve(
-        await client
-          .get(url, {
-            ...(_params
-              ? {
-                  searchParams: _params,
-                }
-              : {}),
-          })
-          .json()
-      );
-    } catch (e) {
-      //@ts-ignore
+      const json: any = await client
+        .get(url, {
+          ...(_params
+            ? {
+                searchParams: _params,
+              }
+            : {}),
+        })
+        .json();
+
+      resolve(json);
+    } catch (e: any) {
       reject(await toApiError(e));
     }
   });

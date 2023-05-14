@@ -24,6 +24,7 @@ interface Props {
   bottomComponent?: React.ReactNode;
   children?: React.ReactNode;
   wrapperStyle?: StyleProp<ViewStyle>;
+  centerStyle?: StyleProp<ViewStyle>;
   statusBarStyles?: StyleProp<ViewStyle>;
   back?: boolean;
   titleColor?: string;
@@ -56,6 +57,7 @@ export default function Header(props: Props) {
     topSafeArea = true,
     titleColor = colorConstant.gray1,
     concave,
+    centerStyle,
     renderRightSpace = true,
   } = props;
   const { goBack } = navigation;
@@ -145,7 +147,9 @@ export default function Header(props: Props) {
                     {renderLeft()}
                   </View>
                 </View>
-                <View style={styles.center}>{renderTitle()}</View>
+                <View style={[styles.center, centerStyle]}>
+                  {renderTitle()}
+                </View>
                 {renderRightSpace && back && (
                   <View
                     style={{
@@ -228,5 +232,6 @@ const styles = StyleSheet.create({
   notStringTitle: {
     width: "100%",
     flex: 1,
+    justifyContent: "center",
   },
 });

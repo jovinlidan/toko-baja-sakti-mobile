@@ -1,5 +1,5 @@
 import colorConstant from "@constants/color.constant";
-import { useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import {
   ActivityIndicator,
   StyleSheet,
@@ -59,9 +59,21 @@ export default function Button(props: ButtonProps) {
         return undefined;
     }
   }, [loading, props.disabled, variant]);
+
+  const handlePress = useCallback(
+    (e) => {
+      if (loading || restProps.disabled) {
+        return null;
+      }
+      return restProps.onPress?.(e);
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [loading, restProps.disabled, restProps.onPress]
+  );
   return (
     <TouchableOpacity
       {...restProps}
+      onPress={handlePress}
       style={[
         styles.touchableOpacity,
         {

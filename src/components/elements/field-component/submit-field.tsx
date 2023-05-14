@@ -1,4 +1,4 @@
-import { Button } from "@components/elements";
+import Button from "@components/elements/button";
 import { useFormContext } from "react-hook-form";
 
 export interface SubmitFieldProps {

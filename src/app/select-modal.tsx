@@ -7,17 +7,14 @@ import {
   FlatList,
   StyleSheet,
 } from "@components/elements";
-import {
-  useNavigation,
-  usePathname,
-  useRouter,
-  useSearchParams,
-} from "expo-router";
+import { useNavigation, useRouter } from "expo-router";
 import { useSelectModal } from "@hooks/use-select-modal";
-import { memo, useCallback, useEffect, useMemo } from "react";
+import { memo, useCallback, useEffect, useMemo, useState } from "react";
 import { Header } from "@components/widgets";
 import { SelectOption } from "@components/elements/select-input";
 import colorConstant from "@constants/color.constant";
+import TextInput from "@components/elements/text-input";
+import { Ionicons } from "@expo/vector-icons";
 
 interface ItemProps {
   option: SelectOption;
@@ -58,27 +55,31 @@ const OptionItem: React.FC<ItemProps> = memo((props) => {
   );
 });
 
-export default function SelectModalScreen(props) {
+export default function SelectModalScreen() {
   const { back } = useRouter();
   const navigation = useNavigation();
-
+  const [isSearch, setIsSearch] = useState<boolean>();
+  const [searchValue, setSearchValue] = useState<string>();
   const { modalOptions, onClose } = useSelectModal();
 
   const beforeRemoveListener = useCallback(() => {
     onClose?.();
-  }, []);
+  }, [onClose]);
 
-  const onSelect = useCallback((newValue: SelectOption) => {
-    modalOptions?.onSelect?.(newValue);
-    back();
-  }, []);
+  const onSelect = useCallback(
+    (newValue: SelectOption) => {
+      modalOptions?.onSelect?.(newValue);
+      back();
+    },
+    [back, modalOptions]
+  );
 
   useEffect(() => {
     navigation.addListener("beforeRemove", beforeRemoveListener);
     return () => {
       navigation.removeListener("beforeRemove", beforeRemoveListener);
     };
-  }, []);
+  }, [beforeRemoveListener, navigation]);
 
   const renderItem = useCallback(
     ({ item }: { item: SelectOption }) => (
@@ -88,38 +89,75 @@ export default function SelectModalScreen(props) {
         onSelect={onSelect}
       />
     ),
-    []
+    [modalOptions?.value, onSelect]
   );
 
   const keyExtractor = useCallback((item: SelectOption) => `${item.value}`, []);
 
+  const filteredOptions = useMemo(() => {
+    if (!searchValue) {
+      return modalOptions?.options;
+    }
+    return modalOptions?.options?.filter((option) =>
+      option.label.toLowerCase().includes(searchValue.toLowerCase())
+    );
+  }, [modalOptions?.options, searchValue]);
+
+  const onCloseSearch = useCallback(() => {
+    setSearchValue(undefined);
+    setIsSearch(false);
+  }, []);
+
   return (
     <Container>
-      <Header title={modalOptions?.modalTitle} back />
+      <Header
+        centerStyle={isSearch && styles.centerStyle}
+        title={
+          isSearch ? (
+            <TextInput
+              autoFocus
+              value={searchValue}
+              onChangeText={(text) => setSearchValue(text)}
+              textInputContainerStyle={styles.textInputContainerStyle}
+              placeholder={`Cari ${modalOptions?.modalTitle}`}
+              rightIconComponent={() => (
+                <TouchableOpacity onPress={onCloseSearch}>
+                  <Ionicons name="close-outline" size={28} color="black" />
+                </TouchableOpacity>
+              )}
+            />
+          ) : (
+            modalOptions?.modalTitle
+          )
+        }
+        back
+        rightComponent={
+          !isSearch && (
+            <TouchableOpacity onPress={() => setIsSearch((prev) => !prev)}>
+              <Ionicons name="search" size={24} color="black" />
+            </TouchableOpacity>
+          )
+        }
+      />
+
       <FlatList
-        data={modalOptions?.options || []}
+        data={filteredOptions || []}
         renderItem={renderItem}
-        windowSize={1}
         keyExtractor={keyExtractor}
+        // onEndReached={() => console.log("end reached - select - field")}
+        estimatedItemSize={51}
       />
     </Container>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: "bold",
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: "80%",
+  textInputContainerStyle: {
+    borderTopWidth: 0,
+    borderLeftWidth: 0,
+    borderRightWidth: 0,
+    borderRadius: 4,
+    marginLeft: 20,
   },
   itemContainer: {
     paddingVertical: 14,
@@ -135,5 +173,8 @@ const styles = StyleSheet.create({
   active: {
     color: colorConstant.primaryOrange1,
     fontWeight: "500",
+  },
+  centerStyle: {
+    paddingBottom: 0,
   },
 });

@@ -8,6 +8,7 @@ import {
   User,
   ResetPasswordInput,
   CheckPhoneInput,
+  UpdateMeInput,
 } from "./auth.model";
 import { plainToClass } from "class-transformer";
 
@@ -92,4 +93,20 @@ export function useCheckPhone(
       body: body.body,
     });
   }, options);
+}
+
+export function useUpdateMe(
+  options?: UseMutationOptions<ApiResult<User>, ApiError, UpdateMeInput>
+) {
+  return useMutation<ApiResult<User>, ApiError, UpdateMeInput>(async function (
+    body
+  ) {
+    return await MutationFetchFunction({
+      url: "me",
+      method: "POST",
+      body: body.body,
+      classType: User,
+    });
+  },
+  options);
 }

@@ -27,10 +27,13 @@ interface SelectModalProviderProps {
 export default function SelectModalProvider(props: SelectModalProviderProps) {
   const [modalOptions, setState] = React.useState<SelectModalProps>();
   const { push } = useRouter();
-  const setModalOptions = React.useCallback(async (key: SelectModalProps) => {
-    await setState(key);
-    key.routeName && (await push(key.routeName));
-  }, []);
+  const setModalOptions = React.useCallback(
+    async (key: SelectModalProps) => {
+      await setState(key);
+      key.routeName && (await push(key.routeName));
+    },
+    [push]
+  );
 
   const onClose = React.useCallback(() => {
     setState({});

@@ -16,9 +16,10 @@ export {
   ActivityIndicator,
   RefreshControl,
   SafeAreaView,
-  FlatList,
   SectionList,
   TouchableOpacity,
   TouchableHighlight,
   StyleSheet,
 } from "react-native";
+
+export { FlashList as FlatList } from "@shopify/flash-list";

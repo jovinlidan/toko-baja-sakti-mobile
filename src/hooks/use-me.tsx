@@ -4,7 +4,7 @@ import produce from "immer";
 import { useRecoilState } from "recoil";
 
 export default function useMe() {
-  const [me, setMe] = useRecoilState(meState);
+  const [, setMe] = useRecoilState(meState);
 
   return {
     reset: () => {
@@ -15,13 +15,7 @@ export default function useMe() {
     refetch: async () => {
       try {
         const result = await getMe();
-
-        setMe(
-          produce(me, (draft) => {
-            draft = result;
-            return draft;
-          })
-        );
+        setMe(result);
       } catch {}
     },
   };

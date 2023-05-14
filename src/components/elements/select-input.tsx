@@ -9,7 +9,6 @@ import {
   StyleSheet,
   ActivityIndicator,
 } from "react-native";
-import { useRouter } from "expo-router";
 import { SELECT_MODAL_SCREEN_NAME } from "@constants/route.constant";
 import colorConstant from "@constants/color.constant";
 import { Ionicons } from "@expo/vector-icons";
@@ -69,7 +68,6 @@ function SelectInput(props: SelectInputProps) {
     onPick,
     required,
   } = props;
-  const router = useRouter();
   const { setModalOptions } = useSelectModal();
   const selected = React.useMemo<SelectOption | undefined>(
     () => options.find((option) => String(option.value) === String(value)),
@@ -93,14 +91,18 @@ function SelectInput(props: SelectInputProps) {
         modalTitle: "Pilih " + name,
       });
     }
-  }, [fetchError, onRetry, options, selected, onChange, value]);
+  }, [
+    fetchError,
+    onRetry,
+    setModalOptions,
+    options,
+    selected,
+    onChange,
+    value,
+  ]);
 
   const currentColor =
-    !!error || fetchError
-      ? colorConstant.redDefault
-      : selected
-      ? "white"
-      : colorConstant.gray1;
+    !!error || fetchError ? colorConstant.redDefault : colorConstant.gray1;
 
   const iconContent = React.useMemo(() => {
     if (loading) {
@@ -119,7 +121,6 @@ function SelectInput(props: SelectInputProps) {
         />
       );
     }
-
     return <Ionicons name="chevron-down" size={24} color={currentColor} />;
   }, [currentColor, dropdownStyle, fetchError, loading]);
 
@@ -245,19 +246,6 @@ const styles = StyleSheet.create({
     position: "absolute",
     right: 16,
     // top: 18,
-  },
-  errorBg: {
-    // backgroundColor: color.warningRedLight,
-    // borderRadius: (size.inputSize - 2) / 2,
-  },
-  errorLabel: {
-    color: "white",
-    // width: size.inputSize - 2,
-    // height: size.inputSize - 2,
-    // fontSize: size.inputSize - 1,
-    // lineHeight: size.inputSize,
-    textAlign: "center",
-    fontWeight: "bold",
   },
 });
 

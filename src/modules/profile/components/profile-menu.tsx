@@ -1,9 +1,11 @@
 import { useRevokeUser } from "@api-hooks/auth/auth.mutation";
 import { View } from "@components/elements";
 import colorConstant from "@constants/color.constant";
+import { UPDATE_PROFILE_SCREEN_NAME } from "@constants/route.constant";
 import { Feather, MaterialIcons } from "@expo/vector-icons";
 import { useCredential } from "@hooks/use-credential";
 import useMe from "@hooks/use-me";
+import { useRouter } from "expo-router";
 import { useCallback, useMemo } from "react";
 import ProfileMenuItem, { ProfileMenuItemType } from "./profile-menu-item";
 
@@ -11,18 +13,23 @@ export default function ProfileMenu() {
   const { mutateAsync: revoke } = useRevokeUser();
   const { reset } = useMe();
   const { setCredential } = useCredential();
+  const router = useRouter();
 
   const logoutUser = useCallback(async () => {
     await revoke();
     await reset();
     setCredential(undefined);
   }, [reset, revoke, setCredential]);
+
+  const onNavigateUpdateProfile = useCallback(() => {
+    router.push(UPDATE_PROFILE_SCREEN_NAME);
+  }, [router]);
   const OPTIONS: ProfileMenuItemType[] = useMemo(
     () => [
       {
         label: "Ubah Profil",
         icon: <Feather name="user" size={24} color={colorConstant.gray2} />,
-        onPress: () => {},
+        onPress: onNavigateUpdateProfile,
       },
       {
         label: "Alamat Pengiriman",
