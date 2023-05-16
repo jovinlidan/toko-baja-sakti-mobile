@@ -116,6 +116,7 @@ export default function UpdateProfileForm() {
         name="address.cityId"
         label="Kota"
         placeholder="Pilih Kota"
+        loading={cities.isLoading || cities.isFetching}
       />
 
       <View style={styMargin(28, SeparatorTypeEnum.bottom)} />

@@ -55,6 +55,9 @@ export default function Credential(props: Props) {
   );
 
   React.useEffect(() => {
+    if (segments[0] === "(global)") {
+      return;
+    }
     const inAuthGroup = segments[0] === "(auth)";
     if (!userCredential && !inAuthGroup) {
       if (isFirstTime) {
