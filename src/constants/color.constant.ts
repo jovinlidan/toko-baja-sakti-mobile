@@ -19,6 +19,7 @@ export default {
   gray7: "#BFBDBB",
 
   white: "#FFFFFF",
+  black: "#000000",
 
   lightTeal: "rgba(167, 214, 214, 0.35)",
 

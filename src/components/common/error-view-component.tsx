@@ -2,6 +2,7 @@ import { ApiError } from "@common/repositories";
 import * as React from "react";
 import { View, ActivityIndicator, StyleSheet, Text, Button } from "../elements";
 import colorConstant from "@constants/color.constant";
+import sizeConstant from "@constants/size.constant";
 
 interface Props {
   isLoading?: boolean;
@@ -9,13 +10,21 @@ interface Props {
   subtitle?: string;
   refetch?: () => void;
   error?: ApiError;
+  noPadding?: boolean;
 }
 
 export default function ErrorViewComponent(props: Props) {
-  const { isLoading, refetch, error } = props;
+  const { isLoading, refetch, error, noPadding } = props;
 
   return (
-    <View style={styles.errorViewContainer}>
+    <View
+      style={[
+        styles.errorViewContainer,
+        !noPadding && {
+          paddingHorizontal: sizeConstant.contentPad,
+        },
+      ]}
+    >
       <View style={styles.errorContentContainer}>
         <Text variant="bodyReg" style={styles.text}>
           Gagal Memuat {error && `(${error?.message})`}

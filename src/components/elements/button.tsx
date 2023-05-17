@@ -94,7 +94,7 @@ export default function Button(props: ButtonProps) {
 
 const styles = StyleSheet.create({
   touchableOpacity: {
-    paddingVertical: 16,
+    paddingVertical: 12,
     display: "flex",
     textAlign: "center",
     justifyContent: "center",

@@ -27,7 +27,7 @@ const Text: React.ForwardRefRenderFunction<TextBase, Props> = (props, ref) => {
       style={[
         customFont.style,
         variantStyle,
-        { color: props.color || "#000000" },
+        !!props.color && { color: props.color },
       ]}
       ref={ref}
       allowFontScaling={false}

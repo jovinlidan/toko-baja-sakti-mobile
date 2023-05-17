@@ -32,6 +32,7 @@ const mainPillStyles = StyleSheet.create({
 export default function ShippingAddressCard(props: Props) {
   const { addressDetail, city, isMain, recipientName, recipientNumber, tag } =
     props;
+
   return (
     <TouchableOpacity style={styles.container}>
       <View style={styles.leftContainer}>
@@ -42,13 +43,20 @@ export default function ShippingAddressCard(props: Props) {
           {isMain && <MainPill />}
         </View>
         <View style={styMargin(8, SeparatorTypeEnum.bottom)}>
-          <Text variant="bodyMed">{recipientName || "-"}</Text>
+          <Text variant="bodyMed" color={colorConstant.black}>
+            {recipientName || "-"}
+          </Text>
         </View>
         <View style={styMargin(8, SeparatorTypeEnum.bottom)}>
-          <Text variant="bodyMed">{recipientNumber || "-"}</Text>
+          <Text variant="bodyMed" color={colorConstant.black}>
+            {recipientNumber || "-"}
+          </Text>
         </View>
         <View>
-          <Text variant="bodyMed">{`${addressDetail}, ${city?.name}`}</Text>
+          <Text
+            variant="bodyMed"
+            color={colorConstant.black}
+          >{`${addressDetail}, ${city?.name}`}</Text>
         </View>
       </View>
       <View style={styles.rightContainer}>
@@ -78,6 +86,7 @@ const styles = StyleSheet.create({
   leftContainer: {
     paddingRight: 20,
     flexShrink: 1,
+    flex: 1,
   },
   rightContainer: {
     flexShrink: 0,

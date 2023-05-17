@@ -8,7 +8,7 @@ import {
   UpdateAddressInput,
 } from "./address.model";
 
-export function useCreateAddressItem(
+export function useCreateAddress(
   options?: UseMutationOptions<ApiResult<Address>, ApiError, CreateAddressInput>
 ) {
   return useMutation<ApiResult<Address>, ApiError, CreateAddressInput>(

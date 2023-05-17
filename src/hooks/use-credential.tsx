@@ -58,7 +58,7 @@ export default function Credential(props: Props) {
     if (segments[0] === "(global)") {
       return;
     }
-    const inAuthGroup = segments[0] === "(auth)";
+    const inAuthGroup = segments[0] === "(no-auth)";
     if (!userCredential && !inAuthGroup) {
       if (isFirstTime) {
         router.replace(ONBOARDING_SCREEN_NAME);

@@ -18,6 +18,8 @@ interface WrapperProps {
   showEmptyText?: boolean;
   showEmptyComponent?: boolean;
   empty?: boolean;
+
+  noPadding?: boolean;
 }
 
 export default function FetchWrapperComponent(props: WrapperProps) {
@@ -30,23 +32,26 @@ export default function FetchWrapperComponent(props: WrapperProps) {
     errorComponent,
     empty,
     emptyText,
+    noPadding,
   } = props;
 
   if (isLoading) {
     if (loadingComponent) {
       return <>{loadingComponent}</>;
     }
-    return <LoadingViewComponent />;
+    return <LoadingViewComponent noPadding={noPadding} />;
   } else if (error) {
     if (errorComponent) {
       return <>{errorComponent}</>;
     }
-    return <ErrorView refetch={onRetry} error={error as any} />;
+    return (
+      <ErrorView refetch={onRetry} error={error as any} noPadding={noPadding} />
+    );
   } else if (empty) {
     if (emptyText) {
       return <Text>{emptyText}</Text>;
     }
-    return <EmptyViewComponent refetch={onRetry} />;
+    return <EmptyViewComponent refetch={onRetry} noPadding={noPadding} />;
   }
 
   return <>{component}</>;

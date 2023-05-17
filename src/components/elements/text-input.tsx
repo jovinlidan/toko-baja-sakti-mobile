@@ -249,5 +249,7 @@ const styles = StyleSheet.create({
   },
   multiline: {
     height: 108,
+    textAlignVertical: "top",
+    paddingTop: 8,
   },
 });

@@ -10,6 +10,7 @@ import {
   StyleSheet,
   Button,
 } from "@components/elements";
+import CitySelectOption from "@components/elements/select-option/city-select-option";
 import colorConstant from "@constants/color.constant";
 import { UPDATE_PHONE_NUMBER_SCREEN_NAME } from "@constants/route.constant";
 import { SeparatorTypeEnum, styMargin } from "@constants/styles.constant";
@@ -31,11 +32,7 @@ interface FormType extends Partial<UpdateMeInputForm> {
 export default function UpdateProfileForm() {
   const router = useRouter();
   const { mutateAsync: updateMe } = useUpdateMe();
-  const cities = useGetCities({
-    params: {
-      limit: -1,
-    },
-  });
+
   const { refetch } = useMe();
   const [me] = useRecoilState(meState);
   const YupSchema = useMemo(
@@ -89,15 +86,6 @@ export default function UpdateProfileForm() {
     router.push(UPDATE_PHONE_NUMBER_SCREEN_NAME);
   }, [router]);
 
-  const CityOptions = useMemo(() => {
-    return (
-      cities?.data?.data?.map((city) => ({
-        label: city.name,
-        value: city.id,
-      })) || []
-    );
-  }, [cities?.data?.data]);
-
   return (
     <Form methods={methods}>
       <View style={styMargin(20, SeparatorTypeEnum.bottom)} />
@@ -109,14 +97,12 @@ export default function UpdateProfileForm() {
         name="address.addressDetail"
         label="Alamat"
         numberOfLines={4}
+        multiline
       />
-      <Field
-        type="select"
-        options={CityOptions}
+      <CitySelectOption
         name="address.cityId"
         label="Kota"
         placeholder="Pilih Kota"
-        loading={cities.isLoading || cities.isFetching}
       />
 
       <View style={styMargin(28, SeparatorTypeEnum.bottom)} />

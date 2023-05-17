@@ -1,19 +1,28 @@
 import * as React from "react";
 import { View, ActivityIndicator, StyleSheet, Text, Button } from "../elements";
 import colorConstant from "@constants/color.constant";
+import sizeConstant from "@constants/size.constant";
 
 interface Props {
   isLoading?: boolean;
   title?: string;
   subtitle?: string;
   refetch?: () => void;
+  noPadding?: boolean;
 }
 
 export default function EmptyViewComponent(props: Props) {
-  const { isLoading, refetch } = props;
+  const { isLoading, refetch, noPadding } = props;
 
   return (
-    <View style={styles.errorViewContainer}>
+    <View
+      style={[
+        styles.errorViewContainer,
+        !noPadding && {
+          paddingHorizontal: sizeConstant.contentPad,
+        },
+      ]}
+    >
       <View style={styles.errorContentContainer}>
         <Text variant="bodyReg" style={styles.text}>
           Tidak ada data
