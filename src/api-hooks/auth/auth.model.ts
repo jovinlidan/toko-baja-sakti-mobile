@@ -1,26 +1,7 @@
+import { AddressLite } from "@api-hooks/address/address.model";
 import { City } from "@api-hooks/city/city.model";
 import { Expose, Type } from "class-transformer";
 
-export class UserAddress {
-  id: string;
-  tag?: string;
-
-  @Expose({ name: "address_detail" })
-  addressDetail: string;
-
-  @Expose({ name: "recipient_name" })
-  recipientName?: string;
-
-  @Expose({ name: "recipient_number" })
-  recipientNumber?: string;
-
-  @Expose({ name: "is_main" })
-  @Type(() => Boolean)
-  isMain: boolean;
-
-  @Type(() => City)
-  city: City;
-}
 export class User {
   id: string;
   name: string;
@@ -29,8 +10,8 @@ export class User {
   type: string;
   status: string;
 
-  @Type(() => UserAddress)
-  address?: UserAddress;
+  @Type(() => AddressLite)
+  address?: AddressLite;
 }
 
 export class TokenResult {

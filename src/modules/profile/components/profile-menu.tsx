@@ -1,7 +1,10 @@
 import { useRevokeUser } from "@api-hooks/auth/auth.mutation";
 import { View } from "@components/elements";
 import colorConstant from "@constants/color.constant";
-import { UPDATE_PROFILE_SCREEN_NAME } from "@constants/route.constant";
+import {
+  SHIPPING_ADDRESS_SCREEN_NAME,
+  UPDATE_PROFILE_SCREEN_NAME,
+} from "@constants/route.constant";
 import { Feather, MaterialIcons } from "@expo/vector-icons";
 import { useCredential } from "@hooks/use-credential";
 import useMe from "@hooks/use-me";
@@ -24,6 +27,11 @@ export default function ProfileMenu() {
   const onNavigateUpdateProfile = useCallback(() => {
     router.push(UPDATE_PROFILE_SCREEN_NAME);
   }, [router]);
+
+  const onNavigateShippingAddress = useCallback(() => {
+    router.push(SHIPPING_ADDRESS_SCREEN_NAME);
+  }, [router]);
+
   const OPTIONS: ProfileMenuItemType[] = useMemo(
     () => [
       {
@@ -34,7 +42,7 @@ export default function ProfileMenu() {
       {
         label: "Alamat Pengiriman",
         icon: <Feather name="map-pin" size={24} color={colorConstant.gray2} />,
-        onPress: () => {},
+        onPress: onNavigateShippingAddress,
       },
       {
         label: "Riwayat Transaksi",

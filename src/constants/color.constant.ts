@@ -23,4 +23,6 @@ export default {
   lightTeal: "rgba(167, 214, 214, 0.35)",
 
   headerBorderBottom: "#F1F0EE",
+
+  stroke: "rgba(226, 223, 223, 0.5)",
 };

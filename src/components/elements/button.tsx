@@ -20,6 +20,7 @@ export default function Button(props: ButtonProps) {
     variant = "primary",
     textStyle,
     loading,
+    style,
     ...restProps
   } = props;
   const render = () => {
@@ -83,6 +84,7 @@ export default function Button(props: ButtonProps) {
           backgroundColor,
         },
         variant === "outline" && styles.outlineStyle,
+        style,
       ]}
     >
       {render()}

@@ -42,6 +42,11 @@ export default StyleSheet.create({
     lineHeight: 20,
     fontWeight: "400",
   },
+  bodyMed: {
+    fontSize: 14,
+    lineHeight: 16,
+    fontWeight: "400",
+  },
   bodySm: {
     fontSize: 12,
     lineHeight: 16,

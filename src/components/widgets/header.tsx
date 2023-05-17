@@ -16,6 +16,7 @@ import typographyConstant from "@constants/typography.constant";
 import { AntDesign } from "@expo/vector-icons";
 import sizeConstant from "@constants/size.constant";
 import zIndexConstant from "@constants/z-index.constant";
+import { useCredential } from "@hooks/use-credential";
 
 interface Props {
   title?: React.ReactNode;
@@ -61,6 +62,7 @@ export default function Header(props: Props) {
     renderRightSpace = true,
   } = props;
   const { goBack } = navigation;
+  const { credential } = useCredential();
 
   const close = React.useCallback(() => {
     goBack();
@@ -75,7 +77,10 @@ export default function Header(props: Props) {
           typeof title === "string" ? (
             <View style={styles.titleContainer}>
               <Text
-                style={[typographyConstant.h5, { color: titleColor }]}
+                style={[
+                  credential ? typographyConstant.h4 : typographyConstant.h5,
+                  { color: titleColor },
+                ]}
                 ellipsizeMode="tail"
                 numberOfLines={1}
               >
@@ -88,7 +93,7 @@ export default function Header(props: Props) {
         ) : null}
       </View>
     );
-  }, [title, titleColor]);
+  }, [credential, title, titleColor]);
 
   const onLayout = React.useCallback(
     (e: LayoutChangeEvent) => {
