@@ -4,8 +4,9 @@ import {
   UpdateAddressFormInput,
 } from "@api-hooks/address/address.model";
 import Toast from "@common/helpers/toast";
-import { View, Field, Form } from "@components/elements";
+import { View, Field, Form, Button, StyleSheet } from "@components/elements";
 import CitySelectOption from "@components/elements/select-option/city-select-option";
+import colorConstant from "@constants/color.constant";
 import { SeparatorTypeEnum, styMargin } from "@constants/styles.constant";
 import useYupValidationResolver from "@hooks/use-yup-validation-resolver";
 import { useRouter } from "expo-router";
@@ -40,7 +41,7 @@ export default function ShippingAddressForm(props: Props) {
   const methods = useForm<FormType>({
     resolver,
     mode: "all",
-    defaultValues: data,
+    defaultValues: { ...data, cityId: data?.city?.id },
   });
 
   const handleSubmit = useCallback(
@@ -55,6 +56,10 @@ export default function ShippingAddressForm(props: Props) {
     },
     [YupSchema, onSubmit, router]
   );
+
+  const handleDelete = useCallback(() => {
+    router.push("/modal");
+  }, []);
 
   return (
     <Form methods={methods}>
@@ -78,6 +83,25 @@ export default function ShippingAddressForm(props: Props) {
       <Field type="submit" onSubmit={handleSubmit}>
         Simpan
       </Field>
+      {data?.id && (
+        <Button
+          onPress={handleDelete}
+          style={[styMargin(16, SeparatorTypeEnum.top), styles.deleteButton]}
+          variant="outline"
+          textStyle={styles.deleteButtonText}
+        >
+          Hapus
+        </Button>
+      )}
     </Form>
   );
 }
+
+const styles = StyleSheet.create({
+  deleteButton: {
+    borderColor: colorConstant.redDefault,
+  },
+  deleteButtonText: {
+    color: colorConstant.redDefault,
+  },
+});

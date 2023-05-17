@@ -1,9 +1,12 @@
 import { AddressLite } from "@api-hooks/address/address.model";
 import { View, StyleSheet, Text, TouchableOpacity } from "@components/elements";
 import colorConstant from "@constants/color.constant";
+import { EDIT_SHIPPING_ADDRESS_SCREEN_NAME } from "@constants/route.constant";
 import sizeConstant from "@constants/size.constant";
 import { SeparatorTypeEnum, styMargin } from "@constants/styles.constant";
 import { Ionicons } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
+import { useCallback } from "react";
 
 interface Props extends AddressLite {}
 
@@ -30,11 +33,34 @@ const mainPillStyles = StyleSheet.create({
 });
 
 export default function ShippingAddressCard(props: Props) {
-  const { addressDetail, city, isMain, recipientName, recipientNumber, tag } =
-    props;
+  const {
+    addressDetail,
+    city,
+    id,
+    isMain,
+    recipientName,
+    recipientNumber,
+    tag,
+  } = props;
+  const router = useRouter();
+
+  const onNavigateEditShippingAddress = useCallback(
+    (addressId) => {
+      router.push({
+        pathname: EDIT_SHIPPING_ADDRESS_SCREEN_NAME,
+        params: {
+          id: addressId,
+        },
+      });
+    },
+    [router]
+  );
 
   return (
-    <TouchableOpacity style={styles.container}>
+    <TouchableOpacity
+      style={styles.container}
+      onPress={() => onNavigateEditShippingAddress(id)}
+    >
       <View style={styles.leftContainer}>
         <View style={styles.titleContainer}>
           <Text color={colorConstant.gray2} variant="bodyMed">

@@ -23,6 +23,7 @@ export default function Button(props: ButtonProps) {
     style,
     ...restProps
   } = props;
+
   const render = () => {
     if (loading) {
       return <ActivityIndicator color={colorConstant.white} size={20} />;

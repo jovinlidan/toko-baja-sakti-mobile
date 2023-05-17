@@ -44,7 +44,7 @@ export function useGetAddress(
       getAddressKey(input),
       () =>
         QueryFetchFunction({
-          url: `cities/${input?.id}`,
+          url: `address/${input?.id}`,
         }),
       options
     ),

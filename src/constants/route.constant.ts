@@ -16,3 +16,5 @@ export const UPDATE_PHONE_NUMBER_SCREEN_NAME = "/profile/update-phone-number";
 export const SHIPPING_ADDRESS_SCREEN_NAME = "/profile/shipping-address";
 export const CREATE_SHIPPING_ADDRESS_SCREEN_NAME =
   "/profile/shipping-address/create";
+export const EDIT_SHIPPING_ADDRESS_SCREEN_NAME =
+  "/profile/shipping-address/[id]/edit";
