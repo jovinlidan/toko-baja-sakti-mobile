@@ -3,15 +3,27 @@ import {
   CreateAddressFormInput,
   UpdateAddressFormInput,
 } from "@api-hooks/address/address.model";
+import { useDeleteAddress } from "@api-hooks/address/address.mutation";
+import { getAddressesKey } from "@api-hooks/address/address.query";
 import Toast from "@common/helpers/toast";
-import { View, Field, Form, Button, StyleSheet } from "@components/elements";
+import ConfirmationDialog from "@components/dialog/confirmation-dialog";
+import {
+  View,
+  Field,
+  Form,
+  Button,
+  StyleSheet,
+  Modal,
+  Text,
+} from "@components/elements";
 import CitySelectOption from "@components/elements/select-option/city-select-option";
 import colorConstant from "@constants/color.constant";
 import { SeparatorTypeEnum, styMargin } from "@constants/styles.constant";
 import useYupValidationResolver from "@hooks/use-yup-validation-resolver";
-import { useRouter } from "expo-router";
-import { useCallback, useMemo } from "react";
+import { useNavigation, useRouter, useSearchParams } from "expo-router";
+import { useCallback, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useQueryClient } from "react-query";
 import * as Yup from "yup";
 
 interface FormType extends CreateAddressFormInput, UpdateAddressFormInput {}
@@ -24,6 +36,9 @@ interface Props {
 export default function ShippingAddressForm(props: Props) {
   const { onSubmit, data } = props;
   const router = useRouter();
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
+  const queryClient = useQueryClient();
+  const { mutateAsync: deleteAddress } = useDeleteAddress();
   const YupSchema = useMemo(
     () =>
       Yup.object().shape({
@@ -57,12 +72,33 @@ export default function ShippingAddressForm(props: Props) {
     [YupSchema, onSubmit, router]
   );
 
-  const handleDelete = useCallback(() => {
-    router.push("/modal");
+  const toggleModalDelete = useCallback(() => {
+    setModalVisible((prev) => !prev);
   }, []);
+
+  const handleDelete = useCallback(async () => {
+    try {
+      if (!data?.id) {
+        return;
+      }
+      const res = await deleteAddress({ id: data?.id });
+      await queryClient.invalidateQueries(getAddressesKey());
+      res?.message && Toast.success(res?.message);
+      router.back();
+    } catch (e: any) {
+      e?.message && Toast.error(e?.message);
+    }
+  }, [data?.id, deleteAddress, queryClient, router]);
 
   return (
     <Form methods={methods}>
+      <ConfirmationDialog
+        onPositiveAction={handleDelete}
+        onNegativeAction={toggleModalDelete}
+        visible={modalVisible}
+        title="Hapus Alamat"
+        message="Apakah anda yakin ingin menghapus alamat?"
+      />
       <Field type="normal" name="tag" label="Label Alamat" />
       <Field
         type="normal"
@@ -85,7 +121,7 @@ export default function ShippingAddressForm(props: Props) {
       </Field>
       {data?.id && (
         <Button
-          onPress={handleDelete}
+          onPress={toggleModalDelete}
           style={[styMargin(16, SeparatorTypeEnum.top), styles.deleteButton]}
           variant="outline"
           textStyle={styles.deleteButtonText}

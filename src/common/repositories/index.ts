@@ -148,10 +148,10 @@ export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       retry: false,
-      queryFn: defaultQueryFn as any,
       refetchOnWindowFocus: false,
       cacheTime: 1000 * 60 * 60 * 24,
-      staleTime: 0,
+      staleTime: 1000 * 60 * 60 * 1,
+      // staleTime: 0,
       // cacheTime: 0, //untuk debug null safety saja
       getNextPageParam: (lastPage) => {
         if ((lastPage as any)?.meta) {

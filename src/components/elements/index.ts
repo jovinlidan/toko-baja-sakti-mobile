@@ -20,6 +20,8 @@ export {
   TouchableOpacity,
   TouchableHighlight,
   StyleSheet,
+  Modal,
+  Pressable,
 } from "react-native";
 
 export { FlashList as FlatList } from "@shopify/flash-list";

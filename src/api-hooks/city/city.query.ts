@@ -16,7 +16,7 @@ export function useGetCities(
           url: "cities",
           params: input?.params,
         }),
-      options
+      { ...options, staleTime: 1000 * 60 * 60 * 24 }
     ),
     CityLite
   );
