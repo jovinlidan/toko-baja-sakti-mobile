@@ -24,4 +24,4 @@ export {
   Pressable,
 } from "react-native";
 
-export { FlashList as FlatList } from "@shopify/flash-list";
+export { FlashList } from "@shopify/flash-list";

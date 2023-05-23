@@ -18,10 +18,11 @@ export default async function toApiError(error: Error): Promise<ApiError> {
   } else if (error instanceof TimeoutError) {
     mError.message = "Looks like the server is taking too long to respond";
   } else {
-    if (error.message === "Network request failed") {
-      mError.message =
-        "Looks like there is problem with the internet connection";
-    }
+    // return error;
+    // if (error.message === "Network request failed") {
+    //   mError.message =
+    //     "Looks like there is problem with the internet connection";
+    // }
   }
   return mError;
 }

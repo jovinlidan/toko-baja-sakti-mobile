@@ -81,3 +81,11 @@ export interface EnumResult {
 export class MessageResult {
   message: string;
 }
+
+export class File {
+  id: string;
+  name: string;
+
+  @Expose({ name: "file_url" })
+  fileUrl: string;
+}

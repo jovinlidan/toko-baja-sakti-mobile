@@ -1,4 +1,6 @@
 export const HOME_SCREEN_NAME = "/";
+export const PRODUCT_SCREEN_NAME = "/product";
+export const SEARCH_SCREEN_NAME = "/search";
 
 export const ONBOARDING_SCREEN_NAME = "/onboarding";
 export const REGISTER_SCREEN_NAME = "/register";

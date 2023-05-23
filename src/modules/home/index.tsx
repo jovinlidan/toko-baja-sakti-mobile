@@ -1,10 +1,13 @@
-import { Container, View, Text, Content } from "@components/elements";
-import sizeConstant from "@constants/size.constant";
-import Animated, {
+import { Container, Content, StyleSheet, View } from "@components/elements";
+import {
   useAnimatedScrollHandler,
   useSharedValue,
 } from "react-native-reanimated";
+import RecommendationProduct from "./recommendation-product";
 import HomeHeader from "./home-header";
+import MyFavorite from "./my-favorite";
+import { SeparatorTypeEnum, styMargin } from "@constants/styles.constant";
+import Links from "./links";
 
 export default function Home() {
   const scrollY = useSharedValue(0);
@@ -17,54 +20,21 @@ export default function Home() {
     <Container>
       <HomeHeader scrollValue={scrollY} />
       <Content showsVerticalScrollIndicator={false} onScroll={scrollHandler}>
-        <View
-          style={{
-            height: 1000,
-            marginBottom: 50,
-            borderBottomColor: "red",
-            borderBottomWidth: 100,
-            marginTop: 160,
-          }}
-        >
-          <Text>123</Text>
-          <Text>123</Text>
-          <Text>123</Text>
-          <Text>123</Text>
-          <Text>123</Text>
-          <Text>123</Text>
-          <Text>123</Text>
-          <Text>123</Text>
-          <Text>123</Text>
-          <Text>123</Text>
-          <Text>123</Text>
-          <Text>123</Text>
-          <Text>123</Text>
-          <Text>123</Text>
-          <Text>123</Text>
-          <Text>123</Text>
-          <Text>123</Text>
-          <Text>123</Text>
-          <Text>123</Text>
-          <Text>123</Text>
-          <Text>123</Text>
-          <Text>123</Text>
-          <Text>123</Text>
-          <Text>123</Text>
-          <Text>123</Text>
-          <Text>123</Text>
-          <Text>123</Text>
-          <Text>123</Text>
-          <Text>123</Text>
-          <Text>123</Text>
-          <Text>123</Text>
-          <Text>123</Text>
-          <Text>123</Text>
-          <Text>123</Text>
-          <Text>123</Text>
-          <Text>123</Text>
-          <Text>123</Text>
+        <View style={styles.defaultMargin}>
+          <RecommendationProduct />
+          <View style={styMargin(28, SeparatorTypeEnum.bottom)} />
+          <MyFavorite />
+          <View style={styMargin(60, SeparatorTypeEnum.bottom)} />
+          <Links />
         </View>
       </Content>
     </Container>
   );
 }
+
+const styles = StyleSheet.create({
+  defaultMargin: {
+    marginTop: 175,
+    flexGrow: 1,
+  },
+});

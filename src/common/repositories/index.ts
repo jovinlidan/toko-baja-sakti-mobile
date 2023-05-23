@@ -150,7 +150,7 @@ export const queryClient = new QueryClient({
       retry: false,
       refetchOnWindowFocus: false,
       cacheTime: 1000 * 60 * 60 * 24,
-      staleTime: 1000 * 60 * 60 * 1,
+      // staleTime: 1000 * 60 * 60 * 1,
       // staleTime: 0,
       // cacheTime: 0, //untuk debug null safety saja
       getNextPageParam: (lastPage) => {

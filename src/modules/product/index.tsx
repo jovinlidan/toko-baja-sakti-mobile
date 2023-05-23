@@ -1,5 +1,4 @@
 import { Container, View, Content } from "@components/elements";
-import { SeparatorTypeEnum, styMargin } from "@constants/styles.constant";
 import { StyleSheet } from "react-native";
 import { StatusBar } from "react-native";
 import {
@@ -7,6 +6,7 @@ import {
   useSharedValue,
 } from "react-native-reanimated";
 import AnimatedHeader from "./animated-header";
+import ProductList from "./product-list";
 
 export default function Products() {
   const scrollY = useSharedValue(0);
@@ -24,7 +24,7 @@ export default function Products() {
         noPadding
       >
         <View style={styles.content}>
-          <View style={styMargin(1000, SeparatorTypeEnum.bottom)} />
+          <ProductList />
         </View>
       </Content>
     </Container>

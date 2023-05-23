@@ -4,7 +4,7 @@ import {
   Container,
   Image,
   TouchableOpacity,
-  FlatList,
+  FlashList,
   StyleSheet,
 } from "@components/elements";
 import { useNavigation, useRouter } from "expo-router";
@@ -140,7 +140,7 @@ export default function SelectModalScreen() {
         }
       />
 
-      <FlatList
+      <FlashList
         data={filteredOptions || []}
         renderItem={renderItem}
         keyExtractor={keyExtractor}

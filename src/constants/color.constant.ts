@@ -1,4 +1,5 @@
 export default {
+  primaryOrange0: "#E09510",
   primaryOrange1: "#FAB131",
   primaryOrange2: "#FBC464",
   primaryOrange3: "#FCD898",

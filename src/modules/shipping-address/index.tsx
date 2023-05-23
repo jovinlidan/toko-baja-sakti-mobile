@@ -4,7 +4,7 @@ import FetchWrapperComponent from "@components/common/fetch-wrapper-component";
 import {
   Container,
   StyleSheet,
-  FlatList,
+  FlashList,
   View,
   Button,
 } from "@components/elements";
@@ -39,7 +39,7 @@ export default function ShippingAddress() {
           error={error}
           empty={!data?.data?.length}
           component={
-            <FlatList
+            <FlashList
               ItemSeparatorComponent={() => (
                 <View style={styles.itemSeparator} />
               )}
