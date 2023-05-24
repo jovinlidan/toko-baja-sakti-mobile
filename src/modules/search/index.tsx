@@ -1,21 +1,41 @@
 import { Container, View, Content } from "@components/elements";
 import colorConstant from "@constants/color.constant";
 import sizeConstant from "@constants/size.constant";
-import { useState } from "react";
+import { useCallback, useState, useTransition } from "react";
 import { StyleSheet } from "react-native";
 
 import Header from "./header";
 import ProductList from "./product-list";
+import SearchHistory from "./search-history";
 
 export default function Search() {
   const [query, setQuery] = useState<string>();
+  const [searchValue, setSearchValue] = useState<string>();
+  const [, startTransition] = useTransition();
+
+  const onChangeText = useCallback(
+    (text) => {
+      if (text === "") {
+        text = undefined;
+      }
+      setSearchValue(text);
+      startTransition(() => {
+        setQuery(text);
+      });
+    },
+    [setQuery]
+  );
 
   return (
     <Container>
-      <Header setQuery={setQuery} />
+      <Header onChangeText={onChangeText} searchValue={searchValue} />
       <Content showsVerticalScrollIndicator={false} noPadding>
         <View style={styles.content}>
-          <ProductList query={query} />
+          {query ? (
+            <ProductList query={query} />
+          ) : (
+            <SearchHistory onSelectHistory={onChangeText} />
+          )}
         </View>
       </Content>
     </Container>

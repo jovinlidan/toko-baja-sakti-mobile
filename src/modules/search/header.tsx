@@ -2,33 +2,24 @@ import { StyleSheet, TextInput, TouchableOpacity } from "@components/elements";
 import { Header } from "@components/widgets";
 import colorConstant from "@constants/color.constant";
 import { Ionicons } from "@expo/vector-icons";
+import { searchHistoryState } from "@models/search-history";
 import { useCallback, useState, useTransition } from "react";
+import { useRecoilState } from "recoil";
 
 interface Props {
-  setQuery: React.Dispatch<React.SetStateAction<string | undefined>>;
+  onChangeText: (text: string) => void;
+  searchValue?: string;
 }
 
 export default function HeaderSearch(props: Props) {
-  const { setQuery } = props;
-  const [searchValue, setSearchValue] = useState<string>();
-  const [, startTransition] = useTransition();
+  const { searchValue, onChangeText } = props;
+  const [, setSearchHistory] = useRecoilState(searchHistoryState);
 
-  const onCloseSearch = useCallback(() => {
-    setSearchValue(undefined);
-  }, []);
-
-  const onChangeText = useCallback(
-    (text) => {
-      if (text === "") {
-        text = undefined;
-      }
-      setSearchValue(text);
-      startTransition(() => {
-        setQuery(text);
-      });
-    },
-    [setQuery]
-  );
+  const onSubmitEditing = useCallback(() => {
+    if (searchValue) {
+      setSearchHistory((past) => [...past, searchValue]);
+    }
+  }, [searchValue, setSearchHistory]);
 
   return (
     <Header
@@ -41,6 +32,8 @@ export default function HeaderSearch(props: Props) {
           placeholder="Cari berdasarkan kata kunci"
           leftIconContainerStyle={styles.leftIconTextInput}
           rightIconContainerStyle={styles.rightIconTextInput}
+          returnKeyType="search"
+          onSubmitEditing={onSubmitEditing}
           leftIconComponent={() =>
             searchValue ? (
               <Ionicons
@@ -54,7 +47,7 @@ export default function HeaderSearch(props: Props) {
           }
           rightIconComponent={() =>
             searchValue ? (
-              <TouchableOpacity onPress={onCloseSearch}>
+              <TouchableOpacity onPress={() => onChangeText("")}>
                 <Ionicons name="close-outline" size={28} color="black" />
               </TouchableOpacity>
             ) : null

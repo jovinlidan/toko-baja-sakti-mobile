@@ -26,6 +26,7 @@ export default function ProductList(props: Props) {
         isLoading={isLoading}
         error={error}
         onRetry={refetch}
+        empty={!data?.data?.length}
         component={
           <FlashList
             data={data?.data}

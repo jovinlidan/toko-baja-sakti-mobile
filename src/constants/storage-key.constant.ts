@@ -4,4 +4,6 @@ export default {
   meSelectorKey: "USER_ME_SELECTOR_CACHE",
 
   firstTimeKey: "FIRST_TIME_CACHE",
+
+  searchHistoryKey: "SEARCH_HISTORY_CACHE",
 };
