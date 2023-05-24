@@ -8,7 +8,7 @@ import {
 import AnimatedHeader from "./animated-header";
 import ProductList from "./product-list";
 
-export default function Products() {
+export default function Product() {
   const scrollY = useSharedValue(0);
   const scrollHandler = useAnimatedScrollHandler({
     onScroll: (e) => {

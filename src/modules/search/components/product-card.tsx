@@ -6,9 +6,7 @@ import colorConstant from "@constants/color.constant";
 import { SeparatorTypeEnum, styMargin } from "@constants/styles.constant";
 import { string2money } from "@utils/string";
 
-interface Props extends CategoryItemLite {
-  index: number;
-}
+interface Props extends CategoryItemLite {}
 
 export default function ProductCard(props: Props) {
   const {
@@ -21,12 +19,9 @@ export default function ProductCard(props: Props) {
     minPrice,
     name,
     smallUnit,
-    index,
   } = props;
   return (
-    <Pressable
-      style={[styles.container, (index & 1) === 0 ? styles.left : styles.right]}
-    >
+    <Pressable style={styles.container}>
       {!!file?.fileUrl && (
         <Image
           source={{
@@ -36,19 +31,16 @@ export default function ProductCard(props: Props) {
         />
       )}
       <View style={styles.descriptionContainer}>
-        <Text variant="h5" color={colorConstant.gray2}>
+        <Text variant="bodyReg" color={colorConstant.gray1}>
           {name} - {brand}
         </Text>
-        <View style={styMargin(4, SeparatorTypeEnum.bottom)} />
-        <Text variant="h6">
+        <View style={styMargin(2, SeparatorTypeEnum.bottom)} />
+        <Text variant="h5">
           Rp {string2money(minPrice)} - Rp {string2money(maxPrice)}
         </Text>
-        <View style={styMargin(4, SeparatorTypeEnum.bottom)} />
+        <View style={styMargin(1, SeparatorTypeEnum.bottom)} />
         <Text variant="bodySm" color={colorConstant.gray2}>
-          Per Satuan:
-        </Text>
-        <Text variant="bodySm" color={colorConstant.gray2}>
-          @{smallUnit} | @{bigUnit}
+          Per Satuan: @{smallUnit} | @{bigUnit}
         </Text>
       </View>
       <WishlistComponent isWishlist={isWishlist} id={id} />
@@ -56,43 +48,28 @@ export default function ProductCard(props: Props) {
   );
 }
 
-ProductCard.SeparatorVertical = ({ size = 24 }) => {
+ProductCard.SeparatorVertical = ({ size = 16 }) => {
   return <View style={styMargin(size, SeparatorTypeEnum.bottom)} />;
 };
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colorConstant.white,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.22,
-    shadowRadius: 2.22,
-    elevation: 3,
     borderRadius: 5,
     overflow: "hidden",
     position: "relative",
 
     flex: 1,
-
-    borderColor: colorConstant.stroke,
-    borderWidth: 1,
-    borderStyle: "solid",
+    flexDirection: "row",
   },
   image: {
-    width: "100%",
-    height: 119,
+    width: 70,
+    height: 70,
     resizeMode: "stretch",
+    borderRadius: 4,
   },
   descriptionContainer: {
-    padding: 12,
-  },
-  left: {
-    marginRight: 8,
-  },
-  right: {
-    marginLeft: 8,
+    paddingLeft: 12,
+    paddingTop: 4,
+    paddingBottom: 4,
   },
 });

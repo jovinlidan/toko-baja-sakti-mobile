@@ -27,6 +27,7 @@ interface Props extends TextInputProps {
   ref?: React.Ref<TextInput>;
   containerStyle?: StyleProp<ViewStyle>;
   leftIconContainerStyle?: StyleProp<ViewStyle>;
+  rightIconContainerStyle?: StyleProp<ViewStyle>;
   leftIconComponent?: (size, color) => React.ReactNode;
   rightIconComponent?: (size, color) => React.ReactNode;
   customRightIconComponent?: () => React.ReactNode;
@@ -55,6 +56,7 @@ function CustomTextInput(props: Props, ref: any) {
     rightIconComponent,
     rightIconOnPress,
     leftIconContainerStyle,
+    rightIconContainerStyle,
     leftIconOnPress,
     placeholderTextColor = colorConstant.gray3,
     selectionColor,
@@ -118,7 +120,7 @@ function CustomTextInput(props: Props, ref: any) {
     } else if (rightIconComponent) {
       return (
         <TouchableWithoutFeedback
-          style={styles.rightIconContainer}
+          style={[styles.rightIconContainer, rightIconContainerStyle]}
           onPress={() => {
             rightIconOnPress && rightIconOnPress();
           }}
@@ -152,6 +154,7 @@ function CustomTextInput(props: Props, ref: any) {
     customRightIconComponent,
     props.type,
     rightIconComponent,
+    rightIconContainerStyle,
     rightIconOnPress,
     secureTextEntry,
   ]);

@@ -9,11 +9,15 @@ import {
 } from "@components/elements";
 import ProductCard from "@components/widgets/product-card";
 import colorConstant from "@constants/color.constant";
-import ratioConstant from "@constants/ratio.constant";
 import { SeparatorTypeEnum, styMargin } from "@constants/styles.constant";
 
 export default function MyFavorite() {
-  const { data, isLoading, error, refetch } = useGetWishlists();
+  const { data, isLoading, error, refetch } = useGetWishlists({
+    params: { limit: 2 },
+  });
+  if (!data?.data?.length) {
+    return null;
+  }
   return (
     <View>
       <View style={styles.titleContainer}>
@@ -40,6 +44,7 @@ export default function MyFavorite() {
               <View style={styMargin(16, SeparatorTypeEnum.horizontal)} />
             )}
             showsHorizontalScrollIndicator={false}
+            estimatedListSize={{ width: 200, height: 200 }}
             estimatedItemSize={51}
             keyExtractor={(item) => item.id}
             numColumns={2}

@@ -11,6 +11,7 @@ interface WrapperProps {
   error?: ApiError | boolean | null;
   loadingComponent?: React.ReactNode;
   errorComponent?: React.ReactNode;
+  emptyComponent?: React.ReactNode;
   component: React.ReactNode;
   errorVertical?: boolean;
   onRetry?: () => void;
@@ -30,6 +31,7 @@ export default function FetchWrapperComponent(props: WrapperProps) {
     loadingComponent,
     component,
     errorComponent,
+    emptyComponent,
     empty,
     emptyText,
     noPadding,
@@ -44,12 +46,15 @@ export default function FetchWrapperComponent(props: WrapperProps) {
     if (errorComponent) {
       return <>{errorComponent}</>;
     }
+
     return (
       <ErrorView refetch={onRetry} error={error as any} noPadding={noPadding} />
     );
   } else if (empty) {
     if (emptyText) {
       return <Text>{emptyText}</Text>;
+    } else if (emptyComponent) {
+      return <>{emptyComponent}</>;
     }
     return <EmptyViewComponent refetch={onRetry} noPadding={noPadding} />;
   }
