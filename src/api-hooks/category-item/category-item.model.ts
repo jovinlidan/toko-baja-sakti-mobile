@@ -52,6 +52,9 @@ export class CategoryItem {
 
   @Type(() => Item)
   items: Item[];
+
+  @Expose({ name: "is_wishlist" })
+  isWishlist: boolean;
 }
 
 export class Item {

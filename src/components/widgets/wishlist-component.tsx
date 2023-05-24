@@ -1,4 +1,7 @@
-import { getCategoryItemsKey } from "@api-hooks/category-item/category-item.query";
+import {
+  getCategoryItemKey,
+  getCategoryItemsKey,
+} from "@api-hooks/category-item/category-item.query";
 import {
   useDestroyWishlist,
   useStoreWishlist,
@@ -38,6 +41,7 @@ export default function WishlistComponent(props: Props) {
       setIsWishlist((prev) => !prev);
       await queryClient.invalidateQueries(getWishlistsKey());
       await queryClient.invalidateQueries(getCategoryItemsKey());
+      await queryClient.invalidateQueries(getCategoryItemKey({ id }));
     } catch (e: any) {
       e?.message && Toast.error(e?.message);
     }

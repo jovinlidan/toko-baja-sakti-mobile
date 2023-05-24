@@ -29,4 +29,6 @@ export default {
   stroke: "rgba(226, 223, 223, 0.5)",
 
   dialogBackdropColor: "rgba(0,0,0,0.6)",
+
+  transparent: "transparent",
 };

@@ -66,7 +66,8 @@ const useCustomFont = (
         fontStyle: fontStyle || defaultStyle.fontStyle,
       }),
     };
-  }, [style]);
+  }, [defaultStyle.fontStyle, defaultStyle.fontWeight, style]);
+
   const newStyle = StyleSheet.flatten([defaultStyle, customizedStyle]);
   return {
     style: newStyle,

@@ -1,10 +1,19 @@
 /* eslint-disable no-bitwise */
 import { CategoryItemLite } from "@api-hooks/category-item/category-item.model";
-import { View, Text, Image, StyleSheet, Pressable } from "@components/elements";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Pressable,
+  ImageComponent,
+} from "@components/elements";
 import WishlistComponent from "@components/widgets/wishlist-component";
 import colorConstant from "@constants/color.constant";
+import { PRODUCT_DETAIL_SCREEN_NAME } from "@constants/route.constant";
 import { SeparatorTypeEnum, styMargin } from "@constants/styles.constant";
 import { string2money } from "@utils/string";
+import { useRouter } from "expo-router";
+import { useCallback } from "react";
 
 interface Props extends CategoryItemLite {
   index: number;
@@ -23,15 +32,29 @@ export default function ProductCard(props: Props) {
     smallUnit,
     index,
   } = props;
+  const router = useRouter();
+
+  const onNavigateProductDetail = useCallback(
+    (idParam) => {
+      router.push({
+        pathname: PRODUCT_DETAIL_SCREEN_NAME,
+        params: { id: idParam },
+      });
+    },
+    [router]
+  );
+
   return (
     <Pressable
       style={[styles.container, (index & 1) === 0 ? styles.left : styles.right]}
+      onPress={() => onNavigateProductDetail(id)}
     >
       {!!file?.fileUrl && (
-        <Image
+        <ImageComponent
           source={{
             uri: file.fileUrl,
           }}
+          resizeMode="stretch"
           style={styles.image}
         />
       )}
@@ -84,7 +107,6 @@ const styles = StyleSheet.create({
   image: {
     width: "100%",
     height: 119,
-    resizeMode: "stretch",
   },
   descriptionContainer: {
     padding: 12,
