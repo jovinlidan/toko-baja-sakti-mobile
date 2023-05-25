@@ -13,6 +13,7 @@ interface Props extends TextProps {
   children?: React.ReactNode;
   variant?: keyof typeof typographyConstant;
   color?: string;
+  lineHeight?: number;
 }
 
 const Text: React.ForwardRefRenderFunction<TextBase, Props> = (props, ref) => {
@@ -28,6 +29,7 @@ const Text: React.ForwardRefRenderFunction<TextBase, Props> = (props, ref) => {
         customFont.style,
         variantStyle,
         !!props.color && { color: props.color },
+        !!props.lineHeight && { lineHeight: props.lineHeight },
       ]}
       ref={ref}
       allowFontScaling={false}

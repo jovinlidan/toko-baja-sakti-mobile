@@ -14,6 +14,7 @@ import { SeparatorTypeEnum, styMargin } from "@constants/styles.constant";
 import { string2money } from "@utils/string";
 import { useRouter } from "expo-router";
 import { useCallback } from "react";
+import { Dimensions } from "react-native";
 
 interface Props extends CategoryItemLite {
   index: number;
@@ -106,7 +107,7 @@ const styles = StyleSheet.create({
   },
   image: {
     width: "100%",
-    height: 119,
+    height: Dimensions.get("screen").width * 0.45 * 0.7,
   },
   descriptionContainer: {
     padding: 12,

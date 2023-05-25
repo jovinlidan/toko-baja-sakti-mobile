@@ -33,7 +33,6 @@ interface Props {
 
 export default function ProductContent(props: Props) {
   const queryClient = useQueryClient();
-  const {} = props.categoryItemQuery;
 
   const item = props.categoryItemQuery.data?.data!;
   const { mutateAsync: addCartItem, isLoading: addCartItemLoading } =
@@ -73,7 +72,13 @@ export default function ProductContent(props: Props) {
     [totalStock]
   );
 
-  const [quantity, dispatchQuantity] = useReducer(reducer, 1);
+  const [quantity, dispatchQuantity] = useReducer(
+    reducer,
+    Math.min(
+      1,
+      Math.floor((item?.items?.[0]?.stock || 1) / (item?.conversionUnit || 1))
+    )
+  );
 
   const getPrice = useCallback(
     (itemOnData?: Item, _stateForm?: Partial<StateForm>) => {

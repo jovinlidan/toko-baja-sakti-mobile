@@ -48,10 +48,5 @@ export default function RecommendationProduct() {
 }
 
 const styles = StyleSheet.create({
-  contentContainer: {
-    // paddingBottom: 4,
-    // paddingRight: 4,
-    // paddingLeft: 1,
-    // paddingTop: 4,
-  },
+  contentContainer: {},
 });

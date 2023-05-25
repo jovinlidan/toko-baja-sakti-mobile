@@ -26,6 +26,13 @@ export default function AllChoice(props: Props) {
     [item.items]
   );
 
+  const getUnitOption = useCallback(() => {
+    if (item.bigUnit === item.smallUnit) {
+      return [item.bigUnit];
+    }
+    return [item.bigUnit, item.smallUnit];
+  }, [item.bigUnit, item.smallUnit]);
+
   return (
     <>
       <ItemOption
@@ -56,7 +63,7 @@ export default function AllChoice(props: Props) {
       />
       <View style={styMargin(12, SeparatorTypeEnum.bottom)} />
       <ItemOption
-        options={[item.bigUnit, item.smallUnit]}
+        options={getUnitOption()}
         onSelectValue={(value) => {
           setStateForm({ unit: value });
         }}

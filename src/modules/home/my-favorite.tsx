@@ -9,12 +9,19 @@ import {
 } from "@components/elements";
 import ProductCard from "@components/widgets/product-card";
 import colorConstant from "@constants/color.constant";
+import { FAVORITE_SCREEN_NAME } from "@constants/route.constant";
 import { SeparatorTypeEnum, styMargin } from "@constants/styles.constant";
+import { useRouter } from "expo-router";
+import { useCallback } from "react";
 
 export default function MyFavorite() {
   const { data, isLoading, error, refetch } = useGetWishlists({
     params: { limit: 2 },
   });
+  const router = useRouter();
+  const onNavigateFavorite = useCallback(() => {
+    router.push(FAVORITE_SCREEN_NAME);
+  }, [router]);
   if (!data?.data?.length) {
     return null;
   }
@@ -22,7 +29,10 @@ export default function MyFavorite() {
     <View>
       <View style={styles.titleContainer}>
         <Text variant="h5">Favorit Kamu</Text>
-        <TouchableOpacity style={styles.viewMoreWrapper}>
+        <TouchableOpacity
+          style={styles.viewMoreWrapper}
+          onPress={onNavigateFavorite}
+        >
           <Text color={colorConstant.primaryOrange0} variant="bodyMed">
             Lihat Semua
           </Text>
@@ -37,7 +47,7 @@ export default function MyFavorite() {
           <FlashList
             data={data?.data}
             renderItem={({ item, index }) => (
-              <ProductCard {...item.categoryItem} index={index} />
+              <ProductCard {...item.categoryItem} index={index} key={item.id} />
             )}
             scrollEnabled={false}
             ItemSeparatorComponent={() => (

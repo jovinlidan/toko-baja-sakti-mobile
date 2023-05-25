@@ -4,6 +4,7 @@ import { View, FlashList, StyleSheet, Text } from "@components/elements";
 import ProductCard from "@components/widgets/product-card";
 import sizeConstant from "@constants/size.constant";
 import { SeparatorTypeEnum, styMargin } from "@constants/styles.constant";
+import { Dimensions } from "react-native";
 
 export default function ProductList() {
   const { data, error, refetch, isLoading } = useGetCategoryItems();
@@ -24,7 +25,10 @@ export default function ProductList() {
             scrollEnabled={false}
             ItemSeparatorComponent={() => <ProductCard.SeparatorVertical />}
             showsHorizontalScrollIndicator={false}
-            estimatedListSize={{ width: 200, height: 200 }}
+            estimatedListSize={{
+              width: Dimensions.get("screen").width / 2,
+              height: Dimensions.get("screen").height / 2,
+            }}
             estimatedItemSize={51}
             keyExtractor={(item) => item.id}
             numColumns={2}

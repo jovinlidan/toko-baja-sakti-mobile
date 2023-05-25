@@ -1,13 +1,14 @@
 export const HOME_SCREEN_NAME = "/";
 export const PRODUCT_SCREEN_NAME = "/product";
 export const SEARCH_SCREEN_NAME = "/search";
+export const FAVORITE_SCREEN_NAME = "/favorite";
+export const CART_SCREEN_NAME = "/cart";
 
 export const ONBOARDING_SCREEN_NAME = "/onboarding";
 export const REGISTER_SCREEN_NAME = "/register";
 export const RESET_PASSWORD_SCREEN_NAME = "/reset-password";
 export const LOGIN_SCREEN_NAME = "/login";
 export const PRODUCT_DETAIL_SCREEN_NAME = "/product/[id]";
-export const CART_SCREEN_NAME = "/cart";
 
 export const OTP_VERIFICATION_SCREEN_NAME = "/otp-verification";
 

@@ -1,4 +1,4 @@
-import { Text, StyleSheet, Pressable, View } from "@components/elements";
+import { Text, StyleSheet, TouchableOpacity, View } from "@components/elements";
 import colorConstant from "@constants/color.constant";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
@@ -10,17 +10,22 @@ interface Props {
 
 export default function LinkCard(props: Props) {
   return (
-    <Pressable
+    <TouchableOpacity
       style={[styles.container, { backgroundColor: props.color }]}
       onPress={props.onPress}
     >
-      <Text variant="h4" color={colorConstant.white} style={styles.text}>
+      <Text
+        variant="h4"
+        color={colorConstant.white}
+        style={styles.text}
+        lineHeight={28}
+      >
         {props.text}
       </Text>
       <View style={styles.circle}>
         <MaterialCommunityIcons name="chevron-right" size={24} color="black" />
       </View>
-    </Pressable>
+    </TouchableOpacity>
   );
 }
 
@@ -36,7 +41,6 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   text: {},
-
   circle: {
     position: "absolute",
     width: 40,

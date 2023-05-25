@@ -34,6 +34,7 @@ export default function HeaderSearch(props: Props) {
           rightIconContainerStyle={styles.rightIconTextInput}
           returnKeyType="search"
           onSubmitEditing={onSubmitEditing}
+          autoFocus
           leftIconComponent={() =>
             searchValue ? (
               <Ionicons

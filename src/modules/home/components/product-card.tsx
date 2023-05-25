@@ -2,19 +2,18 @@ import { CategoryItemLite } from "@api-hooks/category-item/category-item.model";
 import {
   View,
   Text,
-  Image,
   StyleSheet,
   Pressable,
   ImageComponent,
 } from "@components/elements";
 import WishlistComponent from "@components/widgets/wishlist-component";
 import colorConstant from "@constants/color.constant";
-import ratioConstant from "@constants/ratio.constant";
 import { PRODUCT_DETAIL_SCREEN_NAME } from "@constants/route.constant";
 import { SeparatorTypeEnum, styMargin } from "@constants/styles.constant";
 import { string2money } from "@utils/string";
 import { useRouter } from "expo-router";
 import { useCallback } from "react";
+import { Dimensions } from "react-native";
 
 interface Props extends CategoryItemLite {}
 
@@ -96,11 +95,11 @@ const styles = StyleSheet.create({
     borderStyle: "solid",
   },
   image: {
-    width: ratioConstant.recommendedCategoryItemImageW,
-    height: ratioConstant.recommendedCategoryItemImageH,
+    width: Dimensions.get("screen").width * 0.7,
+    height: Dimensions.get("screen").width * 0.7 * 0.58,
   },
   descriptionContainer: {
     padding: 16,
-    width: ratioConstant.recommendedCategoryItemW,
+    width: Dimensions.get("screen").width * 0.7,
   },
 });
