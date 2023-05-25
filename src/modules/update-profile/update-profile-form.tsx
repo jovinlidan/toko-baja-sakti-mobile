@@ -1,17 +1,8 @@
 import { UpdateMeInputForm } from "@api-hooks/auth/auth.model";
 import { useUpdateMe } from "@api-hooks/auth/auth.mutation";
-import { useGetCities } from "@api-hooks/city/city.query";
 import Toast from "@common/helpers/toast";
-import {
-  Field,
-  Form,
-  Text,
-  View,
-  StyleSheet,
-  Button,
-} from "@components/elements";
+import { Field, Form, View, Button } from "@components/elements";
 import CitySelectOption from "@components/elements/select-option/city-select-option";
-import colorConstant from "@constants/color.constant";
 import { UPDATE_PHONE_NUMBER_SCREEN_NAME } from "@constants/route.constant";
 import { SeparatorTypeEnum, styMargin } from "@constants/styles.constant";
 import useMe from "@hooks/use-me";
@@ -20,7 +11,6 @@ import { meState } from "@models/auth";
 import { useRouter } from "expo-router";
 import { useCallback, useMemo } from "react";
 import { useForm } from "react-hook-form";
-import { TouchableOpacity } from "react-native";
 import { useRecoilState } from "recoil";
 
 import * as Yup from "yup";

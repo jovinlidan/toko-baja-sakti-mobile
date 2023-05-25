@@ -1,6 +1,11 @@
 import { File } from "@api-hooks/common/common.model";
 import { Expose, Type } from "class-transformer";
 
+export enum ItemUnitEnum {
+  Wholesale = "wholesale",
+  Retail = "retail",
+}
+
 export class CategoryItemLite {
   id: string;
   code: string;

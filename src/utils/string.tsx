@@ -1,6 +1,9 @@
 import numeral from "numeral";
 
-export function string2money(value: string | number): string {
+export function string2money(value?: string | number): string {
+  if (!value) {
+    return "0";
+  }
   return numeral(`${value}`).format("0,0.[00]");
 }
 

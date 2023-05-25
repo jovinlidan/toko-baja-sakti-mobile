@@ -19,14 +19,24 @@ import CheckoutButton from "./components/checkout-button";
 import TotalPrice from "./components/total-price";
 import { QuantityReducerAction, QuantitySetterEnum, StateForm } from "./types";
 import AllChoice from "./components/all-choice";
-import { Item } from "@api-hooks/category-item/category-item.model";
+import {
+  Item,
+  ItemUnitEnum,
+} from "@api-hooks/category-item/category-item.model";
+import Toast from "@common/helpers/toast";
+import { useAddCartItem } from "@api-hooks/cart/cart.mutation";
+import { useQueryClient } from "react-query";
+import { getCartKey } from "@api-hooks/cart/cart.query";
 
 export default function ProductContent() {
   const { id } = useSearchParams();
+  const queryClient = useQueryClient();
   const { data, isLoading, error, refetch } = useGetCategoryItem({
     id: id! as string,
   });
   const item = data?.data!;
+  const { mutateAsync: addCartItem, isLoading: addCartItemLoading } =
+    useAddCartItem();
 
   const [stateForm, setStateForm] = useState<StateForm>({
     ...data?.data?.items?.[0]!,
@@ -123,6 +133,44 @@ export default function ProductContent() {
     [getPrice, getTotalStock, item.items, stateForm]
   );
 
+  const handleCheckout = useCallback(async () => {
+    try {
+      const itemOnData = item.items.find(
+        (i) =>
+          i.size === stateForm?.size &&
+          i.color === stateForm?.color &&
+          i.thick === stateForm?.thick
+      );
+      if (!quantity || !itemOnData) {
+        return;
+      }
+      const result = await addCartItem({
+        body: {
+          itemId: itemOnData?.id,
+          quantity,
+          unit:
+            stateForm?.unit === item.bigUnit
+              ? ItemUnitEnum.Wholesale
+              : ItemUnitEnum.Retail,
+        },
+      });
+      await queryClient.invalidateQueries(getCartKey());
+      result?.message && Toast.success(result?.message);
+    } catch (e: any) {
+      e?.message && Toast.error(e?.message);
+    }
+  }, [
+    addCartItem,
+    item.bigUnit,
+    item.items,
+    quantity,
+    queryClient,
+    stateForm?.color,
+    stateForm?.size,
+    stateForm?.thick,
+    stateForm?.unit,
+  ]);
+
   return (
     <>
       <Content showsVerticalScrollIndicator={false} noPadding>
@@ -176,10 +224,9 @@ export default function ProductContent() {
         />
         <View style={styMargin(16, SeparatorTypeEnum.right)} />
         <CheckoutButton
-          onCheckout={() => {
-            console.log("checkout");
-          }}
+          onCheckout={handleCheckout}
           disable={!quantity}
+          loading={addCartItemLoading}
         />
       </View>
     </>

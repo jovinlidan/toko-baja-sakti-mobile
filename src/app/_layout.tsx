@@ -11,6 +11,7 @@ import CredentialPersist from "@common/helpers/credential-persist";
 import Handler from "@common/helpers/handler";
 import { QueryClientProvider } from "react-query";
 import { queryClient } from "@common/repositories";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -53,6 +54,7 @@ function RootLayoutNav() {
             <SelectModalProvider>
               <Stack screenOptions={{ headerShown: false }}>
                 <Stack.Screen name="(tabs)" />
+
                 <Stack.Screen
                   name="select-modal"
                   options={{
@@ -61,6 +63,7 @@ function RootLayoutNav() {
                   }}
                 />
               </Stack>
+
               <Toast position="top" topOffset={40} />
             </SelectModalProvider>
           </OTPHistoryProvider>
