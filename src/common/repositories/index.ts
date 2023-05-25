@@ -12,6 +12,7 @@ import { persistQueryClient } from "react-query/persistQueryClient-experimental"
 import { createReactNativePersistor } from "./persistor";
 import Config from "@common/config";
 import { plainToClass } from "class-transformer";
+import { QueryFetchFunction } from "@common/helpers/common";
 
 export type Exact<T extends { [key: string]: any }> = { [K in keyof T]: T[K] };
 

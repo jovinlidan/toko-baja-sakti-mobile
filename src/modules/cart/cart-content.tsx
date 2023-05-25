@@ -1,7 +1,7 @@
 import { useRemoveCartItem } from "@api-hooks/cart/cart.mutation";
 import { getCartKey, useGetCart } from "@api-hooks/cart/cart.query";
+import { getCheckoutKey } from "@api-hooks/checkout/checkout.query";
 import Toast from "@common/helpers/toast";
-import { queryClient } from "@common/repositories";
 import FetchWrapperComponent from "@components/common/fetch-wrapper-component";
 import ConfirmationDialog from "@components/dialog/confirmation-dialog";
 import {
@@ -12,17 +12,22 @@ import {
   Button,
 } from "@components/elements";
 import colorConstant from "@constants/color.constant";
+import { CHECKOUT_SCREEN_NAME } from "@constants/route.constant";
 import sizeConstant from "@constants/size.constant";
 import { SeparatorTypeEnum, styMargin } from "@constants/styles.constant";
 import { AntDesign } from "@expo/vector-icons";
 import { string2money } from "@utils/string";
+import { useRouter } from "expo-router";
 import { useCallback, useState } from "react";
+import { useQueryClient } from "react-query";
 import ProductCard from "./components/product-card";
 
 export default function CartContent() {
   const { data, error, refetch, isLoading } = useGetCart();
   const { mutateAsync: removeCartItem } = useRemoveCartItem();
   const [selectedId, setSelectedId] = useState<string>();
+  const router = useRouter();
+  const queryClient = useQueryClient();
 
   const handleRemoveCartItem = useCallback(async () => {
     if (!selectedId) {
@@ -36,7 +41,11 @@ export default function CartContent() {
     } catch (e: any) {
       e?.message && Toast.error(e?.message);
     }
-  }, [removeCartItem, selectedId]);
+  }, [queryClient, removeCartItem, selectedId]);
+
+  const onNavigateCheckout = useCallback(async () => {
+    router.push(CHECKOUT_SCREEN_NAME);
+  }, [router]);
 
   return (
     <View>
@@ -78,7 +87,7 @@ export default function CartContent() {
                       Rp {string2money(data?.data?.grandTotal)}
                     </Text>
                   </View>
-                  <Button style={styles.button}>
+                  <Button style={styles.button} onPress={onNavigateCheckout}>
                     <AntDesign
                       name="arrowright"
                       size={24}

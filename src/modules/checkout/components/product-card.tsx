@@ -1,53 +1,17 @@
-import { CartItem } from "@api-hooks/cart/cart.model";
 import { View, Text, StyleSheet, ImageComponent } from "@components/elements";
 import colorConstant from "@constants/color.constant";
 import sizeConstant from "@constants/size.constant";
 import { SeparatorTypeEnum, styMargin } from "@constants/styles.constant";
-import { FontAwesome5 } from "@expo/vector-icons";
 import { string2money } from "@utils/string";
-import { RectButton, Swipeable } from "react-native-gesture-handler";
-import { Animated } from "react-native";
+import { CheckoutDetail } from "@api-hooks/checkout/checkout.model";
 
-interface Props extends CartItem {
-  onDelete: VoidFunction;
-}
+interface Props extends CheckoutDetail {}
 
 export default function ProductCard(props: Props) {
-  const { item, price, quantity, unit, onDelete } = props;
-
-  const renderRightActions = (progress) => {
-    const translateX = progress.interpolate({
-      inputRange: [0, 1],
-      outputRange: [135, 0],
-    });
-
-    return (
-      <View style={styles.rightActionContainer}>
-        <Animated.View
-          style={[styles.rightActionWrapper, { transform: [{ translateX }] }]}
-        >
-          <RectButton style={styles.deleteButton} onPress={onDelete}>
-            <FontAwesome5
-              name="trash-alt"
-              size={24}
-              color={colorConstant.redDefault}
-            />
-            <View style={styMargin(12, SeparatorTypeEnum.right)} />
-            <Text color={colorConstant.white} variant="h4">
-              Hapus
-            </Text>
-          </RectButton>
-        </Animated.View>
-      </View>
-    );
-  };
+  const { item, price, quantity, unit } = props;
 
   return (
-    <Swipeable
-      childrenContainerStyle={styles.container}
-      renderRightActions={renderRightActions}
-      useNativeAnimations
-    >
+    <View style={styles.container}>
       <ImageComponent
         source={{
           uri: item?.categoryItem?.file?.fileUrl,
@@ -77,7 +41,7 @@ export default function ProductCard(props: Props) {
           Rp {string2money(price)}
         </Text>
       </View>
-    </Swipeable>
+    </View>
   );
 }
 
@@ -98,6 +62,7 @@ const styles = StyleSheet.create({
     width: 70,
     height: 70,
     borderRadius: 4,
+    backgroundColor: "red",
   },
   descriptionContainer: {
     paddingLeft: 12,
@@ -119,19 +84,5 @@ const styles = StyleSheet.create({
   },
   priceText: {
     flex: 1,
-  },
-  rightActionContainer: {
-    width: 135,
-    flexDirection: "row",
-  },
-  rightActionWrapper: {
-    flex: 1,
-  },
-  deleteButton: {
-    backgroundColor: colorConstant.gray1,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    height: "100%",
   },
 });

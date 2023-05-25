@@ -28,7 +28,7 @@ export default function ImageComponent(props: Props) {
       />
       {!isLoaded && (
         <Image
-          resizeMode="cover"
+          resizeMode="contain"
           source={imageConstant.placeholder}
           style={[styles.absolute, props.placeholderStyle]}
         />
@@ -44,6 +44,5 @@ const styles = StyleSheet.create({
     bottom: 0,
     right: 0,
     left: 0,
-    alignSelf: "center",
   },
 });

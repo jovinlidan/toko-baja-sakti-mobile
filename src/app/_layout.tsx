@@ -47,28 +47,30 @@ setLocale(yupID as any);
 function RootLayoutNav() {
   return (
     <RecoilRoot>
-      <QueryClientProvider client={queryClient}>
-        <CredentialPersist>
-          <Handler />
-          <OTPHistoryProvider>
-            <SelectModalProvider>
-              <Stack screenOptions={{ headerShown: false }}>
-                <Stack.Screen name="(tabs)" />
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <QueryClientProvider client={queryClient}>
+          <CredentialPersist>
+            <Handler />
+            <OTPHistoryProvider>
+              <SelectModalProvider>
+                <Stack screenOptions={{ headerShown: false }}>
+                  <Stack.Screen name="(tabs)" />
 
-                <Stack.Screen
-                  name="select-modal"
-                  options={{
-                    presentation: "modal",
-                    animation: "slide_from_bottom",
-                  }}
-                />
-              </Stack>
+                  <Stack.Screen
+                    name="select-modal"
+                    options={{
+                      presentation: "modal",
+                      animation: "slide_from_bottom",
+                    }}
+                  />
+                </Stack>
 
-              <Toast position="top" topOffset={40} />
-            </SelectModalProvider>
-          </OTPHistoryProvider>
-        </CredentialPersist>
-      </QueryClientProvider>
+                <Toast position="top" topOffset={40} />
+              </SelectModalProvider>
+            </OTPHistoryProvider>
+          </CredentialPersist>
+        </QueryClientProvider>
+      </GestureHandlerRootView>
     </RecoilRoot>
   );
 }

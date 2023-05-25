@@ -11,6 +11,8 @@ export class CityLite {
   @Expose({ name: "updated_at" })
   @Type(() => Date)
   updatedAt: Date;
+
+  code: number;
 }
 
 export class City {
@@ -24,6 +26,8 @@ export class City {
   @Expose({ name: "updated_at" })
   @Type(() => Date)
   updatedAt: Date;
+
+  code: number;
 }
 
 export class getCitiesInput {
