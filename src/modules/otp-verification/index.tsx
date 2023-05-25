@@ -8,6 +8,7 @@ import { setupToken } from "@common/repositories";
 import { Container, Content, Text, View } from "@components/elements";
 import { Header } from "@components/widgets";
 import {
+  HOME_SCREEN_NAME,
   LOGIN_SCREEN_NAME,
   UPDATE_PROFILE_SCREEN_NAME,
 } from "@constants/route.constant";
@@ -35,12 +36,13 @@ export default function OTPVerification() {
           verificationToken: token,
         },
       });
+      router.replace(HOME_SCREEN_NAME);
       setupToken(result?.data?.accessToken);
       setCredential(result?.data);
       await refetch();
       result?.message && Toast.success(result?.message);
     },
-    [refetch, register, setCredential]
+    [refetch, register, router, setCredential]
   );
 
   const onResetPasswordSubmit = useCallback(
@@ -48,6 +50,7 @@ export default function OTPVerification() {
       const result = await resetPassword({
         body: {
           ...values,
+          phone: "+62" + values.phone,
           verificationToken: token,
         },
       });
@@ -61,6 +64,7 @@ export default function OTPVerification() {
       const result = await changePhoneNumber({
         body: {
           ...values,
+          phone: "+62" + values.phone,
           verificationToken: token,
         },
       });
