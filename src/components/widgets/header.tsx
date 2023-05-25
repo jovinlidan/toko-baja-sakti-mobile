@@ -37,7 +37,7 @@ interface Props {
 }
 
 export const HEADER_HEIGHT =
-  (Platform.OS === "ios" ? 78 : 83) - (StatusBar.currentHeight || 0);
+  (Platform.OS === "ios" ? 78 : 100) - (StatusBar.currentHeight || 0);
 const { width: screenWidth } = Dimensions.get("window");
 const preLollipop = Platform.OS === "android" && Platform.Version < 21;
 

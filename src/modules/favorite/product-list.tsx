@@ -49,7 +49,7 @@ export default function ProductList() {
 
 const styles = StyleSheet.create({
   content: {
-    marginTop: 130 - (StatusBar.currentHeight || 0),
+    marginTop: 130,
     backgroundColor: "white",
     borderTopLeftRadius: 16,
     borderTopRightRadius: 16,

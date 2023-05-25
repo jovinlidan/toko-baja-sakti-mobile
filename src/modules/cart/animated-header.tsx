@@ -53,7 +53,7 @@ export default function AnimatedHeader(props: Props) {
       borderBottomWidth,
       borderBottomColor: colorConstant.headerBorderBottom,
       backgroundColor,
-      height: 80,
+      height: 100,
     };
   });
 

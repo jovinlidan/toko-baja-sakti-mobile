@@ -1,5 +1,4 @@
 import { Container, Content, StyleSheet, View } from "@components/elements";
-import { StatusBar } from "react-native";
 
 import {
   useAnimatedScrollHandler,
@@ -34,7 +33,7 @@ export default function Cart() {
 
 const styles = StyleSheet.create({
   content: {
-    marginTop: 140 - (StatusBar.currentHeight || 0),
+    marginTop: 130,
     backgroundColor: "white",
     borderTopLeftRadius: 16,
     borderTopRightRadius: 16,

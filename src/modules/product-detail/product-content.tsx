@@ -1,5 +1,3 @@
-import { useGetCategoryItem } from "@api-hooks/category-item/category-item.query";
-import { useSearchParams } from "expo-router";
 import {
   View,
   ImageComponent,
@@ -7,7 +5,6 @@ import {
   Text,
   Content,
 } from "@components/elements";
-import FetchWrapperComponent from "@components/common/fetch-wrapper-component";
 import WishlistComponent from "@components/widgets/wishlist-component";
 import sizeConstant from "@constants/size.constant";
 import { useCallback, useReducer, useState } from "react";
@@ -20,35 +17,37 @@ import TotalPrice from "./components/total-price";
 import { QuantityReducerAction, QuantitySetterEnum, StateForm } from "./types";
 import AllChoice from "./components/all-choice";
 import {
+  CategoryItem,
   Item,
   ItemUnitEnum,
 } from "@api-hooks/category-item/category-item.model";
 import Toast from "@common/helpers/toast";
 import { useAddCartItem } from "@api-hooks/cart/cart.mutation";
-import { useQueryClient } from "react-query";
+import { useQueryClient, UseQueryResult } from "react-query";
 import { getCartKey } from "@api-hooks/cart/cart.query";
+import { ApiError, ApiResult } from "@common/repositories";
 
-export default function ProductContent() {
-  const { id } = useSearchParams();
+interface Props {
+  categoryItemQuery: UseQueryResult<ApiResult<CategoryItem>, ApiError>;
+}
+
+export default function ProductContent(props: Props) {
   const queryClient = useQueryClient();
-  const { data, isLoading, error, refetch } = useGetCategoryItem({
-    id: id! as string,
-  });
-  const item = data?.data!;
+  const {} = props.categoryItemQuery;
+
+  const item = props.categoryItemQuery.data?.data!;
   const { mutateAsync: addCartItem, isLoading: addCartItemLoading } =
     useAddCartItem();
 
   const [stateForm, setStateForm] = useState<StateForm>({
-    ...data?.data?.items?.[0]!,
-    unit: data?.data?.bigUnit!,
+    ...item?.items?.[0]!,
+    unit: item?.bigUnit!,
   });
   const [totalStock, setTotalStock] = useState<number>(
-    Math.floor(
-      (data?.data?.items?.[0]?.stock || 1) / (data?.data?.conversionUnit || 1)
-    )
+    Math.floor((item?.items?.[0]?.stock || 1) / (item?.conversionUnit || 1))
   );
   const [price, setPrice] = useState<number>(
-    data?.data?.items?.[0]?.wholesalePrice || 0
+    item?.items?.[0]?.wholesalePrice || 0
   );
 
   const reducer = useCallback(
@@ -81,13 +80,13 @@ export default function ProductContent() {
       if (!itemOnData || !itemOnData?.isAvailable) {
         return 0;
       }
-      if (_stateForm?.unit === item.bigUnit) {
+      if (_stateForm?.unit === item?.bigUnit) {
         return itemOnData.wholesalePrice;
       } else {
         return itemOnData.retailPrice;
       }
     },
-    [item.bigUnit]
+    [item?.bigUnit]
   );
 
   const getTotalStock = useCallback(
@@ -95,20 +94,20 @@ export default function ProductContent() {
       if (!itemOnData || !itemOnData.isAvailable) {
         return 0;
       }
-      if (_stateForm?.unit === item.bigUnit) {
-        return Math.floor(itemOnData.stock / item.conversionUnit);
+      if (_stateForm?.unit === item?.bigUnit) {
+        return Math.floor(itemOnData.stock / (item?.conversionUnit || 1));
       } else {
         return itemOnData.stock;
       }
     },
-    [item.bigUnit, item.conversionUnit]
+    [item?.bigUnit, item?.conversionUnit]
   );
 
   const handleChangeStateForm = useCallback(
     (value: Partial<StateForm>) => {
       const _currentStateForm = { ...stateForm, ...value };
 
-      const itemOnData = item.items.find(
+      const itemOnData = item?.items.find(
         (i) =>
           i.size === _currentStateForm?.size &&
           i.color === _currentStateForm?.color &&
@@ -130,12 +129,12 @@ export default function ProductContent() {
       setTotalStock(_totalStock);
       setStateForm(_currentStateForm);
     },
-    [getPrice, getTotalStock, item.items, stateForm]
+    [getPrice, getTotalStock, item?.items, stateForm]
   );
 
   const handleCheckout = useCallback(async () => {
     try {
-      const itemOnData = item.items.find(
+      const itemOnData = item?.items.find(
         (i) =>
           i.size === stateForm?.size &&
           i.color === stateForm?.color &&
@@ -149,7 +148,7 @@ export default function ProductContent() {
           itemId: itemOnData?.id,
           quantity,
           unit:
-            stateForm?.unit === item.bigUnit
+            stateForm?.unit === item?.bigUnit
               ? ItemUnitEnum.Wholesale
               : ItemUnitEnum.Retail,
         },
@@ -161,8 +160,8 @@ export default function ProductContent() {
     }
   }, [
     addCartItem,
-    item.bigUnit,
-    item.items,
+    item?.bigUnit,
+    item?.items,
     quantity,
     queryClient,
     stateForm?.color,
@@ -175,45 +174,31 @@ export default function ProductContent() {
     <>
       <Content showsVerticalScrollIndicator={false} noPadding>
         <View>
-          <FetchWrapperComponent
-            isLoading={isLoading || !item}
-            error={error}
-            onRetry={refetch}
-            component={
-              item && (
-                <>
-                  <ImageComponent
-                    source={{ uri: item?.file?.fileUrl }}
-                    style={styles.image}
-                    resizeMode="stretch"
-                  />
-                  <View style={styles.content}>
-                    <WishlistComponent
-                      id={item.id}
-                      isWishlist={item.isWishlist}
-                    />
-                    <Text variant="h4">
-                      {item.name} - {item.brand}
-                    </Text>
-                    <View style={styMargin(4, SeparatorTypeEnum.bottom)} />
-                    <Text variant="bodyReg">
-                      Rp {string2money(price)} (Stok : {totalStock})
-                    </Text>
-                    <View style={styMargin(12, SeparatorTypeEnum.bottom)} />
-                    <AllChoice
-                      item={item}
-                      setStateForm={handleChangeStateForm}
-                      stateForm={stateForm}
-                    />
-                    <View style={styMargin(12, SeparatorTypeEnum.bottom)} />
-                    <Text>
-                      1 {item.bigUnit} = {item.conversionUnit} {item.smallUnit}
-                    </Text>
-                  </View>
-                </>
-              )
-            }
+          <ImageComponent
+            source={{ uri: item?.file?.fileUrl }}
+            style={styles.image}
+            resizeMode="stretch"
           />
+          <View style={styles.content}>
+            <WishlistComponent id={item.id} isWishlist={item.isWishlist} />
+            <Text variant="h4">
+              {item.name} - {item.brand}
+            </Text>
+            <View style={styMargin(4, SeparatorTypeEnum.bottom)} />
+            <Text variant="bodyReg">
+              Rp {string2money(price)} (Stok : {totalStock})
+            </Text>
+            <View style={styMargin(12, SeparatorTypeEnum.bottom)} />
+            <AllChoice
+              item={item}
+              setStateForm={handleChangeStateForm}
+              stateForm={stateForm}
+            />
+            <View style={styMargin(12, SeparatorTypeEnum.bottom)} />
+            <Text>
+              1 {item.bigUnit} = {item.conversionUnit} {item.smallUnit}
+            </Text>
+          </View>
         </View>
       </Content>
       <View style={styles.footer}>

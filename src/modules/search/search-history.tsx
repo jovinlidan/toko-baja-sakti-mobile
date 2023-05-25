@@ -25,8 +25,8 @@ export default function SearchHistory(props: Props) {
           <HistoryCard text={item} onPress={() => onSelectHistory(item)} />
         )}
         scrollEnabled={false}
-        ListHeaderComponent={<HistoryCard.Separator />}
-        ListFooterComponent={<HistoryCard.Separator />}
+        // ListHeaderComponent={<HistoryCard.Separator />}
+        // ListFooterComponent={<HistoryCard.Separator />}
         ItemSeparatorComponent={() => <HistoryCard.Separator />}
         showsHorizontalScrollIndicator={false}
         estimatedItemSize={51}

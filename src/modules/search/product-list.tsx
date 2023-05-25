@@ -18,8 +18,8 @@ export default function ProductList(props: Props) {
     <View style={styles.container}>
       <Text variant="h5">
         {query
-          ? `${data?.data?.length} Hasil untuk ${query}`
-          : `${data?.data?.length} Hasil`}
+          ? `${data?.data?.length || 0} Hasil untuk ${query}`
+          : `${data?.data?.length || 0} Hasil`}
       </Text>
       <View style={styMargin(32, SeparatorTypeEnum.bottom)} />
       <FetchWrapperComponent

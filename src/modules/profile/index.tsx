@@ -1,8 +1,6 @@
-import { Container, View, Text, Content } from "@components/elements";
-import sizeConstant from "@constants/size.constant";
+import { Container, View, Content } from "@components/elements";
 import { SeparatorTypeEnum, styMargin } from "@constants/styles.constant";
 import { StyleSheet } from "react-native";
-import { StatusBar } from "react-native";
 import {
   useAnimatedScrollHandler,
   useSharedValue,
@@ -37,11 +35,10 @@ export default function Profile() {
 }
 const styles = StyleSheet.create({
   content: {
-    marginTop: 120 - (StatusBar.currentHeight || 0),
+    marginTop: 120,
     backgroundColor: "white",
     borderTopLeftRadius: 16,
     borderTopRightRadius: 16,
     paddingTop: 28,
-    // padding: sizeConstant.contentPad,
   },
 });
