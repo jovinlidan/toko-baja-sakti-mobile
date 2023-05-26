@@ -1,8 +1,11 @@
 import { useGetCheckout } from "@api-hooks/checkout/checkout.query";
-import { View, Text, StyleSheet } from "@components/elements";
+import { View, Text, StyleSheet, Button } from "@components/elements";
 import colorConstant from "@constants/color.constant";
+import sizeConstant from "@constants/size.constant";
 import { Fragment } from "react";
 import Address from "./components/address";
+import CheckoutCost from "./components/checkout-cost";
+import Note from "./components/note";
 import ProductCard from "./components/product-card";
 
 function Separator() {
@@ -14,10 +17,11 @@ interface Props {
 export default function CheckoutContent(props: Props) {
   const { onOpenSelectAddressBottomSheet } = props;
   const { data } = useGetCheckout();
+
   return (
     <View>
-      {data?.data?.checkoutDetails?.map((item, idx) => (
-        <Fragment>
+      {data?.data?.checkoutDetails?.map((item) => (
+        <Fragment key={item.id}>
           <ProductCard {...item} />
           <Separator />
         </Fragment>
@@ -27,6 +31,14 @@ export default function CheckoutContent(props: Props) {
         address={data?.data?.address}
       />
       <Separator />
+      <CheckoutCost
+        weight={data?.data?.totalWeight || 0}
+        destination={data?.data?.address?.city?.code || 1}
+        grandTotal={data?.data?.grandTotal || 0}
+      />
+      <Separator />
+      <Note />
+      <Button style={styles.button}>Bayar Sekarang</Button>
     </View>
   );
 }
@@ -35,5 +47,8 @@ const styles = StyleSheet.create({
   separator: {
     borderBottomColor: colorConstant.stroke,
     borderBottomWidth: 1,
+  },
+  button: {
+    marginHorizontal: sizeConstant.contentPad,
   },
 });

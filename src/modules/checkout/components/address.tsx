@@ -14,7 +14,7 @@ export default function AddressCheckout(props: Props) {
   return (
     <View style={styles.container}>
       <View style={styles.titleContainer}>
-        <Text>Alamat Pengiriman</Text>
+        <Text variant="h5">Alamat Pengiriman</Text>
         <TouchableOpacity
           style={styles.viewMoreWrapper}
           onPress={onOpenSelectAddressBottomSheet}
@@ -36,7 +36,9 @@ export default function AddressCheckout(props: Props) {
             </Text>
           </View>
         ) : (
-          <Text variant="bodyReg">Tidak ada alamat dipilih</Text>
+          <Text variant="bodyReg" color={colorConstant.redDefault}>
+            Tidak ada alamat dipilih
+          </Text>
         )}
       </View>
     </View>

@@ -8,6 +8,7 @@ import AddressBottomSheet from "./components/address-bottom-sheet";
 
 export default function Checkout() {
   const { isLoading, error, refetch } = useGetCheckout();
+
   const addressBottomSheetRef = useRef<any>();
 
   const handleOpenSelectAddress = useCallback(() => {

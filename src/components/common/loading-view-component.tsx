@@ -4,6 +4,7 @@ import sizeConstant from "@constants/size.constant";
 
 interface Props {
   noPadding?: boolean;
+  loadingViewHeight?: number;
 }
 export default function LoadingViewComponent(props: Props) {
   return (
@@ -11,6 +12,7 @@ export default function LoadingViewComponent(props: Props) {
       style={[
         styles.loadingContainer,
         !props.noPadding && { paddingHorizontal: sizeConstant.contentPad },
+        { height: props.loadingViewHeight || 300 },
       ]}
     >
       <ActivityIndicator color={colorConstant.primaryOrange1} size="large" />
@@ -20,7 +22,6 @@ export default function LoadingViewComponent(props: Props) {
 const styles = StyleSheet.create({
   loadingContainer: {
     width: "100%",
-    height: 300,
     display: "flex",
     alignItems: "center",
     justifyContent: "center",

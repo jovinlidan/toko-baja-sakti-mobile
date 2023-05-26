@@ -21,6 +21,7 @@ interface WrapperProps {
   empty?: boolean;
 
   noPadding?: boolean;
+  loadingViewHeight?: number;
 }
 
 export default function FetchWrapperComponent(props: WrapperProps) {
@@ -35,13 +36,19 @@ export default function FetchWrapperComponent(props: WrapperProps) {
     empty,
     emptyText,
     noPadding,
+    loadingViewHeight,
   } = props;
 
   if (isLoading) {
     if (loadingComponent) {
       return <>{loadingComponent}</>;
     }
-    return <LoadingViewComponent noPadding={noPadding} />;
+    return (
+      <LoadingViewComponent
+        noPadding={noPadding}
+        loadingViewHeight={loadingViewHeight}
+      />
+    );
   } else if (error) {
     if (errorComponent) {
       return <>{errorComponent}</>;
