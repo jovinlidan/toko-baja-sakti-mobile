@@ -9,7 +9,7 @@ import { string2money } from "@utils/string";
 import { useCallback, useEffect, useState } from "react";
 
 interface Props {
-  destination: number;
+  destination?: number;
   weight: number;
   grandTotal: number;
 }
@@ -28,6 +28,9 @@ export default function CheckoutCost(props: Props) {
   });
 
   const fetchCourierCost = useCallback(async () => {
+    if (typeof destination !== "number") {
+      return;
+    }
     await getCourierCost({
       body: { courier: "jne", destination, weight, origin: 70 },
     });
@@ -52,7 +55,10 @@ export default function CheckoutCost(props: Props) {
                 Ongkos Kirim
               </Text>
               <Text variant="bodyReg" style={styles.costText}>
-                Rp {string2money(data?.cost?.[0]?.value || 0)}
+                Rp{" "}
+                {data?.cost?.[0]?.value
+                  ? string2money(data?.cost?.[0]?.value)
+                  : "-"}
               </Text>
             </View>
             <View style={styMargin(16, SeparatorTypeEnum.bottom)} />

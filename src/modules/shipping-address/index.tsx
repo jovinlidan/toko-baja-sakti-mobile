@@ -37,7 +37,6 @@ export default function ShippingAddress() {
           isLoading={isLoading || isFetching || isRefetching}
           onRetry={refetch}
           error={error}
-          empty={!data?.data?.length}
           component={
             <FlashList
               ItemSeparatorComponent={() => (

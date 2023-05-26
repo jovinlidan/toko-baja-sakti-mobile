@@ -5,30 +5,26 @@ import { PRODUCT_SCREEN_NAME } from "@constants/route.constant";
 import sizeConstant from "@constants/size.constant";
 import { SeparatorTypeEnum, styMargin } from "@constants/styles.constant";
 import { useRouter } from "expo-router";
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 
 export default function EmptyDataView() {
-  const [height, setHeight] = useState<number>(0);
   const router = useRouter();
 
   const onNavigateProduct = useCallback(() => {
     router.push(PRODUCT_SCREEN_NAME);
   }, [router]);
   return (
-    <View
-      style={[styles.container, { top: -height / 2 }]}
-      onLayout={(e) => setHeight(e.nativeEvent.layout.height)}
-    >
+    <View style={styles.container}>
       <Image source={imageConstant.emptyData} style={styles.image} />
       <View style={styMargin(12, SeparatorTypeEnum.bottom)} />
-      <Text variant="h5">Tidak ada favorit</Text>
+      <Text variant="h5">Keranjang Kosong</Text>
       <View style={styMargin(12, SeparatorTypeEnum.bottom)} />
       <Text
         variant="bodyMed"
         color={colorConstant.gray4}
         style={styles.description}
       >
-        Kamu tidak mempunyai barang favorit. Silahkan tambah barang favorit.
+        Ayo mulai menambahkan barang ke keranjang belanja kamu
       </Text>
       <View style={styMargin(16, SeparatorTypeEnum.bottom)} />
       <Button onPress={onNavigateProduct} style={styles.button}>

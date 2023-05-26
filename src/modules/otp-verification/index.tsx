@@ -50,7 +50,6 @@ export default function OTPVerification() {
       const result = await resetPassword({
         body: {
           ...values,
-          phone: "+62" + values.phone,
           verificationToken: token,
         },
       });

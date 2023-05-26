@@ -61,7 +61,7 @@ export default function LoginForm() {
         if (e?.errors) {
           formSetErrors(e?.errors, methods.setError);
         }
-        Toast.success(e?.message);
+        Toast.error(e?.message);
       }
     },
     [login, methods.setError, refetch, setCredential]

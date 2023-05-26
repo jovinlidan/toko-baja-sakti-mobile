@@ -1,6 +1,5 @@
 import { useRemoveCartItem } from "@api-hooks/cart/cart.mutation";
 import { getCartKey, useGetCart } from "@api-hooks/cart/cart.query";
-import { getCheckoutKey } from "@api-hooks/checkout/checkout.query";
 import Toast from "@common/helpers/toast";
 import FetchWrapperComponent from "@components/common/fetch-wrapper-component";
 import ConfirmationDialog from "@components/dialog/confirmation-dialog";
@@ -20,6 +19,7 @@ import { string2money } from "@utils/string";
 import { useRouter } from "expo-router";
 import { useCallback, useState } from "react";
 import { useQueryClient } from "react-query";
+import EmptyDataView from "./components/empty-data-view";
 import ProductCard from "./components/product-card";
 
 export default function CartContent() {
@@ -60,6 +60,8 @@ export default function CartContent() {
         isLoading={isLoading}
         error={error}
         onRetry={refetch}
+        empty={!data?.data?.cartItems?.length}
+        emptyComponent={<EmptyDataView />}
         component={
           <>
             <FlashList

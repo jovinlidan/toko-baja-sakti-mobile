@@ -74,11 +74,11 @@ export default function ResetPasswordForm() {
         label="Nomor Telepon"
         leftIconComponent={() => <Text>+62</Text>}
       />
-      <Field type="password" name="password" label="Kata Sandi" />
+      <Field type="password" name="password" label="Kata Sandi Baru" />
       <Field
         type="password"
         name="passwordConfirmation"
-        label="Konfirmasi Kata Sandi"
+        label="Konfirmasi Kata Sandi Baru"
       />
       <View style={styMargin(28, SeparatorTypeEnum.bottom)} />
 

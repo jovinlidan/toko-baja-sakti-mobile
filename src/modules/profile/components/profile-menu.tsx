@@ -10,6 +10,7 @@ import { useCredential } from "@hooks/use-credential";
 import useMe from "@hooks/use-me";
 import { useRouter } from "expo-router";
 import { useCallback, useMemo } from "react";
+import { useQueryClient } from "react-query";
 import ProfileMenuItem, { ProfileMenuItemType } from "./profile-menu-item";
 
 export default function ProfileMenu() {
@@ -17,12 +18,14 @@ export default function ProfileMenu() {
   const { reset } = useMe();
   const { setCredential } = useCredential();
   const router = useRouter();
+  const queryClient = useQueryClient();
 
   const logoutUser = useCallback(async () => {
     await revoke();
     await reset();
+    await queryClient.clear();
     setCredential(undefined);
-  }, [reset, revoke, setCredential]);
+  }, [queryClient, reset, revoke, setCredential]);
 
   const onNavigateUpdateProfile = useCallback(() => {
     router.push(UPDATE_PROFILE_SCREEN_NAME);
@@ -61,7 +64,7 @@ export default function ProfileMenu() {
         onPress: logoutUser,
       },
     ],
-    [logoutUser]
+    [logoutUser, onNavigateShippingAddress, onNavigateUpdateProfile]
   );
   return (
     <View>

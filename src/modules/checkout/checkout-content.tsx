@@ -33,12 +33,11 @@ export default function CheckoutContent(props: Props) {
       <Separator />
       <CheckoutCost
         weight={data?.data?.totalWeight || 0}
-        destination={data?.data?.address?.city?.code || 1}
+        destination={data?.data?.address?.city?.code}
         grandTotal={data?.data?.grandTotal || 0}
       />
       <Separator />
       <Note />
-      <Button style={styles.button}>Bayar Sekarang</Button>
     </View>
   );
 }
@@ -47,8 +46,5 @@ const styles = StyleSheet.create({
   separator: {
     borderBottomColor: colorConstant.stroke,
     borderBottomWidth: 1,
-  },
-  button: {
-    marginHorizontal: sizeConstant.contentPad,
   },
 });
