@@ -1,5 +1,6 @@
 import colorConstant from "@constants/color.constant";
-import React, { ReactNode } from "react";
+import { useRouter } from "expo-router";
+import React, { ReactNode, useEffect } from "react";
 import {
   View,
   StyleSheet,
@@ -7,6 +8,7 @@ import {
   Platform,
   SafeAreaView,
   ViewStyle,
+  BackHandler,
 } from "react-native";
 
 interface Props {
@@ -28,6 +30,19 @@ export default function Container(props: Props) {
     keyboardAvoidingViewBehavior = "padding",
   } = props;
   const containerStyle = [styles.container, style];
+  const router = useRouter();
+
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      () => {
+        router.back();
+        return true;
+      }
+    );
+    return () => backHandler.remove();
+  }, [router]);
+
   return Platform.OS === "ios" ? (
     <KeyboardAvoidingView
       keyboardVerticalOffset={0}

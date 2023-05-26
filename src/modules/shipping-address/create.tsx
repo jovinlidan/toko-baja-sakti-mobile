@@ -19,7 +19,7 @@ export default function CreateShippingAddress() {
   );
   return (
     <Container>
-      <Header title="Tambah Alamat" />
+      <Header title="Tambah Alamat" back />
       <Content>
         <ShippingAddressForm onSubmit={onSubmit} />
       </Content>
