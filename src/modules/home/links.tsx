@@ -7,6 +7,7 @@ import {
   CART_SCREEN_NAME,
   FAVORITE_SCREEN_NAME,
   SHIPPING_ADDRESS_SCREEN_NAME,
+  TRANSACTION_HISTORY_SCREEN_NAME,
 } from "@constants/route.constant";
 
 export default function Links() {
@@ -15,7 +16,7 @@ export default function Links() {
     return [
       {
         color: colorConstant.primaryOrange1,
-        onPress: () => router.push(""),
+        onPress: () => router.push(TRANSACTION_HISTORY_SCREEN_NAME),
         text: "Riwayat \nTransaksi",
       },
       {

@@ -6,9 +6,12 @@ import ProductCard from "./components/product-card";
 import { TransactionItemHeader } from "./types";
 import { format } from "date-fns";
 import colorConstant from "@constants/color.constant";
-import { getStatusColor, getStatusLabel } from "./helper";
 import { useRouter } from "expo-router";
 import { TRANSACTION_HISTORY_DETAIL_SCREEN_NAME } from "@constants/route.constant";
+import {
+  getTransactionStatusColor,
+  getTransactionStatusLabel,
+} from "@utils/helper";
 
 export default function TransactionHistoryContent() {
   const { data } = useGetTransactions();
@@ -47,7 +50,7 @@ export default function TransactionHistoryContent() {
     ({ item, index }) => {
       if (item instanceof TransactionItemHeader) {
         return (
-          <View>
+          <View key={index}>
             {index !== 0 && <ProductCard.Separator />}
             <View style={styles.row}>
               <Text variant="hint">
@@ -56,11 +59,11 @@ export default function TransactionHistoryContent() {
               <View
                 style={[
                   styles.pill,
-                  { backgroundColor: getStatusColor(item.status) },
+                  { backgroundColor: getTransactionStatusColor(item.status) },
                 ]}
               >
                 <Text variant="hint" color={colorConstant.white}>
-                  {getStatusLabel(item.status)}
+                  {getTransactionStatusLabel(item.status)}
                 </Text>
               </View>
             </View>
@@ -70,6 +73,7 @@ export default function TransactionHistoryContent() {
       return (
         <ProductCard
           {...item}
+          key={index}
           onPress={() => onNavigateTransactionHistoryDetail(item.transactionId)}
         />
       );
@@ -104,6 +108,7 @@ export default function TransactionHistoryContent() {
       stickyHeaderIndices={stickyHeaderIndices}
       scrollEnabled
       ListFooterComponentStyle={styles.footerComponent}
+      keyExtractor={(_, idx) => idx.toString()}
     />
   );
 }

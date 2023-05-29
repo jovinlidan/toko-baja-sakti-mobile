@@ -1,7 +1,7 @@
 import { TransactionStatusEnum } from "@api-hooks/transaction/transaction.model";
 import colorConstant from "@constants/color.constant";
 
-export function getStatusLabel(status: TransactionStatusEnum) {
+export function getTransactionStatusLabel(status?: TransactionStatusEnum) {
   switch (status) {
     case TransactionStatusEnum.Created:
       return "Belum Dibayar";
@@ -21,7 +21,7 @@ export function getStatusLabel(status: TransactionStatusEnum) {
       return "Dibatalkan";
   }
 }
-export function getStatusColor(status: TransactionStatusEnum) {
+export function getTransactionStatusColor(status?: TransactionStatusEnum) {
   switch (status) {
     case TransactionStatusEnum.Created:
     case TransactionStatusEnum.InProcess:
