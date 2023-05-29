@@ -69,3 +69,45 @@ export class CourierCost {
   @Type(() => Cost)
   cost: Cost[];
 }
+
+export class MakeBillingInput {
+  param: MakeBillingParamInput;
+  body: MakeBillingFormInput;
+}
+
+export class MakeBillingParamInput {
+  checkoutId: string;
+}
+export class MakeBillingFormInput {
+  addressId: string;
+  shippingCost: number;
+}
+
+export class getBillingInput {
+  billingId: string;
+}
+
+export class Billing {
+  id: string;
+
+  @Expose({ name: "total_price" })
+  @Type(() => Number)
+  totalPrice: number;
+
+  @Expose({ name: "billing_url" })
+  billingUrl: string;
+
+  @Expose({ name: "shipping_cost" })
+  @Type(() => Number)
+  shippingCost: number;
+
+  status: string;
+
+  @Expose({ name: "created_at" })
+  @Type(() => Date)
+  createdAt: Date;
+
+  @Expose({ name: "updated_at" })
+  @Type(() => Date)
+  updatedAt: Date;
+}
