@@ -1,17 +1,25 @@
-import { View, Text, StyleSheet, ImageComponent } from "@components/elements";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ImageComponent,
+  TouchableOpacity,
+} from "@components/elements";
 import colorConstant from "@constants/color.constant";
 import sizeConstant from "@constants/size.constant";
 import { SeparatorTypeEnum, styMargin } from "@constants/styles.constant";
 import { string2money } from "@utils/string";
-import { CheckoutDetail } from "@api-hooks/checkout/checkout.model";
+import { TransactionDetail } from "@api-hooks/transaction/transaction.model";
 
-interface Props extends CheckoutDetail {}
+interface Props extends TransactionDetail {
+  onPress: VoidFunction;
+}
 
 export default function ProductCard(props: Props) {
-  const { item, price, quantity, unit } = props;
+  const { item, price, quantity, unit, onPress } = props;
 
   return (
-    <View style={styles.container}>
+    <TouchableOpacity style={styles.container} onPress={onPress}>
       <ImageComponent
         source={{
           uri: item?.categoryItem?.file?.fileUrl,
@@ -41,7 +49,7 @@ export default function ProductCard(props: Props) {
           Rp {string2money(price)}
         </Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 }
 
@@ -77,6 +85,7 @@ const styles = StyleSheet.create({
   separator: {
     borderBottomColor: colorConstant.stroke,
     borderBottomWidth: 1,
+    // marginTop: 8,
   },
   priceContainer: {
     flexDirection: "row",

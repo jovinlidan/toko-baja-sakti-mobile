@@ -11,6 +11,9 @@ export const LOGIN_SCREEN_NAME = "/login";
 export const PRODUCT_DETAIL_SCREEN_NAME = "/product/[id]";
 export const CHECKOUT_SCREEN_NAME = "/checkout";
 export const BILLING_SCREEN_NAME = "/billing/[id]";
+export const TRANSACTION_HISTORY_SCREEN_NAME = "/transaction-history";
+export const TRANSACTION_HISTORY_DETAIL_SCREEN_NAME =
+  "/transaction-history/[id]";
 
 export const OTP_VERIFICATION_SCREEN_NAME = "/otp-verification";
 

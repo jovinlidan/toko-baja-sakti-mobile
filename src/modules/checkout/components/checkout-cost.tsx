@@ -89,7 +89,6 @@ export default function CheckoutCost(props: Props) {
 const styles = StyleSheet.create({
   container: {
     padding: sizeConstant.contentPad,
-    // backgroundColor: "red",
   },
   costText: {
     flex: 1,

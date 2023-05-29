@@ -3,6 +3,7 @@ import { View } from "@components/elements";
 import colorConstant from "@constants/color.constant";
 import {
   SHIPPING_ADDRESS_SCREEN_NAME,
+  TRANSACTION_HISTORY_SCREEN_NAME,
   UPDATE_PROFILE_SCREEN_NAME,
 } from "@constants/route.constant";
 import { Feather, MaterialIcons } from "@expo/vector-icons";
@@ -35,6 +36,10 @@ export default function ProfileMenu() {
     router.push(SHIPPING_ADDRESS_SCREEN_NAME);
   }, [router]);
 
+  const onNavigateTransactionHistory = useCallback(() => {
+    router.push(TRANSACTION_HISTORY_SCREEN_NAME);
+  }, [router]);
+
   const OPTIONS: ProfileMenuItemType[] = useMemo(
     () => [
       {
@@ -50,7 +55,7 @@ export default function ProfileMenu() {
       {
         label: "Riwayat Transaksi",
         icon: <Feather name="truck" size={24} color={colorConstant.gray2} />,
-        onPress: () => {},
+        onPress: onNavigateTransactionHistory,
       },
       {
         label: "Keluar",
@@ -64,7 +69,12 @@ export default function ProfileMenu() {
         onPress: logoutUser,
       },
     ],
-    [logoutUser, onNavigateShippingAddress, onNavigateUpdateProfile]
+    [
+      logoutUser,
+      onNavigateShippingAddress,
+      onNavigateTransactionHistory,
+      onNavigateUpdateProfile,
+    ]
   );
   return (
     <View>

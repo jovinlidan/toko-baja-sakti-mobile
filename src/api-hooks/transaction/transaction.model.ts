@@ -4,6 +4,7 @@ import {
   Item,
 } from "@api-hooks/category-item/category-item.model";
 import { Billing } from "@api-hooks/checkout/checkout.model";
+import colorConstant from "@constants/color.constant";
 import { Expose, Type } from "class-transformer";
 
 export class TransactionDetail {
@@ -28,6 +29,16 @@ export class TransactionDetailItem extends Item {
   categoryItem: CategoryItem;
 }
 
+export enum TransactionStatusEnum {
+  Created = "created",
+  InProcess = "in_process",
+  Requested = "requested",
+  Shipped = "shipped",
+  Delivered = "delivered",
+  Finished = "finished",
+  Disputed = "disputed",
+  Cancelled = "cancelled",
+}
 export class TransactionLite {
   id: string;
 
@@ -47,7 +58,7 @@ export class TransactionLite {
   @Type(() => Number)
   grandTotal: number;
 
-  status: string;
+  status: TransactionStatusEnum;
 
   @Expose({ name: "no_receipt" })
   noReceipt?: string;
@@ -79,7 +90,43 @@ export class Transaction {
   @Type(() => Address)
   address: Address;
 
-  status: string;
+  status: TransactionStatusEnum;
+
+  getStatusLabel() {
+    switch (this.status) {
+      case TransactionStatusEnum.Created:
+        return "Belum Dibayar";
+      case TransactionStatusEnum.InProcess:
+        return "Sedang Diproses";
+      case TransactionStatusEnum.Requested:
+        return "Menunggu Kurir";
+      case TransactionStatusEnum.Shipped:
+        return "Sedang Dikirim";
+      case TransactionStatusEnum.Delivered:
+        return "Pesanan Telah Tiba Di Tujuan";
+      case TransactionStatusEnum.Finished:
+        return "Selesai";
+      case TransactionStatusEnum.Disputed:
+        return "Dikomplain";
+      case TransactionStatusEnum.Cancelled:
+        return "Dibatalkan";
+    }
+  }
+  getStatusColor() {
+    switch (this.status) {
+      case TransactionStatusEnum.Created:
+      case TransactionStatusEnum.InProcess:
+      case TransactionStatusEnum.Requested:
+      case TransactionStatusEnum.Shipped:
+        return colorConstant.primaryOrange1;
+      case TransactionStatusEnum.Delivered:
+      case TransactionStatusEnum.Finished:
+        return colorConstant.successDefault;
+      case TransactionStatusEnum.Disputed:
+      case TransactionStatusEnum.Cancelled:
+        return colorConstant.redDefault;
+    }
+  }
 
   @Expose({ name: "no_receipt" })
   noReceipt?: string;
