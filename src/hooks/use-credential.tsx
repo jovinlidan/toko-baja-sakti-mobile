@@ -18,7 +18,7 @@ export interface CredentialStateProps {
 
 export const CredentialContext = React.createContext<CredentialStateProps>({
   credential: undefined,
-  setCredential: () => {},
+  setCredential: () => { },
 });
 
 interface Props {
@@ -53,7 +53,6 @@ export default function Credential(props: Props) {
     }),
     [userCredential]
   );
-
   React.useEffect(() => {
     if (segments[0] === "(global)") {
       return;

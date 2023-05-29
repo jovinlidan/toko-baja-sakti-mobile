@@ -50,10 +50,8 @@ export class CourierCostInput {
 }
 
 export class CourierCostFormInput {
-  origin: number;
   destination: number;
   weight: number;
-  courier: string;
 }
 
 export class Cost {

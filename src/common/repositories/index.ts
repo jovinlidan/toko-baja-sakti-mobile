@@ -103,11 +103,12 @@ export function setLanguage(lang: string): void {
   client = client.extend(config);
 }
 
-export function setupOnUnAuthorized(action: () => void) {
+export function setupOnUnAuthorized(action: () => Promise<void>) {
   if (config.hooks?.afterResponse) {
     config.hooks.afterResponse[1] = async (request, options, response) => {
       if (response.status === 401) {
-        action();
+        await action();
+        return client(request);
       }
     };
     client = client.extend(config);

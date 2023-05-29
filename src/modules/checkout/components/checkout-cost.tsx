@@ -32,7 +32,7 @@ export default function CheckoutCost(props: Props) {
       return;
     }
     await getCourierCost({
-      body: { courier: "jne", destination, weight, origin: 70 },
+      body: { destination, weight },
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [destination, weight]);
