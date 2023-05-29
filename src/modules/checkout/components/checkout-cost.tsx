@@ -1,12 +1,12 @@
-import { CourierCost } from "@api-hooks/checkout/checkout.model";
 import { useGetCourierCost } from "@api-hooks/checkout/checkout.mutation";
 import FetchWrapperComponent from "@components/common/fetch-wrapper-component";
 import { View, Text, StyleSheet } from "@components/elements";
 import colorConstant from "@constants/color.constant";
 import sizeConstant from "@constants/size.constant";
 import { SeparatorTypeEnum, styMargin } from "@constants/styles.constant";
+import { useShippingCostContext } from "@hooks/use-shipping-cost";
 import { string2money } from "@utils/string";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect } from "react";
 
 interface Props {
   destination?: number;
@@ -16,14 +16,14 @@ interface Props {
 
 export default function CheckoutCost(props: Props) {
   const { destination, weight, grandTotal } = props;
-  const [data, setData] = useState<CourierCost>();
+  const { setCost, cost } = useShippingCostContext();
   const {
     mutateAsync: getCourierCost,
     error,
     isLoading,
   } = useGetCourierCost({
     onSuccess(_data: any) {
-      setData(_data);
+      setCost?.(_data);
     },
   });
 
@@ -56,8 +56,8 @@ export default function CheckoutCost(props: Props) {
               </Text>
               <Text variant="bodyReg" style={styles.costText}>
                 Rp{" "}
-                {data?.cost?.[0]?.value
-                  ? string2money(data?.cost?.[0]?.value)
+                {cost?.cost?.[0]?.value
+                  ? string2money(cost?.cost?.[0]?.value)
                   : "-"}
               </Text>
             </View>
@@ -76,7 +76,7 @@ export default function CheckoutCost(props: Props) {
                 Total
               </Text>
               <Text variant="h4" style={styles.costText}>
-                Rp {string2money(grandTotal + (data?.cost?.[0]?.value || 0))}
+                Rp {string2money(grandTotal + (cost?.cost?.[0]?.value || 0))}
               </Text>
             </View>
           </View>

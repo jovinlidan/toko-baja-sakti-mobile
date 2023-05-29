@@ -7,6 +7,7 @@ import Address from "./components/address";
 import CheckoutCost from "./components/checkout-cost";
 import Note from "./components/note";
 import ProductCard from "./components/product-card";
+import { CourierCost } from "@api-hooks/checkout/checkout.model";
 
 function Separator() {
   return <View style={styles.separator} />;

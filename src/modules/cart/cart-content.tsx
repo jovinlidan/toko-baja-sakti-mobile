@@ -17,13 +17,14 @@ import { SeparatorTypeEnum, styMargin } from "@constants/styles.constant";
 import { AntDesign } from "@expo/vector-icons";
 import { string2money } from "@utils/string";
 import { useRouter } from "expo-router";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useQueryClient } from "react-query";
 import EmptyDataView from "./components/empty-data-view";
 import ProductCard from "./components/product-card";
 
 export default function CartContent() {
   const { data, error, refetch, isLoading } = useGetCart();
+
   const { mutateAsync: removeCartItem } = useRemoveCartItem();
   const [selectedId, setSelectedId] = useState<string>();
   const router = useRouter();

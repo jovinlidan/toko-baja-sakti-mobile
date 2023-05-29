@@ -101,7 +101,7 @@ export class Billing {
   @Type(() => Number)
   shippingCost: number;
 
-  status: string;
+  status: "PAID" | "EXPIRED" | "PENDING";
 
   @Expose({ name: "created_at" })
   @Type(() => Date)
@@ -110,4 +110,15 @@ export class Billing {
   @Expose({ name: "updated_at" })
   @Type(() => Date)
   updatedAt: Date;
+
+  getStatusLabel() {
+    switch (this.status) {
+      case "PAID":
+        return "Sudah Bayar";
+      case "EXPIRED":
+        return "Kedaluwarsa";
+      default:
+        return "Belum dibayar";
+    }
+  }
 }

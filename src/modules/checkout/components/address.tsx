@@ -28,7 +28,7 @@ export default function AddressCheckout(props: Props) {
         {address ? (
           <View>
             <Text variant="bodyReg">
-              {address.addressDetail}, {address.city.name}
+              {address.addressDetail}, {address.city?.name}
             </Text>
             <View style={styMargin(4, SeparatorTypeEnum.bottom)} />
             <Text variant="bodyReg">
