@@ -26,6 +26,8 @@ import { useAddCartItem } from "@api-hooks/cart/cart.mutation";
 import { useQueryClient, UseQueryResult } from "react-query";
 import { getCartKey } from "@api-hooks/cart/cart.query";
 import { ApiError, ApiResult } from "@common/repositories";
+import { useRouter } from "expo-router";
+import { CART_SCREEN_NAME } from "@constants/route.constant";
 
 interface Props {
   categoryItemQuery: UseQueryResult<ApiResult<CategoryItem>, ApiError>;
@@ -33,6 +35,7 @@ interface Props {
 
 export default function ProductContent(props: Props) {
   const queryClient = useQueryClient();
+  const router = useRouter();
 
   const item = props.categoryItemQuery.data?.data!;
   const { mutateAsync: addCartItem, isLoading: addCartItemLoading } =
@@ -160,6 +163,7 @@ export default function ProductContent(props: Props) {
       });
       await queryClient.invalidateQueries(getCartKey());
       result?.message && Toast.success(result?.message);
+      router.push(CART_SCREEN_NAME);
     } catch (e: any) {
       e?.message && Toast.error(e?.message);
     }
@@ -169,6 +173,7 @@ export default function ProductContent(props: Props) {
     item?.items,
     quantity,
     queryClient,
+    router,
     stateForm?.color,
     stateForm?.size,
     stateForm?.thick,
