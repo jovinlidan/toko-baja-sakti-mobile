@@ -208,6 +208,7 @@ export default function ProductContent(props: Props) {
             <Text>
               1 {item.bigUnit} = {item.conversionUnit} {item.smallUnit}
             </Text>
+            <View style={styMargin(20, SeparatorTypeEnum.bottom)} />
           </View>
         </View>
       </Content>
