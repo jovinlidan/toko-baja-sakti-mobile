@@ -3,9 +3,10 @@ import { Container } from "@components/elements";
 import { Header } from "@components/widgets";
 import { useGetTransactions } from "@api-hooks/transaction/transaction.query";
 import TransactionHistoryContent from "./transaction-history-content";
+import EmptyDataView from "./components/empty-data-view";
 
 export default function TransactionHistory() {
-  const { isLoading, error, refetch } = useGetTransactions();
+  const { isLoading, error, refetch, data } = useGetTransactions();
 
   return (
     <Container>
@@ -14,6 +15,8 @@ export default function TransactionHistory() {
         isLoading={isLoading}
         error={error}
         onRetry={refetch}
+        empty={!data?.data?.length}
+        emptyComponent={<EmptyDataView />}
         component={<TransactionHistoryContent />}
       />
     </Container>
