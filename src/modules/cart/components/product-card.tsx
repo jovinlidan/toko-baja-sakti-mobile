@@ -6,7 +6,10 @@ import { SeparatorTypeEnum, styMargin } from "@constants/styles.constant";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { string2money } from "@utils/string";
 import { RectButton, Swipeable } from "react-native-gesture-handler";
-import { Animated } from "react-native";
+import { Animated, Pressable } from "react-native";
+import { useCallback } from "react";
+import { useRouter } from "expo-router";
+import { PRODUCT_DETAIL_SCREEN_NAME } from "@constants/route.constant";
 
 interface Props extends CartItem {
   onDelete: VoidFunction;
@@ -14,7 +17,7 @@ interface Props extends CartItem {
 
 export default function ProductCard(props: Props) {
   const { item, price, quantity, unit, onDelete } = props;
-
+  const router = useRouter();
   const renderRightActions = (progress) => {
     const translateX = progress.interpolate({
       inputRange: [0, 1],
@@ -42,41 +45,56 @@ export default function ProductCard(props: Props) {
     );
   };
 
-  return (
-    <Swipeable
-      childrenContainerStyle={styles.container}
-      renderRightActions={renderRightActions}
-      useNativeAnimations
-    >
-      <ImageComponent
-        source={{
-          uri: item?.categoryItem?.file?.fileUrl,
-        }}
-        resizeMode="stretch"
-        style={styles.image}
-      />
-      <View style={styles.descriptionContainer}>
-        <Text variant="bodyReg" color={colorConstant.gray1} selectable={false}>
-          {item.categoryItem.name} - {item.categoryItem.brand}
-        </Text>
-        <View style={styMargin(4, SeparatorTypeEnum.bottom)} />
-        <View style={styles.priceContainer}>
-          <Text variant="bodyMed" style={styles.priceText} selectable={false}>
-            Rp {string2money(Math.round(price / quantity))}
-          </Text>
-          <Text variant="h6">x{quantity}</Text>
-        </View>
-        <View style={styMargin(4, SeparatorTypeEnum.bottom)} />
-        <Text variant="bodySm" color={colorConstant.gray2} selectable={false}>
-          {item.size}, {item.thick} mm, {item.color}, {unit}
-        </Text>
-      </View>
+  const onNavigateProductDetail = useCallback(
+    (idParam) => {
+      router.push({
+        pathname: PRODUCT_DETAIL_SCREEN_NAME,
+        params: { id: idParam },
+      });
+    },
+    [router]
+  );
 
-      <View style={styles.total}>
-        <Text variant="h5" selectable={false}>
-          Rp {string2money(price)}
-        </Text>
-      </View>
+  return (
+    <Swipeable renderRightActions={renderRightActions} useNativeAnimations>
+      <Pressable
+        style={styles.container}
+        onPress={() => onNavigateProductDetail(item.categoryItem.id)}
+      >
+        <ImageComponent
+          source={{
+            uri: item?.categoryItem?.file?.fileUrl,
+          }}
+          resizeMode="stretch"
+          style={styles.image}
+        />
+        <View style={styles.descriptionContainer}>
+          <Text
+            variant="bodyReg"
+            color={colorConstant.gray1}
+            selectable={false}
+          >
+            {item.categoryItem.name} - {item.categoryItem.brand}
+          </Text>
+          <View style={styMargin(4, SeparatorTypeEnum.bottom)} />
+          <View style={styles.priceContainer}>
+            <Text variant="bodyMed" style={styles.priceText} selectable={false}>
+              Rp {string2money(Math.round(price / quantity))}
+            </Text>
+            <Text variant="h6">x{quantity}</Text>
+          </View>
+          <View style={styMargin(4, SeparatorTypeEnum.bottom)} />
+          <Text variant="bodySm" color={colorConstant.gray2} selectable={false}>
+            {item.size}, {item.thick} mm, {item.color}, {unit}
+          </Text>
+        </View>
+
+        <View style={styles.total}>
+          <Text variant="h5" selectable={false}>
+            Rp {string2money(price)}
+          </Text>
+        </View>
+      </Pressable>
     </Swipeable>
   );
 }
