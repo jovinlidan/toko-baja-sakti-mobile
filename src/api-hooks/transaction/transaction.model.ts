@@ -198,3 +198,7 @@ export class SetFinishTransactionInput {
     transactionId: string;
   };
 }
+
+export class PrintInvoiceTransactionInput {
+  id: string;
+}

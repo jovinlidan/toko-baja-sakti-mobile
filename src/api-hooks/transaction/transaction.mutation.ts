@@ -1,7 +1,10 @@
 import { MessageResult } from "@api-hooks/common/common.model";
 import { ApiError, ApiResult } from "@common/repositories";
 import { UseMutationOptions, useMutation } from "react-query";
-import { SetFinishTransactionInput } from "./transaction.model";
+import {
+  PrintInvoiceTransactionInput,
+  SetFinishTransactionInput,
+} from "./transaction.model";
 import { MutationFetchFunction } from "@common/helpers/common";
 
 export function useSetFinishTransaction(
@@ -21,4 +24,18 @@ export function useSetFinishTransaction(
       method: "PATCH",
     });
   }, options);
+}
+
+export function usePrintInvoiceTransaction(
+  options?: UseMutationOptions<any, ApiError, PrintInvoiceTransactionInput>
+) {
+  return useMutation<any, ApiError, PrintInvoiceTransactionInput>(
+    async function ({ id }) {
+      return await MutationFetchFunction({
+        url: `transaction/${id}/print-invoice`,
+        method: "GET",
+      });
+    },
+    options
+  );
 }

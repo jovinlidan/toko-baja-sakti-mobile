@@ -16,17 +16,19 @@ import { format } from "date-fns";
 import colorConstant from "@constants/color.constant";
 import { useSearchParams } from "expo-router";
 import {
+  downloadFile,
   getTransactionStatusColor,
   getTransactionStatusLabel,
 } from "@utils/helper";
 import { SeparatorTypeEnum, styMargin } from "@constants/styles.constant";
 import ShippingCost from "./components/shipping-cost";
 import { AntDesign, MaterialIcons } from "@expo/vector-icons";
-import { Linking } from "react-native";
 import Toast from "@common/helpers/toast";
 import { TransactionStatusEnum } from "@api-hooks/transaction/transaction.model";
 import { useSetFinishTransaction } from "@api-hooks/transaction/transaction.mutation";
 import { useQueryClient } from "react-query";
+import { requestPermission } from "@hooks/use-permission";
+import { useCredential } from "@hooks/use-credential";
 
 interface Props {
   handleOpenTrackOrder: VoidFunction;
@@ -37,6 +39,7 @@ export default function TransactionHistoryDetailContent(props: Props) {
   const { data, refetch } = useGetTransaction({ id: id as string });
   const queryClient = useQueryClient();
   const { handleOpenTrackOrder } = props;
+  const { credential } = useCredential();
   const {
     mutateAsync: setFinishTransaction,
     isLoading: setFinishTransactionLoading,
@@ -44,17 +47,28 @@ export default function TransactionHistoryDetailContent(props: Props) {
 
   const item = data?.data;
 
-  const handleOpenBillingUrl = useCallback(async () => {
-    if (!item?.billing?.billingUrl) {
-      return;
-    }
-    const supported = await Linking.canOpenURL(item?.billing?.billingUrl);
-    if (supported) {
-      await Linking.openURL(item?.billing?.billingUrl);
-    } else {
-      Toast.error("Gagal membuka url");
-    }
-  }, [item?.billing?.billingUrl]);
+  const handleOpenInvoices = useCallback(async () => {
+    requestPermission({
+      onChange: async (status) => {
+        if (status === "granted") {
+          try {
+            await downloadFile(
+              {
+                url: `/transaction/${id}/print-invoice`,
+                title: `bukti-pembayaran-${id}`,
+                filePathTitle: `bukti-pembayaran-${id}`,
+                filePathType: "pdf",
+              },
+              credential?.accessToken
+            );
+          } catch (e: any) {
+            e?.message && Toast.error(e?.message);
+          }
+        }
+      },
+      type: "storage",
+    });
+  }, [credential?.accessToken, id]);
 
   const handleFinishTransaction = useCallback(async () => {
     try {
@@ -111,7 +125,7 @@ export default function TransactionHistoryDetailContent(props: Props) {
         }
       />
       <ProductCard.Separator />
-      <TouchableOpacity style={styles.option} onPress={handleOpenBillingUrl}>
+      <TouchableOpacity style={styles.option} onPress={handleOpenInvoices}>
         <AntDesign name="filetext1" size={24} color={colorConstant.gray3} />
         <View style={styMargin(20, SeparatorTypeEnum.right)} />
         <Text variant="bodyReg">Bukti Pembayaran</Text>

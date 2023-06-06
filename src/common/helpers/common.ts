@@ -5,13 +5,26 @@ import qs from "qs";
 import { ClassConstructor, plainToClass } from "class-transformer";
 import { Filter, PaginationMeta, Sort } from "@api-hooks/common/common.model";
 
-type MutationMethodType = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
+export type MutationMethodType = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
 
 interface FetchMutationOptions<T> {
   url: string;
   method: MutationMethodType;
   body?: any;
   classType?: ClassConstructor<T>;
+}
+
+export async function blobToBase64(blob: Blob): Promise<string> {
+  return new Promise<string>((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(blob);
+    reader.onloadend = function () {
+      resolve(reader.result as string);
+    };
+    reader.onerror = function () {
+      reject(reader.error);
+    };
+  });
 }
 
 export function MutationFetchFunction<T>({
@@ -24,14 +37,29 @@ export function MutationFetchFunction<T>({
     const newBody = body ? decamelizeKeys(body) : undefined;
 
     try {
-      const json = (await client(url, {
+      let json = (await client(url, {
         method,
         ...(newBody
           ? {
               json: newBody,
             }
           : {}),
-      })?.json()) as any;
+      })) as any;
+      //  let json = (await client(url, {
+      //    method,
+      //     ...(newBody
+      //     ? {
+      //         json: newBody,
+      //       },
+      //  )) as any;
+
+      const contentType = json.headers.get("Content-Type");
+
+      if (contentType === "application/pdf") {
+        json = await blobToBase64(await json.blob());
+      } else {
+        json = await json.json();
+      }
       const transformedJson = json.data
         ? {
             ...json,
