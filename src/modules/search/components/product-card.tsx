@@ -28,6 +28,7 @@ export default function ProductCard(props: Props) {
     minPrice,
     name,
     smallUnit,
+    isAvailable,
   } = props;
   const router = useRouter();
 
@@ -42,8 +43,9 @@ export default function ProductCard(props: Props) {
   );
   return (
     <Pressable
-      style={styles.container}
+      style={[styles.container, !isAvailable && styles.notAvailable]}
       onPress={() => onNavigateProductDetail(id)}
+      disabled={!isAvailable}
     >
       {!!file?.fileUrl && (
         <ImageComponent
@@ -94,5 +96,8 @@ const styles = StyleSheet.create({
     paddingLeft: 12,
     paddingTop: 4,
     paddingBottom: 4,
+  },
+  notAvailable: {
+    opacity: 0.6,
   },
 });

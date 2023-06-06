@@ -27,6 +27,7 @@ export default function ProductCard(props: Props) {
     file,
     id,
     isWishlist,
+    isAvailable,
     maxPrice,
     minPrice,
     name,
@@ -47,8 +48,13 @@ export default function ProductCard(props: Props) {
 
   return (
     <Pressable
-      style={[styles.container, (index & 1) === 0 ? styles.left : styles.right]}
+      style={[
+        styles.container,
+        (index & 1) === 0 ? styles.left : styles.right,
+        !isAvailable && styles.notAvailable,
+      ]}
       onPress={() => onNavigateProductDetail(id)}
+      disabled={!isAvailable}
     >
       {!!file?.fileUrl && (
         <ImageComponent
@@ -117,5 +123,8 @@ const styles = StyleSheet.create({
   },
   right: {
     marginLeft: 8,
+  },
+  notAvailable: {
+    opacity: 0.6,
   },
 });

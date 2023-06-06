@@ -40,7 +40,7 @@ export default function ProductContent(props: Props) {
 
   const [stateForm, setStateForm] = useState<StateForm>({
     ...item?.items?.[0]!,
-    unit: item?.bigUnit!,
+    unit: item?.smallUnit!,
   });
   const [totalStock, setTotalStock] = useState<number>(
     Math.floor((item?.items?.[0]?.stock || 1) / (item?.conversionUnit || 1))

@@ -30,8 +30,8 @@ export default function AllChoice(props: Props) {
     if (item.bigUnit === item.smallUnit) {
       return [item.bigUnit];
     }
-    return [item.bigUnit, item.smallUnit];
-  }, [item.bigUnit, item.smallUnit]);
+    return [item.smallUnit, item.bigUnit];
+  }, [item.smallUnit, item.bigUnit]);
 
   return (
     <>
