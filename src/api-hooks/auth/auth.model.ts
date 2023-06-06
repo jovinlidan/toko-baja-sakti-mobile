@@ -70,11 +70,6 @@ export class UpdateMeInput {
 export class UpdateMeInputForm {
   name: string;
   email: string;
-  address: {
-    id: string;
-    addressDetail: string;
-    cityId: string;
-  };
 }
 
 export class ChangePhoneNumberInput {

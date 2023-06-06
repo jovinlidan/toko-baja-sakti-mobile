@@ -30,14 +30,6 @@ export default function UpdateProfileForm() {
       Yup.object().shape({
         name: Yup.string().required(),
         email: Yup.string(),
-        address: Yup.object().shape({
-          id: Yup.string(),
-          addressDetail: Yup.string().when("address.cityId", {
-            is: (value: any) => !value,
-            then: Yup.string().required(),
-          }),
-          cityId: Yup.string(),
-        }),
       }),
     []
   );
@@ -50,11 +42,6 @@ export default function UpdateProfileForm() {
       name: me?.name,
       email: me?.email,
       phone: me?.phone,
-      address: {
-        addressDetail: me?.address?.addressDetail,
-        cityId: me?.address?.city?.id,
-        id: me?.address?.id,
-      },
     },
   });
 
@@ -82,18 +69,6 @@ export default function UpdateProfileForm() {
       <Field type="normal" name="name" label="Nama Lengkap" required />
       <Field type="normal" name="phone" label="No. Handphone" disabled />
       <Field type="normal" name="email" label="Email" />
-      <Field
-        type="normal"
-        name="address.addressDetail"
-        label="Alamat"
-        numberOfLines={4}
-        multiline
-      />
-      <CitySelectOption
-        name="address.cityId"
-        label="Kota"
-        placeholder="Pilih Kota"
-      />
 
       <View style={styMargin(28, SeparatorTypeEnum.bottom)} />
 
