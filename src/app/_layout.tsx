@@ -18,6 +18,7 @@ import { QueryClientProvider } from "react-query";
 import { queryClient } from "@common/repositories";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { StyleSheet } from "react-native";
+import AnnouncementInAppUpdate from "@common/ota-view";
 export { ErrorBoundary } from "expo-router";
 
 export const unstable_settings = {
@@ -63,6 +64,7 @@ function RootLayoutNav() {
         <QueryClientProvider client={queryClient}>
           <CredentialPersist>
             <Handler />
+            <AnnouncementInAppUpdate />
             <OTPHistoryProvider>
               <SelectModalProvider>
                 <Stack screenOptions={{ headerShown: false }}>
