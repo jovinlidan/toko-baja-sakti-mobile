@@ -18,10 +18,14 @@ export default function AnnouncementInAppUpdate() {
           // setIsUpdating(true);
           Toast.info("Memperbaharui aplikasi");
           await Updates.fetchUpdateAsync();
-          Toast.info("Aplikasi berhasil diperbaharui");
+          Toast.info("Aplikasi berhasil diperbaharui, Mohon Restart aplikasi");
         }
-      } catch (e) {
-        Toast.info("Gagal diperbaharui");
+      } catch (e: any) {
+        if (typeof e?.message === "string") {
+          Toast.info(e?.message);
+        } else {
+          Toast.info("Gagal diperbaharui");
+        }
       } finally {
       }
     }
