@@ -49,7 +49,7 @@ export default function ProductContent(props: Props) {
     Math.floor((item?.items?.[0]?.stock || 1) / (item?.conversionUnit || 1))
   );
   const [price, setPrice] = useState<number>(
-    item?.items?.[0]?.wholesalePrice || 0
+    item?.items?.[0]?.retailPrice || 0
   );
 
   const reducer = useCallback(
