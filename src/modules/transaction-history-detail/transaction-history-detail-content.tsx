@@ -29,6 +29,7 @@ import { useSetFinishTransaction } from "@api-hooks/transaction/transaction.muta
 import { useQueryClient } from "react-query";
 import { requestPermission } from "@hooks/use-permission";
 import { useCredential } from "@hooks/use-credential";
+import { Linking } from "react-native";
 
 interface Props {
   handleOpenTrackOrder: VoidFunction;
@@ -46,6 +47,18 @@ export default function TransactionHistoryDetailContent(props: Props) {
   } = useSetFinishTransaction();
 
   const item = data?.data;
+
+  const handleOpenBillingUrl = useCallback(async () => {
+    if (!data?.data?.billing?.billingUrl) {
+      return;
+    }
+    const supported = await Linking.canOpenURL(data?.data?.billing?.billingUrl);
+    if (supported) {
+      await Linking.openURL(data?.data?.billing?.billingUrl);
+    } else {
+      Toast.error("Gagal membuka url");
+    }
+  }, [data?.data?.billing?.billingUrl]);
 
   const handleOpenInvoices = useCallback(async () => {
     requestPermission({
@@ -108,6 +121,29 @@ export default function TransactionHistoryDetailContent(props: Props) {
         </Fragment>
       ))}
       <ProductCard.Separator />
+
+      {data?.data?.status === TransactionStatusEnum.Created && (
+        <>
+          <View style={styles.billingContainer}>
+            <Text variant="bodyMed" style={styles.linkLabel}>
+              Link Pembayaran
+            </Text>
+            <TouchableOpacity
+              onPress={handleOpenBillingUrl}
+              style={styles.linkWrapper}
+            >
+              <Text
+                color={colorConstant.blueDefault}
+                variant="bodyMed"
+                style={styles.linkLabel}
+              >
+                {data?.data?.billing?.billingUrl}
+              </Text>
+            </TouchableOpacity>
+          </View>
+          <ProductCard.Separator />
+        </>
+      )}
 
       <View style={styles.addressContainer}>
         <Text variant="h5">Alamat Pengiriman</Text>
@@ -195,5 +231,17 @@ const styles = StyleSheet.create({
   },
   button: {
     marginHorizontal: sizeConstant.contentPad,
+  },
+
+  billingContainer: {
+    paddingHorizontal: sizeConstant.contentPad,
+    paddingVertical: sizeConstant.contentPad,
+  },
+  linkLabel: {
+    flex: 1,
+    fontWeight: "bold",
+  },
+  linkWrapper: {
+    marginTop: 8,
   },
 });
