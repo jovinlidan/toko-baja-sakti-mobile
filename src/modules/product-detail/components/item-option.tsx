@@ -8,6 +8,7 @@ interface Props {
   selectedValue: string;
   onSelectValue: (value: string) => void;
   label: string;
+  endEnhancer?: string;
 }
 
 interface PillProps {
@@ -49,7 +50,13 @@ const pillStyles = StyleSheet.create({
 });
 
 export default function ItemOption(props: Props) {
-  const { onSelectValue, options, selectedValue, label } = props;
+  const {
+    onSelectValue,
+    options,
+    selectedValue,
+    label,
+    endEnhancer = "",
+  } = props;
   return (
     <View>
       <Text variant="h5">{label}</Text>
@@ -61,7 +68,7 @@ export default function ItemOption(props: Props) {
               <View style={styMargin(8, SeparatorTypeEnum.right)} />
             )}
             <Pill
-              label={option}
+              label={option + endEnhancer}
               selected={selectedValue === option}
               onPress={() => onSelectValue(option)}
             />

@@ -50,6 +50,7 @@ export default function AllChoice(props: Props) {
           setStateForm({ thick: value });
         }}
         selectedValue={stateForm?.thick!}
+        endEnhancer=" mm"
         label="Tebal"
       />
       <View style={styMargin(12, SeparatorTypeEnum.bottom)} />
