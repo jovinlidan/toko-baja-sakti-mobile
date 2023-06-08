@@ -14,7 +14,7 @@ import {
 } from "@utils/helper";
 
 export default function TransactionHistoryContent() {
-  const { data } = useGetTransactions();
+  const { data, refetch, isRefetching } = useGetTransactions();
   const router = useRouter();
 
   const mapData = useMemo(() => {
@@ -109,6 +109,8 @@ export default function TransactionHistoryContent() {
       scrollEnabled
       ListFooterComponentStyle={styles.footerComponent}
       keyExtractor={(_, idx) => idx.toString()}
+      refreshing={isRefetching}
+      onRefresh={refetch}
     />
   );
 }

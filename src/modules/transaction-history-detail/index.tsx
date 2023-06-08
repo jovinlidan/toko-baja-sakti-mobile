@@ -1,5 +1,5 @@
 import FetchWrapperComponent from "@components/common/fetch-wrapper-component";
-import { Container, Content } from "@components/elements";
+import { Container, Content, RefreshControl } from "@components/elements";
 import { Header } from "@components/widgets";
 import { useGetTransaction } from "@api-hooks/transaction/transaction.query";
 import TransactionHistoryDetailContent from "./transaction-history-detail-content";
@@ -9,7 +9,9 @@ import { useCallback, useRef } from "react";
 
 export default function TransactionHistoryDetail() {
   const { id } = useSearchParams();
-  const { isLoading, error, refetch } = useGetTransaction({ id: id as string });
+  const { isLoading, error, refetch, isRefetching } = useGetTransaction({
+    id: id as string,
+  });
   const ref = useRef<any>();
 
   const handleOpenTrackOrder = useCallback(() => {
@@ -19,7 +21,13 @@ export default function TransactionHistoryDetail() {
   return (
     <Container>
       <Header title="Rincian Riwayat Transaksi" back />
-      <Content noPadding showsVerticalScrollIndicator={false}>
+      <Content
+        noPadding
+        showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl refreshing={isRefetching} onRefresh={refetch} />
+        }
+      >
         <FetchWrapperComponent
           isLoading={isLoading}
           error={error}
