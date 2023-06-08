@@ -45,6 +45,8 @@ export default function ProductCard(props: Props) {
     );
   };
 
+  const disabled = !item?.isAvailable || item.status !== "aktif";
+
   const onNavigateProductDetail = useCallback(
     (idParam) => {
       router.push({
@@ -58,7 +60,8 @@ export default function ProductCard(props: Props) {
   return (
     <Swipeable renderRightActions={renderRightActions} useNativeAnimations>
       <Pressable
-        style={styles.container}
+        disabled={disabled}
+        style={[styles.container, disabled && styles.notAvailable]}
         onPress={() => onNavigateProductDetail(item.categoryItem.id)}
       >
         <ImageComponent
@@ -151,5 +154,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     height: "100%",
+  },
+  notAvailable: {
+    opacity: 0.6,
   },
 });

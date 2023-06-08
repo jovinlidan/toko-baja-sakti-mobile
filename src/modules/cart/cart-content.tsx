@@ -17,7 +17,7 @@ import { SeparatorTypeEnum, styMargin } from "@constants/styles.constant";
 import { AntDesign } from "@expo/vector-icons";
 import { string2money } from "@utils/string";
 import { useRouter } from "expo-router";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useQueryClient } from "react-query";
 import EmptyDataView from "./components/empty-data-view";
 import ProductCard from "./components/product-card";
@@ -48,6 +48,11 @@ export default function CartContent() {
     router.push(CHECKOUT_SCREEN_NAME);
   }, [router]);
 
+  const disabled = useMemo(() => {
+    return data?.data?.cartItems?.some((item) => {
+      return !item?.item?.isAvailable || item?.item?.status !== "aktif";
+    });
+  }, [data?.data?.cartItems]);
   return (
     <View>
       <ConfirmationDialog
@@ -90,7 +95,11 @@ export default function CartContent() {
                       Rp {string2money(data?.data?.grandTotal)}
                     </Text>
                   </View>
-                  <Button style={styles.button} onPress={onNavigateCheckout}>
+                  <Button
+                    style={styles.button}
+                    onPress={onNavigateCheckout}
+                    disabled={disabled}
+                  >
                     <AntDesign
                       name="arrowright"
                       size={24}

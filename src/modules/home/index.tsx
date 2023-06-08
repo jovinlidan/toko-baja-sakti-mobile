@@ -14,7 +14,6 @@ import HomeHeader from "./home-header";
 import MyFavorite from "./my-favorite";
 import { SeparatorTypeEnum, styMargin } from "@constants/styles.constant";
 import Links from "./links";
-import Toast from "@common/helpers/toast";
 
 export default function Home() {
   const scrollY = useSharedValue(0);
