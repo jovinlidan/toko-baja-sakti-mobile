@@ -1,4 +1,4 @@
-import BaseToast, { ToastType } from "react-native-toast-message";
+import BaseToast, { ToastType, ErrorToast } from "react-native-toast-message";
 
 const Toast: {
   show: (
