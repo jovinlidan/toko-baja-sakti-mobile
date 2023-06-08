@@ -1,6 +1,6 @@
-import { Container, View, Content } from "@components/elements";
+import { useGetCategoryItems } from "@api-hooks/category-item/category-item.query";
+import { Container, View, Content, RefreshControl } from "@components/elements";
 import { StyleSheet } from "react-native";
-import { StatusBar } from "react-native";
 import {
   useAnimatedScrollHandler,
   useSharedValue,
@@ -15,6 +15,8 @@ export default function Product() {
       scrollY.value = e.contentOffset.y;
     },
   });
+  const { refetch, isRefetching } = useGetCategoryItems();
+
   return (
     <Container>
       <AnimatedHeader scrollValue={scrollY} />
@@ -22,6 +24,9 @@ export default function Product() {
         showsVerticalScrollIndicator={false}
         onScroll={scrollHandler}
         noPadding
+        refreshControl={
+          <RefreshControl refreshing={isRefetching} onRefresh={refetch} />
+        }
       >
         <View style={styles.content}>
           <ProductList />

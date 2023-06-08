@@ -4,6 +4,7 @@ import {
   StyleSheet,
   Text,
   Content,
+  RefreshControl,
 } from "@components/elements";
 import WishlistComponent from "@components/widgets/wishlist-component";
 import sizeConstant from "@constants/size.constant";
@@ -182,7 +183,16 @@ export default function ProductContent(props: Props) {
 
   return (
     <>
-      <Content showsVerticalScrollIndicator={false} noPadding>
+      <Content
+        showsVerticalScrollIndicator={false}
+        noPadding
+        refreshControl={
+          <RefreshControl
+            refreshing={props.categoryItemQuery.isRefetching}
+            onRefresh={props.categoryItemQuery.refetch}
+          />
+        }
+      >
         <View>
           <ImageComponent
             source={{ uri: item?.file?.fileUrl }}

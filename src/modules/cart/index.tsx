@@ -1,4 +1,11 @@
-import { Container, Content, StyleSheet, View } from "@components/elements";
+import { useGetCart } from "@api-hooks/cart/cart.query";
+import {
+  Container,
+  Content,
+  RefreshControl,
+  StyleSheet,
+  View,
+} from "@components/elements";
 
 import {
   useAnimatedScrollHandler,
@@ -14,6 +21,7 @@ export default function Cart() {
       scrollY.value = e.contentOffset.y;
     },
   });
+  const { refetch, isRefetching } = useGetCart();
 
   return (
     <Container>
@@ -22,6 +30,9 @@ export default function Cart() {
         showsVerticalScrollIndicator={false}
         onScroll={scrollHandler}
         noPadding
+        refreshControl={
+          <RefreshControl refreshing={isRefetching} onRefresh={refetch} />
+        }
       >
         <View style={styles.content}>
           <CartContent />

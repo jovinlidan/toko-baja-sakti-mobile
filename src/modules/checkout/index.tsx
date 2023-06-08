@@ -1,6 +1,12 @@
 import { useGetCheckout } from "@api-hooks/checkout/checkout.query";
 import FetchWrapperComponent from "@components/common/fetch-wrapper-component";
-import { Button, Container, Content, StyleSheet } from "@components/elements";
+import {
+  Button,
+  Container,
+  Content,
+  RefreshControl,
+  StyleSheet,
+} from "@components/elements";
 import { Header } from "@components/widgets";
 import sizeConstant from "@constants/size.constant";
 import { useCallback, useRef } from "react";
@@ -15,7 +21,7 @@ import { useQueryClient } from "react-query";
 import { getCartKey } from "@api-hooks/cart/cart.query";
 
 export default function Checkout() {
-  const { isLoading, error, refetch, data } = useGetCheckout();
+  const { isLoading, error, refetch, data, isRefetching } = useGetCheckout();
   const { mutateAsync: makeBilling, isLoading: makeBillingLoading } =
     useMakeBilling();
   const { cost } = useShippingCostContext();
@@ -67,7 +73,13 @@ export default function Checkout() {
   return (
     <Container>
       <Header title="Checkout" back />
-      <Content noPadding showsVerticalScrollIndicator={false}>
+      <Content
+        noPadding
+        showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl refreshing={isRefetching} onRefresh={refetch} />
+        }
+      >
         <FetchWrapperComponent
           isLoading={isLoading}
           error={error}

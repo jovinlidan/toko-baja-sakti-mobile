@@ -1,5 +1,5 @@
-import { Container, Content } from "@components/elements";
-
+import { useGetWishlists } from "@api-hooks/wishlist/wishlist.query";
+import { Container, Content, RefreshControl } from "@components/elements";
 import {
   useAnimatedScrollHandler,
   useSharedValue,
@@ -9,6 +9,7 @@ import ProductList from "./product-list";
 
 export default function Favorite() {
   const scrollY = useSharedValue(0);
+  const { refetch, isRefetching } = useGetWishlists();
   const scrollHandler = useAnimatedScrollHandler({
     onScroll: (e) => {
       scrollY.value = e.contentOffset.y;
@@ -22,6 +23,9 @@ export default function Favorite() {
         showsVerticalScrollIndicator={false}
         onScroll={scrollHandler}
         noPadding
+        refreshControl={
+          <RefreshControl refreshing={isRefetching} onRefresh={refetch} />
+        }
       >
         <ProductList />
       </Content>
