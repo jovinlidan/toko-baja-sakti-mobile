@@ -21,11 +21,11 @@ export default function AnnouncementInAppUpdate() {
           Toast.info("Aplikasi berhasil diperbaharui, Mohon Restart aplikasi");
         }
       } catch (e: any) {
-        if (typeof e?.message === "string") {
-          Toast.info(e?.message);
-        } else {
-          Toast.info("Gagal diperbaharui");
-        }
+        // if (typeof e?.message === "string") {
+        //   Toast.info(e?.message);
+        // } else {
+        //   Toast.info("Gagal diperbaharui");
+        // }
       } finally {
       }
     }
