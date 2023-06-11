@@ -35,17 +35,9 @@ export default function HeaderSearch(props: Props) {
           returnKeyType="search"
           onSubmitEditing={onSubmitEditing}
           autoFocus
-          leftIconComponent={() =>
-            searchValue ? (
-              <Ionicons
-                name="chevron-back"
-                size={24}
-                color={colorConstant.gray1}
-              />
-            ) : (
-              <Ionicons name="search" size={24} color={colorConstant.gray1} />
-            )
-          }
+          leftIconComponent={() => (
+            <Ionicons name="search" size={24} color={colorConstant.gray1} />
+          )}
           rightIconComponent={() =>
             searchValue ? (
               <TouchableOpacity onPress={() => onChangeText("")}>
