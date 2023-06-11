@@ -59,9 +59,16 @@ export default function ProductCard(props: Props) {
 
   return (
     <Swipeable renderRightActions={renderRightActions} useNativeAnimations>
+      {disabled && (
+        <View style={styles.notAvailable}>
+          <Text variant="h5" style={styles.notAvailableText}>
+            Barang Tidak Tersedia
+          </Text>
+        </View>
+      )}
       <Pressable
         disabled={disabled}
-        style={[styles.container, disabled && styles.notAvailable]}
+        style={styles.container}
         onPress={() => onNavigateProductDetail(item.categoryItem.id)}
       >
         <ImageComponent
@@ -156,6 +163,18 @@ const styles = StyleSheet.create({
     height: "100%",
   },
   notAvailable: {
-    opacity: 0.6,
+    position: "absolute",
+    top: 0,
+    left: 0,
+    width: "100%",
+    height: "100%",
+    zIndex: 1,
+    backgroundColor: colorConstant.productDisable,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  notAvailableText: {
+    width: "90%",
+    textAlign: "center",
   },
 });

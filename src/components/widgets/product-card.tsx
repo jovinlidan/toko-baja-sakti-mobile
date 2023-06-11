@@ -48,14 +48,17 @@ export default function ProductCard(props: Props) {
 
   return (
     <Pressable
-      style={[
-        styles.container,
-        (index & 1) === 0 ? styles.left : styles.right,
-        !isAvailable && styles.notAvailable,
-      ]}
+      style={[styles.container, (index & 1) === 0 ? styles.left : styles.right]}
       onPress={() => onNavigateProductDetail(id)}
       disabled={!isAvailable}
     >
+      {!isAvailable && (
+        <View style={styles.notAvailable}>
+          <Text variant="h5" style={styles.notAvailableText}>
+            Barang Tidak Tersedia
+          </Text>
+        </View>
+      )}
       {!!file?.fileUrl && (
         <ImageComponent
           source={{
@@ -125,6 +128,18 @@ const styles = StyleSheet.create({
     marginLeft: 8,
   },
   notAvailable: {
-    opacity: 0.6,
+    position: "absolute",
+    top: 0,
+    left: 0,
+    width: "100%",
+    height: "100%",
+    zIndex: 1,
+    backgroundColor: colorConstant.productDisable,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  notAvailableText: {
+    width: "90%",
+    textAlign: "center",
   },
 });

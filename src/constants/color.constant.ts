@@ -27,6 +27,7 @@ export default {
   headerBorderBottom: "#F1F0EE",
 
   stroke: "rgba(226, 223, 223, 0.5)",
+  productDisable: "rgba(226, 223, 220, 0.8)",
 
   dialogBackdropColor: "rgba(0,0,0,0.6)",
 
