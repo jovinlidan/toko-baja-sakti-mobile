@@ -15,7 +15,9 @@ export default function UpdatePhoneNumberForm() {
   const YupSchema = useMemo(
     () =>
       Yup.object().shape({
-        phone: Yup.string().required(),
+        phone: Yup.string()
+          .matches(new RegExp(/[2-9]\d{8,13}$/), "Nomor telepon tidak valid")
+          .required(),
         password: Yup.string().required(),
       }),
     []

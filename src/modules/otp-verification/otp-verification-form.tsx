@@ -41,7 +41,9 @@ export default function OTPVerificationForm(props: Props) {
   const YupSchema = useMemo(
     () =>
       Yup.object().shape({
-        phone: Yup.string().required(),
+        phone: Yup.string()
+          .matches(new RegExp(/[2-9]\d{8,13}$/), "Nomor telepon tidak valid")
+          .required(),
         otp: Yup.string().required(),
       }),
     []
