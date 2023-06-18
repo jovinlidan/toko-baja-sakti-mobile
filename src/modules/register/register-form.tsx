@@ -16,7 +16,7 @@ import { SeparatorTypeEnum, styMargin } from "@constants/styles.constant";
 import useYupValidationResolver from "@hooks/use-yup-validation-resolver";
 import { useRouter } from "expo-router";
 import { useCallback, useMemo } from "react";
-import { useForm, useWatch } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { TouchableOpacity } from "react-native";
 
 import * as Yup from "yup";
@@ -31,12 +31,13 @@ export default function RegisterForm() {
           .matches(new RegExp(/[2-9]\d{8,13}$/), "Nomor telepon tidak valid")
           .required(),
         name: Yup.string().required(),
-        password: Yup.string().required(),
+        password: Yup.string().min(6).required(),
         passwordConfirmation: Yup.string()
           .oneOf(
             [Yup.ref("password"), null],
             "Kolom tidak sama dengan Kata Sandi diatas"
           )
+          .min(6)
           .required(),
       }),
     []
