@@ -44,9 +44,9 @@ export default function ShippingAddressForm(props: Props) {
       Yup.object().shape({
         cityId: Yup.string().required(),
         tag: Yup.string().nullable(),
-        addressDetail: Yup.string().nullable(),
-        recipientName: Yup.string().nullable(),
-        recipientNumber: Yup.string().nullable(),
+        addressDetail: Yup.string().required(),
+        recipientName: Yup.string().required(),
+        recipientNumber: Yup.string().required(),
         isMain: Yup.boolean().default(false),
       }),
     []
