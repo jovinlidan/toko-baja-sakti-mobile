@@ -91,7 +91,6 @@ export default function Checkout() {
           }
         />
       </Content>
-      <AddressBottomSheet ref={addressBottomSheetRef} />
       <Button
         style={styles.button}
         onPress={handleMakeBilling}
@@ -102,6 +101,7 @@ export default function Checkout() {
       >
         Bayar Sekarang
       </Button>
+      <AddressBottomSheet ref={addressBottomSheetRef} />
     </Container>
   );
 }
