@@ -54,11 +54,10 @@ export function MutationFetchFunction<T>({
       //  )) as any;
 
       const contentType = json.headers.get("Content-Type");
-
       if (contentType === "application/pdf") {
         json = await blobToBase64(await json.blob());
-      } else {
-        json = await json.json();
+      } else if (json.status !== 204) {
+        json = await json?.json();
       }
       const transformedJson = json.data
         ? {
