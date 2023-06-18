@@ -73,7 +73,10 @@ export default function ProductCard(props: Props) {
         </Text>
         <View style={styMargin(1, SeparatorTypeEnum.bottom)} />
         <Text variant="bodySm" color={colorConstant.gray2}>
-          Per Satuan: @{smallUnit} | @{bigUnit}
+          Per Satuan:{" "}
+          {smallUnit === bigUnit
+            ? `@${smallUnit}`
+            : `@${smallUnit} | @${bigUnit}`}
         </Text>
       </View>
       <WishlistComponent isWishlist={isWishlist} id={id} />

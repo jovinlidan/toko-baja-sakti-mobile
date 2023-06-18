@@ -77,7 +77,9 @@ export default function ProductCard(props: Props) {
           Per Satuan:
         </Text>
         <Text variant="bodySm" color={colorConstant.gray2}>
-          @{smallUnit} | @{bigUnit}
+          {smallUnit === bigUnit
+            ? `@${smallUnit}`
+            : `@${smallUnit} | @${bigUnit}`}
         </Text>
       </View>
       <WishlistComponent isWishlist={isWishlist} id={id} />
