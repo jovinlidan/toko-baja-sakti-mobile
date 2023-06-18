@@ -18,7 +18,7 @@ import Toast from "@common/helpers/toast";
 import { useQueryClient } from "react-query";
 import { getCheckoutKey } from "@api-hooks/checkout/checkout.query";
 import { useRouter } from "expo-router";
-import { CREATE_SHIPPING_ADDRESS_SCREEN_NAME } from "@constants/route.constant";
+import { SHIPPING_ADDRESS_SCREEN_NAME } from "@constants/route.constant";
 
 function AddressBottomSheet(_, ref) {
   const snapPoints = ["30%", "80%"];
@@ -72,8 +72,8 @@ function AddressBottomSheet(_, ref) {
     }
   }, [data?.data, queryClient, ref, selectedId, updateAddress]);
 
-  const onNavigateCreateShippingAddress = React.useCallback(() => {
-    router.push(CREATE_SHIPPING_ADDRESS_SCREEN_NAME);
+  const onNavigateShippingAddressList = React.useCallback(() => {
+    router.push(SHIPPING_ADDRESS_SCREEN_NAME);
   }, [router]);
 
   return (
@@ -120,10 +120,10 @@ function AddressBottomSheet(_, ref) {
                   <View style={styMargin(32, SeparatorTypeEnum.bottom)} />
                   <Button
                     style={styles.buttonStyle}
-                    onPress={onNavigateCreateShippingAddress}
+                    onPress={onNavigateShippingAddressList}
                     variant="outline"
                   >
-                    Tambah Alamat
+                    Kelola Alamat
                   </Button>
                 </>
               }
