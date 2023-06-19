@@ -47,7 +47,7 @@ export default function ProductContent(props: Props) {
     unit: item?.smallUnit!,
   });
   const [totalStock, setTotalStock] = useState<number>(
-    Math.floor((item?.items?.[0]?.stock || 1) / (item?.conversionUnit || 1))
+    Math.floor(item?.items?.[0]?.stock || 1)
   );
   const [price, setPrice] = useState<number>(
     item?.items?.[0]?.retailPrice || 0
@@ -214,10 +214,14 @@ export default function ProductContent(props: Props) {
               setStateForm={handleChangeStateForm}
               stateForm={stateForm}
             />
-            <View style={styMargin(12, SeparatorTypeEnum.bottom)} />
-            <Text>
-              1 {item.bigUnit} = {item.conversionUnit} {item.smallUnit}
-            </Text>
+            {item.bigUnit !== item.smallUnit && (
+              <>
+                <View style={styMargin(12, SeparatorTypeEnum.bottom)} />
+                <Text>
+                  1 {item.bigUnit} = {item.conversionUnit} {item.smallUnit}
+                </Text>
+              </>
+            )}
             <View style={styMargin(20, SeparatorTypeEnum.bottom)} />
           </View>
         </View>
