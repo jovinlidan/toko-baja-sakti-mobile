@@ -1,9 +1,8 @@
 import { useGetTransactions } from "@api-hooks/transaction/transaction.query";
-import { View, Text, StyleSheet, FlashList } from "@components/elements";
+import { View, Text, StyleSheet, SectionList } from "@components/elements";
 import sizeConstant from "@constants/size.constant";
 import { useCallback, useMemo } from "react";
 import ProductCard from "./components/product-card";
-import { TransactionItemHeader } from "./types";
 import { format } from "date-fns";
 import colorConstant from "@constants/color.constant";
 import { useRouter } from "expo-router";
@@ -18,20 +17,13 @@ export default function TransactionHistoryContent() {
   const router = useRouter();
 
   const mapData = useMemo(() => {
-    return data?.data?.reduce((prev, next) => {
-      const newObj = new TransactionItemHeader();
-      newObj.date = next.transactionAt;
-      newObj.status = next.status;
-
-      return [
-        ...prev,
-        newObj,
-        ...next.transactionDetails.map((item) => ({
-          ...item,
-          transactionId: next.id,
-        })),
-      ];
-    }, [] as any[]);
+    return data?.data?.map((item) => {
+      return {
+        ...item,
+        data: item.transactionDetails,
+        transactionDetails: undefined,
+      };
+    });
   }, [data?.data]);
 
   const onNavigateTransactionHistoryDetail = useCallback(
@@ -46,70 +38,55 @@ export default function TransactionHistoryContent() {
     [router]
   );
 
-  const renderItem = useCallback(
-    ({ item, index }) => {
-      if (item instanceof TransactionItemHeader) {
-        return (
-          <View key={index}>
-            {index !== 0 && <ProductCard.Separator />}
-            <View style={styles.row}>
-              <Text variant="hint">
-                {item.date ? format(item.date, "dd MMM yyyy, HH:mm:ss") : "-"}
+  const renderSectionHeader = useCallback(
+    ({ section: { status, transactionAt } }) => {
+      return (
+        <View>
+          <ProductCard.Separator />
+          <View style={styles.row}>
+            <Text variant="hint">
+              {transactionAt
+                ? format(transactionAt, "dd MMM yyyy, HH:mm:ss")
+                : "-"}
+            </Text>
+            <View
+              style={[
+                styles.pill,
+                { backgroundColor: getTransactionStatusColor(status) },
+              ]}
+            >
+              <Text variant="hint" color={colorConstant.white}>
+                {getTransactionStatusLabel(status)}
               </Text>
-              <View
-                style={[
-                  styles.pill,
-                  { backgroundColor: getTransactionStatusColor(item.status) },
-                ]}
-              >
-                <Text variant="hint" color={colorConstant.white}>
-                  {getTransactionStatusLabel(item.status)}
-                </Text>
-              </View>
             </View>
           </View>
-        );
-      }
+        </View>
+      );
+    },
+    []
+  );
+  const renderItem = useCallback(
+    ({ item, section }) => {
       return (
         <ProductCard
           {...item}
-          key={index}
-          onPress={() => onNavigateTransactionHistoryDetail(item.transactionId)}
+          onPress={() => onNavigateTransactionHistoryDetail(section.id)}
         />
       );
     },
     [onNavigateTransactionHistoryDetail]
   );
 
-  const getItemType = useCallback((item) => {
-    if (item instanceof TransactionItemHeader) {
-      return "sectionHeader";
-    }
-    return "row";
-  }, []);
-
-  const stickyHeaderIndices = useMemo(() => {
-    return mapData
-      ?.map((item, index) => {
-        if (item instanceof TransactionItemHeader) {
-          return index;
-        }
-        return null;
-      })
-      .filter((item) => item !== null) as number[];
-  }, [mapData]);
-
   return (
-    <FlashList
-      data={mapData}
+    <SectionList
+      sections={mapData || []}
       renderItem={renderItem}
-      getItemType={getItemType}
-      estimatedItemSize={100}
-      stickyHeaderIndices={stickyHeaderIndices}
+      renderSectionHeader={renderSectionHeader}
       scrollEnabled
       ListFooterComponentStyle={styles.footerComponent}
-      keyExtractor={(_, idx) => idx.toString()}
+      keyExtractor={(item, idx) => item.id + idx.toString()}
       refreshing={isRefetching}
+      stickySectionHeadersEnabled
       onRefresh={refetch}
     />
   );
