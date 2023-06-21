@@ -50,7 +50,11 @@ export default function CartContent() {
 
   const disabled = useMemo(() => {
     return data?.data?.cartItems?.some((item) => {
-      return !item?.item?.isAvailable || item?.item?.status !== "aktif";
+      return (
+        !item?.item?.isAvailable ||
+        item?.item?.status !== "aktif" ||
+        item?.outOfStock
+      );
     });
   }, [data?.data?.cartItems]);
   return (
