@@ -20,6 +20,7 @@ export interface ApiError {
   message: string;
   statusCode?: number;
   errors?: { [key: string]: string };
+  type?: string;
 }
 
 export interface ApiResult<T> {

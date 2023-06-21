@@ -16,7 +16,7 @@ interface Props extends CartItem {
 }
 
 export default function ProductCard(props: Props) {
-  const { item, price, quantity, unit, onDelete } = props;
+  const { item, price, quantity, unit, onDelete, outOfStock } = props;
   const router = useRouter();
   const renderRightActions = (progress) => {
     const translateX = progress.interpolate({
@@ -45,7 +45,7 @@ export default function ProductCard(props: Props) {
     );
   };
 
-  const disabled = !item?.isAvailable || item.status !== "aktif";
+  const disabled = !item?.isAvailable || item.status !== "aktif" || outOfStock;
 
   const onNavigateProductDetail = useCallback(
     (idParam) => {
@@ -62,7 +62,7 @@ export default function ProductCard(props: Props) {
       {disabled && (
         <View style={styles.notAvailable}>
           <Text variant="h5" style={styles.notAvailableText}>
-            Barang Tidak Tersedia
+            {outOfStock ? "Stok Habis" : "Barang Tidak Tersedia"}
           </Text>
         </View>
       )}

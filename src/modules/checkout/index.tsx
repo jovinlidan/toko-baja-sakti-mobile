@@ -16,7 +16,10 @@ import { useMakeBilling } from "@api-hooks/checkout/checkout.mutation";
 import Toast from "@common/helpers/toast";
 import { useShippingCostContext } from "@hooks/use-shipping-cost";
 import { useRouter } from "expo-router";
-import { BILLING_SCREEN_NAME } from "@constants/route.constant";
+import {
+  BILLING_SCREEN_NAME,
+  CART_SCREEN_NAME,
+} from "@constants/route.constant";
 import { useQueryClient } from "react-query";
 import { getCartKey } from "@api-hooks/cart/cart.query";
 
@@ -60,6 +63,11 @@ export default function Checkout() {
       });
     } catch (e: any) {
       e?.message && Toast.error(e?.message);
+
+      if (e?.type === "insufficient-stock") {
+        await queryClient.invalidateQueries(getCartKey()).catch(() => {});
+        router.replace(CART_SCREEN_NAME);
+      }
     }
   }, [
     cost?.cost,

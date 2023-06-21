@@ -4,6 +4,7 @@ import toApiError from "../repositories/to-api-error";
 import qs from "qs";
 import { ClassConstructor, plainToClass } from "class-transformer";
 import { Filter, PaginationMeta, Sort } from "@api-hooks/common/common.model";
+import { HTTPError } from "ky";
 
 export type MutationMethodType = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
 
@@ -77,6 +78,7 @@ export function MutationFetchFunction<T>({
       resolve(transformedJson);
     } catch (e) {
       const errors = await toApiError(e as Error);
+
       reject({ ...errors, errors: camelizeKeys(errors.errors) });
     }
   });
