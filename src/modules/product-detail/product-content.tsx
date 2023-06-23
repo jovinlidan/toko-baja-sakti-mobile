@@ -78,10 +78,7 @@ export default function ProductContent(props: Props) {
 
   const [quantity, dispatchQuantity] = useReducer(
     reducer,
-    Math.min(
-      1,
-      Math.floor((item?.items?.[0]?.stock || 1) / (item?.conversionUnit || 1))
-    )
+    Math.min(1, item?.items?.[0]?.stock || 1)
   );
 
   const getPrice = useCallback(
