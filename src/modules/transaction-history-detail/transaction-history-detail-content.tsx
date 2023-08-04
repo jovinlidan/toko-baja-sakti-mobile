@@ -178,6 +178,19 @@ export default function TransactionHistoryDetailContent(props: Props) {
       </TouchableOpacity>
       <ProductCard.Separator />
 
+      {!!item?.salesReturnItems?.length && (
+        <>
+          <View style={styles.returnItemsContainer}>
+            <Text variant="h5">Barang yang diretur</Text>
+          </View>
+          {item?.salesReturnItems?.map((i) => (
+            <Fragment key={i.id}>
+              <ProductCard {...i} />
+            </Fragment>
+          ))}
+        </>
+      )}
+
       <View style={styMargin(32, SeparatorTypeEnum.bottom)} />
       <Button
         style={styles.button}
@@ -243,5 +256,9 @@ const styles = StyleSheet.create({
   },
   linkWrapper: {
     marginTop: 8,
+  },
+  returnItemsContainer: {
+    paddingHorizontal: sizeConstant.contentPad,
+    paddingVertical: sizeConstant.contentPad,
   },
 });

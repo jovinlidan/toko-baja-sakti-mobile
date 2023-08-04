@@ -13,10 +13,11 @@ import { TransactionDetail } from "@api-hooks/transaction/transaction.model";
 
 interface Props extends TransactionDetail {
   onPress?: VoidFunction;
+  reason?: string;
 }
 
 export default function ProductCard(props: Props) {
-  const { item, price, quantity, unit, onPress } = props;
+  const { item, price, quantity, unit, onPress, reason } = props;
 
   return (
     <TouchableOpacity
@@ -46,6 +47,14 @@ export default function ProductCard(props: Props) {
         <Text variant="bodySm" color={colorConstant.gray2} selectable={false}>
           {item.size}, {item.thick} mm, {item.color}, {unit}
         </Text>
+        {!!reason && (
+          <>
+            <View style={styMargin(4, SeparatorTypeEnum.top)} />
+            <Text variant="h6" color={colorConstant.gray2} selectable={false}>
+              Alasan: {reason}
+            </Text>
+          </>
+        )}
       </View>
 
       <View style={styles.total}>

@@ -68,6 +68,9 @@ export class TransactionLite {
   transactionDetails: TransactionDetail[];
 }
 
+export class ReturnTransactionDetail extends TransactionDetail {
+  reason?: string;
+}
 export class Transaction {
   id: string;
 
@@ -133,6 +136,10 @@ export class Transaction {
 
   @Type(() => Billing)
   billing: Billing;
+
+  @Expose({ name: "sales_return_items" })
+  @Type(() => TransactionDetail)
+  salesReturnItems: TransactionDetail[];
 
   @Expose({ name: "transaction_details" })
   @Type(() => TransactionDetail)
