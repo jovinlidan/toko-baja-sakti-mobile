@@ -14,10 +14,19 @@ import { TransactionDetail } from "@api-hooks/transaction/transaction.model";
 interface Props extends TransactionDetail {
   onPress?: VoidFunction;
   reason?: string;
+  isRetur?: boolean;
 }
 
 export default function ProductCard(props: Props) {
-  const { item, price, quantity, unit, onPress, reason } = props;
+  const {
+    item,
+    price,
+    quantity,
+    unit,
+    onPress,
+    reason,
+    isRetur = false,
+  } = props;
 
   return (
     <TouchableOpacity
@@ -56,12 +65,13 @@ export default function ProductCard(props: Props) {
           </>
         )}
       </View>
-
-      <View style={styles.total}>
-        <Text variant="h5" selectable={false}>
-          Rp {string2money(price)}
-        </Text>
-      </View>
+      {!isRetur && (
+        <View style={styles.total}>
+          <Text variant="h5" selectable={false}>
+            Rp {string2money(price)}
+          </Text>
+        </View>
+      )}
     </TouchableOpacity>
   );
 }

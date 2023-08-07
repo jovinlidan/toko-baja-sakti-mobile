@@ -185,7 +185,7 @@ export default function TransactionHistoryDetailContent(props: Props) {
           </View>
           {item?.salesReturnItems?.map((i) => (
             <Fragment key={i.id}>
-              <ProductCard {...i} />
+              <ProductCard {...i} isRetur />
             </Fragment>
           ))}
         </>

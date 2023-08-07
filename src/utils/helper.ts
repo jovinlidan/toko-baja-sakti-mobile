@@ -26,6 +26,10 @@ export function getTransactionStatusLabel(status?: TransactionStatusEnum) {
       return "Dikomplain";
     case TransactionStatusEnum.Cancelled:
       return "Dibatalkan";
+    case TransactionStatusEnum.AllReturn:
+      return "Dikembalikan semua";
+    case TransactionStatusEnum.HalfReturn:
+      return "Dikembalikan sebagian";
   }
 }
 export function getTransactionStatusColor(status?: TransactionStatusEnum) {
@@ -40,6 +44,8 @@ export function getTransactionStatusColor(status?: TransactionStatusEnum) {
       return colorConstant.successDefault;
     case TransactionStatusEnum.Disputed:
     case TransactionStatusEnum.Cancelled:
+    case TransactionStatusEnum.AllReturn:
+    case TransactionStatusEnum.HalfReturn:
       return colorConstant.redDefault;
   }
 }

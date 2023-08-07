@@ -38,6 +38,8 @@ export enum TransactionStatusEnum {
   Finished = "finished",
   Disputed = "disputed",
   Cancelled = "cancelled",
+  HalfReturn = "half_return",
+  AllReturn = "all_return",
 }
 export class TransactionLite {
   id: string;
@@ -113,6 +115,10 @@ export class Transaction {
         return "Dikomplain";
       case TransactionStatusEnum.Cancelled:
         return "Dibatalkan";
+      case TransactionStatusEnum.AllReturn:
+        return "Dikembalikan semua";
+      case TransactionStatusEnum.HalfReturn:
+        return "Dikembalikan sebagian";
     }
   }
   getStatusColor() {
@@ -127,6 +133,8 @@ export class Transaction {
         return colorConstant.successDefault;
       case TransactionStatusEnum.Disputed:
       case TransactionStatusEnum.Cancelled:
+      case TransactionStatusEnum.AllReturn:
+      case TransactionStatusEnum.HalfReturn:
         return colorConstant.redDefault;
     }
   }
